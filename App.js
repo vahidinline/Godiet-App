@@ -9,6 +9,7 @@ import WelcomeScreen from "./app/screens/WelcomeScreen";
 import LoginScreen from "./app/screens/LoginScreen";
 import styles from "./app/config/styles";
 import Stepcounter from "./app/components/Stepcounter";
+import Calories from "./app/components/Calories";
 
 function HomeScreen({ navigation }) {
   return (
@@ -30,7 +31,8 @@ export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Stepcounter />
+    <Calories />
+    // <Stepcounter />
     // <NavigationContainer>
     //   <Stack.Navigator initialRouteName="Home">
     //     <Stack.Screen name="Home" component={HomeScreen} />
