@@ -26,23 +26,28 @@ function Calories(props) {
   const activity = [
     {
       label: "Sedentary (little or no exercise)",
+      name: "Sedentary",
       value: 1,
     },
     {
       label: "Lightly active (light exercise/sports 1-3 days/week)",
+      name: "Lightly active",
       value: 2,
     },
     {
       label: "Moderately active (moderate exercise/sports 3-5 days/week)",
+      name: "Moderately active",
       value: 3,
     },
     {
       label: "Very active (hard exercise/sports 6-7 days a week)",
+      name: "Very active",
       value: 4,
     },
     {
       label:
         "Extra active (very hard exercise/sports & physical job or 2x training)",
+      name: "Extra active",
       value: 5,
     },
   ];
@@ -86,7 +91,7 @@ function Calories(props) {
       />
       <AppButton
         title="Calculate"
-        onPress={() => handleCalories([heightSelect, ageSelect])}
+        onPress={() => console.log(activitySelect.name)}
       />
       <Text></Text>
     </Screen>

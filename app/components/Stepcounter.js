@@ -26,7 +26,7 @@ export default function App() {
     );
 
     const end = new Date();
-    const start = new Date();
+    const start = new Date(0, 0, 0, 0);
     start.setDate(end.getDate() - 1);
     Pedometer.getStepCountAsync(start, end).then(
       (result) => {

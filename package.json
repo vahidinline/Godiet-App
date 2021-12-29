@@ -26,7 +26,8 @@
     "react-native-screens": "~3.10.1",
     "react-native-web": "0.17.1",
     "yup": "^0.32.11",
-    "expo-sensors": "~11.1.0"
+    "expo-sensors": "~11.1.0",
+    "expo-av": "~10.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

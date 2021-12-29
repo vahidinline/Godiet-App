@@ -6,6 +6,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import AppFormField from "../components/AppFormField";
 import SubmitButton from "../components/SubmitButton";
+import Stepcounter from "../components/Stepcounter";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -26,6 +27,7 @@ function LoginScreen(props) {
       >
         {() => (
           <>
+            <Stepcounter />
             <AppFormField
               name="email"
               autoCapitalize="none"

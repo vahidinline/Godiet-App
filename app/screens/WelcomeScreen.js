@@ -28,7 +28,16 @@ function WelcomeScreen({ navigation }) {
             title="Login"
             onPress={() => navigation.navigate("LoginScreen")}
           />
-          <AppButton title="register" color="secondary" />
+          <AppButton
+            title="Step Counter"
+            color="secondary"
+            onPress={() => navigation.navigate("Stepcounter")}
+          />
+          <AppButton
+            title="Deficit Meter"
+            color="light"
+            onPress={() => navigation.navigate("Calories")}
+          />
         </View>
       </ImageBackground>
     </>

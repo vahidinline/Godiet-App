@@ -10,6 +10,8 @@ import LoginScreen from "./app/screens/LoginScreen";
 import styles from "./app/config/styles";
 import Stepcounter from "./app/components/Stepcounter";
 import Calories from "./app/components/Calories";
+import AppButton from "./app/components/AppButton";
+import VideoPage from "./app/components/VideoPage";
 
 function HomeScreen({ navigation }) {
   return (
@@ -24,6 +26,10 @@ function HomeScreen({ navigation }) {
         title="Tap to start"
         onPress={() => navigation.navigate("WelcomeScreen")}
       />
+      <AppButton
+        title="Play"
+        onPress={() => navigation.navigate("VideoPage")}
+      />
     </View>
   );
 }
@@ -31,14 +37,17 @@ export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Calories />
-    // <Stepcounter />
-    // <NavigationContainer>
-    //   <Stack.Navigator initialRouteName="Home">
-    //     <Stack.Screen name="Home" component={HomeScreen} />
-    //     <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-    //     <Stack.Screen name="LoginScreen" component={LoginScreen} />
-    //   </Stack.Navigator>
-    // </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="Calories" component={Calories} />
+          <Stack.Screen name="Stepcounter" component={Stepcounter} />
+          <Stack.Screen name="VideoPage" component={VideoPage} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
   );
 }
