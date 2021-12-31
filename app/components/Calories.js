@@ -6,20 +6,26 @@ import colors from "../config/colors";
 import AppPicker from "./AppPicker";
 import AppButton from "./AppButton";
 
-function Calories(props) {
+function Calories() {
   const [genderSelect, setGenderSelect] = useState();
   const [activitySelect, setActivitySelect] = useState();
   const [ageSelect, setAgeSelect] = useState();
   const [weightSelect, setWeightSelect] = useState();
   const [heightSelect, setHeightSelect] = useState();
 
+  const handleCalories = () => {
+    return console.log(parseInt(ageSelect) + parseInt(weightSelect));
+    <Text>parseInt(ageSelect) + parseInt(weightSelect)</Text>;
+  };
   const gender = [
     {
       label: "Male",
+      name: "Male",
       value: 1,
     },
     {
       label: "Female",
+      name: "Female",
       value: 2,
     },
   ];
@@ -56,7 +62,6 @@ function Calories(props) {
       <AppTextInput
         name="weight"
         autoCapitalize="none"
-        autoCorrect="none"
         keyboardType="numeric"
         placeholder="Weight"
         onChangeText={(item) => setWeightSelect(item)}
@@ -64,7 +69,6 @@ function Calories(props) {
       <AppTextInput
         name="height"
         autoCapitalize="none"
-        autoCorrect="none"
         keyboardType="numeric"
         placeholder="Height"
         onChangeText={(item) => setHeightSelect(item)}
@@ -72,7 +76,6 @@ function Calories(props) {
       <AppTextInput
         name="age"
         autoCapitalize="none"
-        autoCorrect="none"
         keyboardType="numeric"
         placeholder="Age"
         onChangeText={(item) => setAgeSelect(item)}
@@ -89,21 +92,10 @@ function Calories(props) {
         items={activity}
         placeholder={"Activity"}
       />
-      <AppButton
-        title="Calculate"
-        onPress={() => console.log(activitySelect.name)}
-      />
+      <AppButton title="Calculate" onPress={() => handleCalories()} />
       <Text></Text>
     </Screen>
   );
-  function handleCalories([heightSelect, ageSelect]) {
-    let age = parseInt(ageSelect);
-    let weight = parseInt(weightSelect);
-    let height = parseInt(heightSelect);
-    let gender = parseInt(genderSelect);
-    let activity = parseInt(activitySelect);
-    return parseInt(heightSelect) + parseInt(ageSelect);
-  }
 }
 const styles = StyleSheet.create({
   container: {
