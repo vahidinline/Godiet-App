@@ -7,52 +7,72 @@ import AppPicker from "./AppPicker";
 import AppButton from "./AppButton";
 
 function Calories() {
-  const [genderSelect, setGenderSelect] = useState();
-  const [activitySelect, setActivitySelect] = useState();
-  const [ageSelect, setAgeSelect] = useState();
-  const [weightSelect, setWeightSelect] = useState();
-  const [heightSelect, setHeightSelect] = useState();
+  const [genderSelect, setGenderSelect] = useState(1);
+  const [activitySelect, setActivitySelect] = useState(2);
+  const [ageSelect, setAgeSelect] = useState(20);
+  const [weightSelect, setWeightSelect] = useState(60);
+  const [heightSelect, setHeightSelect] = useState(170);
 
   const HandleCalories = () => {
-    return <Text>{parseInt(ageSelect) + parseInt(weightSelect)}</Text>;
+    if (genderSelect == 1 && activitySelect == 1)
+      return (
+        <Text>
+          {1.2 *
+            (66.5 +
+              13.75 * parseFloat(weightSelect) +
+              5.003 * parseFloat(heightSelect) -
+              6.755 * parseFloat(ageSelect))}
+        </Text>
+      );
+    else if (genderSelect === 1 && activitySelect === 2)
+      return (
+        <Text>
+          {1.375 *
+            (66.5 +
+              13.75 * parseFloat(weightSelect) +
+              5.003 * parseFloat(heightSelect) -
+              6.755 * parseFloat(ageSelect))}
+        </Text>
+      );
+    else if (ageSelect === 10 || activity === 3) return <Text>3</Text>;
   };
   const gender = [
     {
-      label: "Male",
-      name: "Male",
+      label: "مرد",
+      name: "مرد",
       value: 1,
     },
     {
-      label: "Female",
-      name: "Female",
+      label: "زن",
+      name: "زن",
       value: 2,
     },
   ];
   const activity = [
     {
       label: "Sedentary (little or no exercise)",
-      name: "Sedentary",
+      name: "عدم تحرک",
       value: 1,
     },
     {
       label: "Lightly active (light exercise/sports 1-3 days/week)",
-      name: "Lightly active",
+      name: "فعالیت کم",
       value: 2,
     },
     {
       label: "Moderately active (moderate exercise/sports 3-5 days/week)",
-      name: "Moderately active",
+      name: "نسبتا فعال",
       value: 3,
     },
     {
       label: "Very active (hard exercise/sports 6-7 days a week)",
-      name: "Very active",
+      name: "فعال",
       value: 4,
     },
     {
       label:
         "Extra active (very hard exercise/sports & physical job or 2x training)",
-      name: "Extra active",
+      name: "خیلی فعال",
       value: 5,
     },
   ];
@@ -91,7 +111,7 @@ function Calories() {
         items={activity}
         placeholder={"Activity"}
       />
-      <AppButton title="Calculate" onPress={() => HandleCalories()} />
+      <AppButton title="محاسبه کالری نقصان" onPress={() => HandleCalories()} />
       <HandleCalories />
     </Screen>
   );
