@@ -13,9 +13,8 @@ function Calories() {
   const [weightSelect, setWeightSelect] = useState();
   const [heightSelect, setHeightSelect] = useState();
 
-  const handleCalories = () => {
-    return console.log(parseInt(ageSelect) + parseInt(weightSelect));
-    <Text>parseInt(ageSelect) + parseInt(weightSelect)</Text>;
+  const HandleCalories = () => {
+    return <Text>{parseInt(ageSelect) + parseInt(weightSelect)}</Text>;
   };
   const gender = [
     {
@@ -92,8 +91,8 @@ function Calories() {
         items={activity}
         placeholder={"Activity"}
       />
-      <AppButton title="Calculate" onPress={() => handleCalories()} />
-      <Text></Text>
+      <AppButton title="Calculate" onPress={() => HandleCalories()} />
+      <HandleCalories />
     </Screen>
   );
 }
