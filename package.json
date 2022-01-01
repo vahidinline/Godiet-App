@@ -21,6 +21,7 @@
     "expo-status-bar": "~1.2.0",
     "firebase": "^9.6.1",
     "formik": "^2.2.9",
+    "radio-buttons-react-native": "^1.0.4",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",

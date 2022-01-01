@@ -7,12 +7,17 @@ import AppPicker from "./AppPicker";
 import AppButton from "./AppButton";
 import AppText from "./AppText";
 
+import RadioButtonRN from "radio-buttons-react-native";
+
 function Calories() {
   const [genderSelect, setGenderSelect] = useState(1);
   const [activitySelect, setActivitySelect] = useState(1);
   const [ageSelect, setAgeSelect] = useState();
   const [weightSelect, setWeightSelect] = useState();
   const [heightSelect, setHeightSelect] = useState();
+
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   const HandleCalories = () => {
     if (parseInt(genderSelect) === 1 && parseInt(activitySelect) === 1)
@@ -37,13 +42,13 @@ function Calories() {
       );
     else if (genderSelect === 1 && activitySelect === 3)
       return (
-        <ApText>
+        <AppText>
           {1.55 *
             (66.5 +
               13.75 * parseFloat(weightSelect) +
               5.003 * parseFloat(heightSelect) -
               6.755 * parseFloat(ageSelect))}
-        </ApText>
+        </AppText>
       );
     else if (genderSelect === 1 && activitySelect === 4)
       return (
@@ -57,64 +62,64 @@ function Calories() {
       );
     else if (parseInt(genderSelect) === 1 && parseInt(activitySelect) === 5)
       return (
-        <appText>
+        <AppText>
           {1.9 *
             (66.5 +
               13.75 * parseFloat(weightSelect) +
               5.003 * parseFloat(heightSelect) -
               6.755 * parseFloat(ageSelect))}
-        </appText>
+        </AppText>
       );
     //female condition
     else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 1)
       return (
-        <appText>
+        <AppText>
           {1.2 *
             (655 +
               9.563 * parseFloat(weightSelect) +
               1.85 * parseFloat(heightSelect) -
               4.676 * parseFloat(ageSelect))}
-        </appText>
+        </AppText>
       );
     else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 2)
       return (
-        <appText>
+        <AppText>
           {1.375 *
             (655 +
               9.563 * parseFloat(weightSelect) +
               1.85 * parseFloat(heightSelect) -
               4.676 * parseFloat(ageSelect))}
-        </appText>
+        </AppText>
       );
     else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 3)
       return (
-        <appText>
+        <AppText>
           {1.55 *
             (655 +
               9.563 * parseFloat(weightSelect) +
               1.85 * parseFloat(heightSelect) -
               4.676 * parseFloat(ageSelect))}
-        </appText>
+        </AppText>
       );
     else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 4)
       return (
-        <appText>
+        <AppText>
           {1.725 *
             (655 +
               9.563 * parseFloat(weightSelect) +
               1.85 * parseFloat(heightSelect) -
               4.676 * parseFloat(ageSelect))}
-        </appText>
+        </AppText>
       );
     else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 5)
       return (
-        <appText>
+        <AppText>
           {1.9 *
             (655 +
               9.563 * parseFloat(weightSelect) +
               1.85 * parseFloat(heightSelect) -
               4.676 * parseFloat(ageSelect))}
-        </appText>
+        </AppText>
       );
   };
   const gender = [
@@ -159,27 +164,45 @@ function Calories() {
   ];
   return (
     <Screen>
-      <AppTextInput
+      <TextInput
         name="weight"
         autoCapitalize="none"
         keyboardType="numeric"
         placeholder="Weight"
         onChangeText={(item) => setWeightSelect(item)}
       />
-      <AppTextInput
+      <TextInput
         name="height"
         autoCapitalize="none"
         keyboardType="numeric"
         placeholder="Height"
         onChangeText={(item) => setHeightSelect(item)}
       />
-      <AppTextInput
+      <TextInput
         name="age"
         autoCapitalize="none"
         keyboardType="numeric"
         placeholder="Age"
         onChangeText={(item) => setAgeSelect(item)}
       />
+
+      <RadioButtonRN
+        data={gender}
+        selectedBtn={(e) => setGenderSelect(e.value)}
+      />
+      <RadioButtonRN
+        data={activity}
+        selectedBtn={(e) => setActivitySelect(e.value)}
+      />
+
+      {/* <Switch
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      />
+
       <AppPicker
         selectedItem={genderSelect}
         onSelectItem={(item) => setGenderSelect(item)}
@@ -191,8 +214,8 @@ function Calories() {
         onSelectItem={(item) => setActivitySelect(item)}
         items={activity}
         placeholder={"Activity"}
-      />
-      <Text>{typeof genderSelect}</Text>
+      /> */}
+      <Text>{typeof gender}</Text>
       <HandleCalories />
     </Screen>
   );
