@@ -5,36 +5,117 @@ import { TextInput, StyleSheet, Text } from "react-native";
 import colors from "../config/colors";
 import AppPicker from "./AppPicker";
 import AppButton from "./AppButton";
+import AppText from "./AppText";
 
 function Calories() {
   const [genderSelect, setGenderSelect] = useState(1);
-  const [activitySelect, setActivitySelect] = useState(2);
-  const [ageSelect, setAgeSelect] = useState(20);
-  const [weightSelect, setWeightSelect] = useState(60);
-  const [heightSelect, setHeightSelect] = useState(170);
+  const [activitySelect, setActivitySelect] = useState(1);
+  const [ageSelect, setAgeSelect] = useState();
+  const [weightSelect, setWeightSelect] = useState();
+  const [heightSelect, setHeightSelect] = useState();
 
   const HandleCalories = () => {
-    if (genderSelect == 1 && activitySelect == 1)
+    if (parseInt(genderSelect) === 1 && parseInt(activitySelect) === 1)
       return (
-        <Text>
+        <AppText>
           {1.2 *
             (66.5 +
               13.75 * parseFloat(weightSelect) +
               5.003 * parseFloat(heightSelect) -
               6.755 * parseFloat(ageSelect))}
-        </Text>
+        </AppText>
       );
-    else if (genderSelect === 1 && activitySelect === 2)
+    else if (genderSelect == 1 && activitySelect == 2)
       return (
-        <Text>
+        <AppText>
           {1.375 *
             (66.5 +
               13.75 * parseFloat(weightSelect) +
               5.003 * parseFloat(heightSelect) -
               6.755 * parseFloat(ageSelect))}
-        </Text>
+        </AppText>
       );
-    else if (ageSelect === 10 || activity === 3) return <Text>3</Text>;
+    else if (genderSelect === 1 && activitySelect === 3)
+      return (
+        <ApText>
+          {1.55 *
+            (66.5 +
+              13.75 * parseFloat(weightSelect) +
+              5.003 * parseFloat(heightSelect) -
+              6.755 * parseFloat(ageSelect))}
+        </ApText>
+      );
+    else if (genderSelect === 1 && activitySelect === 4)
+      return (
+        <AppText>
+          {1.725 *
+            (66.5 +
+              13.75 * parseFloat(weightSelect) +
+              5.003 * parseFloat(heightSelect) -
+              6.755 * parseFloat(ageSelect))}
+        </AppText>
+      );
+    else if (parseInt(genderSelect) === 1 && parseInt(activitySelect) === 5)
+      return (
+        <appText>
+          {1.9 *
+            (66.5 +
+              13.75 * parseFloat(weightSelect) +
+              5.003 * parseFloat(heightSelect) -
+              6.755 * parseFloat(ageSelect))}
+        </appText>
+      );
+    //female condition
+    else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 1)
+      return (
+        <appText>
+          {1.2 *
+            (655 +
+              9.563 * parseFloat(weightSelect) +
+              1.85 * parseFloat(heightSelect) -
+              4.676 * parseFloat(ageSelect))}
+        </appText>
+      );
+    else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 2)
+      return (
+        <appText>
+          {1.375 *
+            (655 +
+              9.563 * parseFloat(weightSelect) +
+              1.85 * parseFloat(heightSelect) -
+              4.676 * parseFloat(ageSelect))}
+        </appText>
+      );
+    else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 3)
+      return (
+        <appText>
+          {1.55 *
+            (655 +
+              9.563 * parseFloat(weightSelect) +
+              1.85 * parseFloat(heightSelect) -
+              4.676 * parseFloat(ageSelect))}
+        </appText>
+      );
+    else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 4)
+      return (
+        <appText>
+          {1.725 *
+            (655 +
+              9.563 * parseFloat(weightSelect) +
+              1.85 * parseFloat(heightSelect) -
+              4.676 * parseFloat(ageSelect))}
+        </appText>
+      );
+    else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 5)
+      return (
+        <appText>
+          {1.9 *
+            (655 +
+              9.563 * parseFloat(weightSelect) +
+              1.85 * parseFloat(heightSelect) -
+              4.676 * parseFloat(ageSelect))}
+        </appText>
+      );
   };
   const gender = [
     {
@@ -111,7 +192,7 @@ function Calories() {
         items={activity}
         placeholder={"Activity"}
       />
-      <AppButton title="محاسبه کالری نقصان" onPress={() => HandleCalories()} />
+      <Text>{typeof genderSelect}</Text>
       <HandleCalories />
     </Screen>
   );
