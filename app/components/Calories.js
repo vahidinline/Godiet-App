@@ -6,12 +6,13 @@ import colors from "../config/colors";
 import AppPicker from "./AppPicker";
 import AppButton from "./AppButton";
 import AppText from "./AppText";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import RadioButtonRN from "radio-buttons-react-native";
 
 function Calories() {
-  const [genderSelect, setGenderSelect] = useState(1);
-  const [activitySelect, setActivitySelect] = useState(1);
+  const [genderSelect, setGenderSelect] = useState();
+  const [activitySelect, setActivitySelect] = useState();
   const [ageSelect, setAgeSelect] = useState();
   const [weightSelect, setWeightSelect] = useState();
   const [heightSelect, setHeightSelect] = useState();
@@ -20,106 +21,131 @@ function Calories() {
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   const HandleCalories = () => {
-    if (parseInt(genderSelect) === 1 && parseInt(activitySelect) === 1)
+    if (!genderSelect || !activitySelect) return <Text> </Text>;
+    else if (parseInt(genderSelect) === 1 && parseInt(activitySelect) === 1)
       return (
-        <AppText>
-          {1.2 *
-            (66.5 +
-              13.75 * parseFloat(weightSelect) +
-              5.003 * parseFloat(heightSelect) -
-              6.755 * parseFloat(ageSelect))}
-        </AppText>
+        <Text style={styles.text}>
+          {parseInt(
+            1.2 *
+              (66.5 +
+                13.75 * parseFloat(weightSelect) +
+                5.003 * parseFloat(heightSelect) -
+                6.755 * parseFloat(ageSelect))
+          )}
+        </Text>
       );
     else if (genderSelect == 1 && activitySelect == 2)
       return (
-        <AppText>
-          {1.375 *
-            (66.5 +
-              13.75 * parseFloat(weightSelect) +
-              5.003 * parseFloat(heightSelect) -
-              6.755 * parseFloat(ageSelect))}
-        </AppText>
+        <Text style={styles.text}>
+          {parseInt(
+            1.375 *
+              (66.5 +
+                13.75 * parseFloat(weightSelect) +
+                5.003 * parseFloat(heightSelect) -
+                6.755 * parseFloat(ageSelect))
+          )}
+        </Text>
       );
     else if (genderSelect === 1 && activitySelect === 3)
       return (
-        <AppText>
-          {1.55 *
-            (66.5 +
-              13.75 * parseFloat(weightSelect) +
-              5.003 * parseFloat(heightSelect) -
-              6.755 * parseFloat(ageSelect))}
-        </AppText>
+        <Text style={styles.text}>
+          {parseInt(
+            1.55 *
+              (
+                66.5 +
+                13.75 * parseFloat(weightSelect) +
+                5.003 * parseFloat(heightSelect) -
+                6.755 * parseFloat(ageSelect)
+              ).toFixed(2)
+          )}
+        </Text>
       );
     else if (genderSelect === 1 && activitySelect === 4)
       return (
-        <AppText>
-          {1.725 *
-            (66.5 +
-              13.75 * parseFloat(weightSelect) +
-              5.003 * parseFloat(heightSelect) -
-              6.755 * parseFloat(ageSelect))}
-        </AppText>
+        <Text style={styles.text}>
+          {parseInt(
+            1.725 *
+              (
+                66.5 +
+                13.75 * parseFloat(weightSelect) +
+                5.003 * parseFloat(heightSelect) -
+                6.755 * parseFloat(ageSelect)
+              ).toFixed()
+          )}
+        </Text>
       );
     else if (parseInt(genderSelect) === 1 && parseInt(activitySelect) === 5)
       return (
-        <AppText>
-          {1.9 *
-            (66.5 +
-              13.75 * parseFloat(weightSelect) +
-              5.003 * parseFloat(heightSelect) -
-              6.755 * parseFloat(ageSelect))}
-        </AppText>
+        <Text style={styles.text}>
+          {parseInt(
+            1.9 *
+              (66.5 +
+                13.75 * parseFloat(weightSelect) +
+                5.003 * parseFloat(heightSelect) -
+                6.755 * parseFloat(ageSelect))
+          )}
+        </Text>
       );
     //female condition
     else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 1)
       return (
-        <AppText>
-          {1.2 *
-            (655 +
-              9.563 * parseFloat(weightSelect) +
-              1.85 * parseFloat(heightSelect) -
-              4.676 * parseFloat(ageSelect))}
-        </AppText>
+        <Text style={styles.text}>
+          {parseInt(
+            1.2 *
+              (655 +
+                9.563 * parseFloat(weightSelect) +
+                1.85 * parseFloat(heightSelect) -
+                4.676 * parseFloat(ageSelect))
+          )}
+        </Text>
       );
     else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 2)
       return (
-        <AppText>
-          {1.375 *
-            (655 +
-              9.563 * parseFloat(weightSelect) +
-              1.85 * parseFloat(heightSelect) -
-              4.676 * parseFloat(ageSelect))}
-        </AppText>
+        <Text style={styles.text}>
+          {parseInt(
+            1.375 *
+              (655 +
+                9.563 * parseFloat(weightSelect) +
+                1.85 * parseFloat(heightSelect) -
+                4.676 * parseFloat(ageSelect))
+          )}
+        </Text>
       );
     else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 3)
       return (
-        <AppText>
-          {1.55 *
-            (655 +
-              9.563 * parseFloat(weightSelect) +
-              1.85 * parseFloat(heightSelect) -
-              4.676 * parseFloat(ageSelect))}
-        </AppText>
+        <Text style={styles.text}>
+          {parseInt(
+            1.55 *
+              (655 +
+                9.563 * parseFloat(weightSelect) +
+                1.85 * parseFloat(heightSelect) -
+                4.676 * parseFloat(ageSelect))
+          )}
+        </Text>
       );
     else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 4)
       return (
-        <AppText>
-          {1.725 *
-            (655 +
-              9.563 * parseFloat(weightSelect) +
-              1.85 * parseFloat(heightSelect) -
-              4.676 * parseFloat(ageSelect))}
-        </AppText>
+        <Text style={styles.text}>
+          {parseInt(
+            1.725 *
+              (655 +
+                9.563 * parseFloat(weightSelect) +
+                1.85 * parseFloat(heightSelect) -
+                4.676 * parseFloat(ageSelect))
+          )}
+        </Text>
       );
     else if (parseInt(genderSelect) === 2 && parseInt(activitySelect) === 5)
       return (
-        <AppText>
-          {1.9 *
-            (655 +
-              9.563 * parseFloat(weightSelect) +
-              1.85 * parseFloat(heightSelect) -
-              4.676 * parseFloat(ageSelect))}
-        </AppText>
+        <Text style={styles.text}>
+          {parseInt(
+            1.9 *
+              (655 +
+                9.563 * parseFloat(weightSelect) +
+                1.85 * parseFloat(heightSelect) -
+                4.676 * parseFloat(ageSelect))
+          )}
+        </Text>
       );
   };
   const gender = [
@@ -136,87 +162,85 @@ function Calories() {
   ];
   const activity = [
     {
-      label: "Sedentary (little or no exercise)",
+      label: "بدون تحرک یا کم تحرک",
       name: "عدم تحرک",
       value: 1,
     },
     {
-      label: "Lightly active (light exercise/sports 1-3 days/week)",
+      label: "یک تا سه روز ورزش در هفته",
       name: "فعالیت کم",
       value: 2,
     },
     {
-      label: "Moderately active (moderate exercise/sports 3-5 days/week)",
+      label: "سه تا پنح روز ورزش در هفته",
       name: "نسبتا فعال",
       value: 3,
     },
     {
-      label: "Very active (hard exercise/sports 6-7 days a week)",
+      label: "شش تا هفت روز ورزش در هفته",
       name: "فعال",
       value: 4,
     },
     {
-      label:
-        "Extra active (very hard exercise/sports & physical job or 2x training)",
+      label: "ورزشکار حرفه ای",
       name: "خیلی فعال",
       value: 5,
     },
   ];
   return (
     <Screen>
-      <TextInput
+      <HandleCalories style={styles.text} />
+      <RadioButtonRN
+        data={gender}
+        selectedBtn={(e) => setGenderSelect(e.value)}
+        icon={<Icon name="check-circle" size={25} color="#2c9dd1" />}
+        animationTypes={["pulse", "rotate"]}
+      />
+      <AppTextInput
+        style={{
+          flex: 0.5,
+        }}
         name="weight"
         autoCapitalize="none"
-        keyboardType="numeric"
         placeholder="Weight"
         onChangeText={(item) => setWeightSelect(item)}
       />
-      <TextInput
+      <AppTextInput
+        style={{
+          flex: 0.5,
+        }}
         name="height"
         autoCapitalize="none"
-        keyboardType="numeric"
         placeholder="Height"
         onChangeText={(item) => setHeightSelect(item)}
       />
-      <TextInput
+      <AppTextInput
         name="age"
         autoCapitalize="none"
-        keyboardType="numeric"
         placeholder="Age"
         onChangeText={(item) => setAgeSelect(item)}
       />
 
-      <RadioButtonRN
-        data={gender}
-        selectedBtn={(e) => setGenderSelect(e.value)}
-      />
-      <RadioButtonRN
+      {/* <RadioButtonRN
         data={activity}
         selectedBtn={(e) => setActivitySelect(e.value)}
-      />
+        icon={<Icon name="check-circle" size={25} color="#2c9dd1" />}
+        animationTypes={["pulse", "rotate"]}
+        box={true}
+      /> */}
 
-      {/* <Switch
-        trackColor={{ false: "#767577", true: "#81b0ff" }}
-        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
-        value={isEnabled}
-      />
-
-      <AppPicker
+      {/* <AppPicker
         selectedItem={genderSelect}
-        onSelectItem={(item) => setGenderSelect(item)}
+        onSelectItem={(item) => setGenderSelect(item.value)}
         items={gender}
         placeholder={"Gender"}
-      />
+      /> */}
       <AppPicker
         selectedItem={activitySelect}
-        onSelectItem={(item) => setActivitySelect(item)}
+        onSelectItem={(item) => setActivitySelect(item.value)}
         items={activity}
         placeholder={"Activity"}
-      /> */}
-      <Text>{typeof gender}</Text>
-      <HandleCalories />
+      />
     </Screen>
   );
 }
@@ -225,7 +249,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     borderRadius: 5,
     flexDirection: "column",
-    width: 300,
+    width: 10,
     padding: 15,
     marginVertical: 5,
     alignItems: "center",
@@ -233,6 +257,15 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 10,
+  },
+  text: {
+    color: colors.dark,
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 30,
+    flex: 1,
+    textAlign: "center",
+    fontWeight: "800",
   },
 });
 export default Calories;
