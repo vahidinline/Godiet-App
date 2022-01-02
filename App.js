@@ -4,7 +4,7 @@ import Screen from "./app/components/Screen";
 import * as ImagePicker from "expo-image-picker";
 import BasicForm from "./app/screens/BasicForm";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import LoginScreen from "./app/screens/LoginScreen";
 import styles from "./app/config/styles";
@@ -12,6 +12,8 @@ import Stepcounter from "./app/components/Stepcounter";
 import Calories from "./app/components/Calories";
 import AppButton from "./app/components/AppButton";
 import VideoPage from "./app/components/VideoPage";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import ProfileInput from "./app/components/ProfileInput";
 
 function HomeScreen({ navigation }) {
   return (
@@ -34,19 +36,72 @@ function HomeScreen({ navigation }) {
   );
 }
 export default function App() {
-  const Stack = createNativeStackNavigator();
-
+  const Tab = createBottomTabNavigator();
+  const TabNavigator = () => (
+    <Tab.Navigator
+      tabBarOptions={{
+        activeBackgroundColor: "tomato",
+        activeTintColor: "white",
+      }}
+    >
+      <Tab.Screen name="Tools" component={Calories} />
+      <Tab.Screen name="WorkOut" component={VideoPage} />
+    </Tab.Navigator>
+  );
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="Calories" component={Calories} />
-          <Stack.Screen name="Stepcounter" component={Stepcounter} />
-          <Stack.Screen name="VideoPage" component={VideoPage} />
-        </Stack.Navigator>
+        <Tab.Navigator initialRouteName="Home">
+          <Tab.Screen
+            options={{
+              tabBarIcon: () => (
+                <MaterialCommunityIcons name="home" size={30} />
+              ),
+            }}
+            name="Home"
+            component={HomeScreen}
+          />
+          <Tab.Screen
+            options={{
+              tabBarIcon: () => (
+                <MaterialCommunityIcons name="information" size={30} />
+              ),
+            }}
+            name="Home"
+            name="WelcomeScreen"
+            component={ProfileInput}
+          />
+          <Tab.Screen
+            options={{
+              tabBarIcon: () => (
+                <MaterialCommunityIcons name="tools" size={30} />
+              ),
+            }}
+            name="Home"
+            name="Calories"
+            component={Calories}
+          />
+          <Tab.Screen
+            options={{
+              tabBarIcon: () => (
+                <MaterialCommunityIcons name="counter" size={30} />
+              ),
+            }}
+            name="Home"
+            name="Stepcounter"
+            component={Stepcounter}
+          />
+          <Tab.Screen
+            options={{
+              tabBarIcon: () => (
+                <MaterialCommunityIcons name="video" size={30} />
+              ),
+            }}
+            name="Home"
+            name="VideoPage"
+            component={VideoPage}
+          />
+        </Tab.Navigator>
       </NavigationContainer>
     </>
   );

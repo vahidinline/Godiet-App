@@ -4,24 +4,18 @@ import Screen from "./Screen";
 import { TextInput, StyleSheet, Text } from "react-native";
 import colors from "../config/colors";
 import AppPicker from "./AppPicker";
-import AppButton from "./AppButton";
-import AppText from "./AppText";
-import Icon from "react-native-vector-icons/FontAwesome";
 
+import Icon from "react-native-vector-icons/FontAwesome";
 import RadioButtonRN from "radio-buttons-react-native";
 
 function Calories() {
-  const [genderSelect, setGenderSelect] = useState();
-  const [activitySelect, setActivitySelect] = useState();
-  const [ageSelect, setAgeSelect] = useState();
-  const [weightSelect, setWeightSelect] = useState();
-  const [heightSelect, setHeightSelect] = useState();
-
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
-
+  const [genderSelect, setGenderSelect] = useState(1);
+  const [activitySelect, setActivitySelect] = useState(1);
+  const [ageSelect, setAgeSelect] = useState(39);
+  const [weightSelect, setWeightSelect] = useState(79);
+  const [heightSelect, setHeightSelect] = useState(183);
   const HandleCalories = () => {
-    if (!genderSelect || !activitySelect) return <Text> </Text>;
+    if (!genderSelect || !activitySelect) return <Text>rwwewe </Text>;
     else if (parseInt(genderSelect) === 1 && parseInt(activitySelect) === 1)
       return (
         <Text style={styles.text}>
@@ -189,7 +183,6 @@ function Calories() {
   ];
   return (
     <Screen>
-      <HandleCalories style={styles.text} />
       <RadioButtonRN
         data={gender}
         selectedBtn={(e) => setGenderSelect(e.value)}
@@ -241,6 +234,7 @@ function Calories() {
         items={activity}
         placeholder={"Activity"}
       />
+      <HandleCalories style={styles.text} />
     </Screen>
   );
 }
