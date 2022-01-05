@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AppTextInput from "./AppTextInput";
 import Screen from "./Screen";
-import { TextInput, StyleSheet, Text } from "react-native";
+import { TextInput, StyleSheet, Text, Button } from "react-native";
 import colors from "../config/colors";
 import AppPicker from "./AppPicker";
 
@@ -9,13 +9,20 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import RadioButtonRN from "radio-buttons-react-native";
 
 function Calories() {
+  var result = 0;
   const [genderSelect, setGenderSelect] = useState(1);
   const [activitySelect, setActivitySelect] = useState(1);
-  const [ageSelect, setAgeSelect] = useState(39);
-  const [weightSelect, setWeightSelect] = useState(79);
-  const [heightSelect, setHeightSelect] = useState(183);
+  const [ageSelect, setAgeSelect] = useState(1);
+  const [weightSelect, setWeightSelect] = useState(1);
+  const [heightSelect, setHeightSelect] = useState(1);
+
   const HandleCalories = () => {
-    if (!genderSelect || !activitySelect) return <Text>rwwewe </Text>;
+    if (!genderSelect || !activitySelect)
+      return (
+        <Text style={styles.text}>
+          برای محاسبه کالری,فیلدهای بالا را پر کنید.
+        </Text>
+      );
     else if (parseInt(genderSelect) === 1 && parseInt(activitySelect) === 1)
       return (
         <Text style={styles.text}>
@@ -142,6 +149,10 @@ function Calories() {
         </Text>
       );
   };
+  const sss = HandleCalories();
+  const Xyz = (sss) => {
+    alert(sss);
+  };
   const gender = [
     {
       label: "مرد",
@@ -213,7 +224,6 @@ function Calories() {
         placeholder="Age"
         onChangeText={(item) => setAgeSelect(item)}
       />
-
       {/* <RadioButtonRN
         data={activity}
         selectedBtn={(e) => setActivitySelect(e.value)}
@@ -221,7 +231,6 @@ function Calories() {
         animationTypes={["pulse", "rotate"]}
         box={true}
       /> */}
-
       {/* <AppPicker
         selectedItem={genderSelect}
         onSelectItem={(item) => setGenderSelect(item.value)}
@@ -235,6 +244,7 @@ function Calories() {
         placeholder={"Activity"}
       />
       <HandleCalories style={styles.text} />
+      <Button title="Cal" onPress={() => Xyz()} />
     </Screen>
   );
 }

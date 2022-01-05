@@ -35,7 +35,7 @@ function ProfileInput() {
         onChangeText={(text) => setTextInputValue(text)}
       />
       <AppButton title="Save name" onPress={() => saveValue()} />
-      <AppButton title="Remove name" onPress={() => getValue()} />
+      <AppButton title="Load name" onPress={() => getValue()} />
       <AppText>Name: {value}</AppText>
     </View>
   );

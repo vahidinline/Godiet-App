@@ -1,23 +1,21 @@
-import React, { useEffect } from "react";
-import { StyleSheet, Text, View, Button, Image } from "react-native";
-import Screen from "./app/components/Screen";
-import * as ImagePicker from "expo-image-picker";
-import BasicForm from "./app/screens/BasicForm";
+import { View, Button, Image, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import WelcomeScreen from "./app/screens/WelcomeScreen";
-import LoginScreen from "./app/screens/LoginScreen";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import styles from "./app/config/styles";
 import Stepcounter from "./app/components/Stepcounter";
 import Calories from "./app/components/Calories";
 import AppButton from "./app/components/AppButton";
 import VideoPage from "./app/components/VideoPage";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ProfileInput from "./app/components/ProfileInput";
+import LoginScreen from "./app/screens/LoginScreen";
+import { auth } from "./app/firebase";
 
 function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>email: {auth.currentUser?.email}</Text>
       <Image
         style={styles.logo}
         source={{
@@ -26,11 +24,7 @@ function HomeScreen({ navigation }) {
       />
       <Button
         title="Tap to start"
-        onPress={() => navigation.navigate("WelcomeScreen")}
-      />
-      <AppButton
-        title="Play"
-        onPress={() => navigation.navigate("VideoPage")}
+        onPress={() => navigation.navigate("LoginScreen")}
       />
     </View>
   );
@@ -55,6 +49,15 @@ export default function App() {
           <Tab.Screen
             options={{
               tabBarIcon: () => (
+                <MaterialCommunityIcons name="login" size={30} />
+              ),
+            }}
+            name="Login"
+            component={LoginScreen}
+          />
+          <Tab.Screen
+            options={{
+              tabBarIcon: () => (
                 <MaterialCommunityIcons name="home" size={30} />
               ),
             }}
@@ -67,7 +70,6 @@ export default function App() {
                 <MaterialCommunityIcons name="information" size={30} />
               ),
             }}
-            name="Home"
             name="WelcomeScreen"
             component={ProfileInput}
           />
@@ -77,7 +79,6 @@ export default function App() {
                 <MaterialCommunityIcons name="tools" size={30} />
               ),
             }}
-            name="Home"
             name="Calories"
             component={Calories}
           />
@@ -87,7 +88,6 @@ export default function App() {
                 <MaterialCommunityIcons name="counter" size={30} />
               ),
             }}
-            name="Home"
             name="Stepcounter"
             component={Stepcounter}
           />
@@ -97,7 +97,6 @@ export default function App() {
                 <MaterialCommunityIcons name="video" size={30} />
               ),
             }}
-            name="Home"
             name="VideoPage"
             component={VideoPage}
           />

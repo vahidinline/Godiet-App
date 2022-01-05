@@ -1,17 +1,25 @@
+// Import the functions you need from the SDKs you need
 import * as firebase from "firebase";
-import "firebase/firestore";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-const app = firebase.initializeApp({
-  apiKey: "AIzaSyBo06iME689yVrretdCNXneKTstZ32434c",
-  authDomain: "godiet-d0985.firebaseapp.com",
-  projectId: "godiet-d0985",
-  storageBucket: "godiet-d0985.appspot.com",
-  messagingSenderId: "561866778830",
-  appId: "1:561866778830:web:11efe75e42f32fe5c5889f",
-});
-
-export const fireDB = app.firestore();
+const firebaseConfig = {
+  apiKey: "AIzaSyBGO4FF1qg7GoSeDY2eGExX-GW88QSy4fk",
+  authDomain: "godietauth-a3d72.firebaseapp.com",
+  projectId: "godietauth-a3d72",
+  storageBucket: "godietauth-a3d72.appspot.com",
+  messagingSenderId: "151617149143",
+  appId: "1:151617149143:web:bc090aff346fcb34703892",
+};
 
 // Initialize Firebase
-export default app;
+let app;
+if (firebase.apps.length === 0) {
+  app = firebase.initializeApp(firebaseConfig);
+} else {
+  app = firebase.app();
+}
+const auth = firebase.auth();
+
+export { auth };
