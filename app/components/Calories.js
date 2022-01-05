@@ -8,7 +8,7 @@ import AppPicker from "./AppPicker";
 import Icon from "react-native-vector-icons/FontAwesome";
 import RadioButtonRN from "radio-buttons-react-native";
 
-function Calories() {
+function Calories({ navigation }) {
   var result = 0;
   const [genderSelect, setGenderSelect] = useState(1);
   const [activitySelect, setActivitySelect] = useState(1);
@@ -149,7 +149,7 @@ function Calories() {
         </Text>
       );
   };
-  const sss = HandleCalories();
+  const sss = HandleCalories({ navigation });
   const Xyz = (sss) => {
     alert(sss);
   };
@@ -244,7 +244,7 @@ function Calories() {
         placeholder={"Activity"}
       />
       <HandleCalories style={styles.text} />
-      <Button title="Cal" onPress={() => Xyz()} />
+      <Button title="Home" onPress={() => navigation.navigate("Welcome")} />
     </Screen>
   );
 }

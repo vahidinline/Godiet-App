@@ -1,10 +1,14 @@
 import React from "react";
-import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+  Button,
+} from "react-native";
 import AppButton from "../components/AppButton";
 import colors from "../config/colors";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginScreen from "./LoginScreen";
 
 function WelcomeScreen({ navigation }) {
   return (
@@ -25,17 +29,11 @@ function WelcomeScreen({ navigation }) {
         <Text style={styles.tagline}>Your way to be fit</Text>
         <View style={styles.buttonContainer}>
           <AppButton
-            title="Login"
-            onPress={() => navigation.navigate("LoginScreen")}
+            title="Login or Register"
+            onPress={() => navigation.navigate("Login")}
           />
           <AppButton
-            title="Step Counter"
-            color="secondary"
-            onPress={() => navigation.navigate("Stepcounter")}
-          />
-          <AppButton
-            title="Deficit Meter"
-            color="light"
+            title="Calories"
             onPress={() => navigation.navigate("Calories")}
           />
         </View>

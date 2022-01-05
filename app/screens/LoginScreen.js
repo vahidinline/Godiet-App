@@ -13,7 +13,6 @@ import * as Yup from "yup";
 import AppFormField from "../components/AppFormField";
 import SubmitButton from "../components/SubmitButton";
 import { auth } from "../firebase";
-import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react/cjs/react.development";
 
 // const validationSchema = Yup.object().shape({
@@ -21,15 +20,14 @@ import { useEffect } from "react/cjs/react.development";
 //   password: Yup.string().required().min(6).label("Password"),
 // });
 
-function LoginScreen(props) {
+function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigation = useNavigation();
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.navigate("HomeScreen");
+        navigation.navigate("Calories");
       }
     });
     return unsubscribe;
@@ -51,7 +49,7 @@ function LoginScreen(props) {
         const user = userCredentials.user;
         console.log("Logged in ", user.email);
       })
-      .catch((error) => alert("Logged in ", error.message));
+      .catch((error) => alert("Please fill the form", error.message));
   };
   return (
     <Screen style={styles.container}>
