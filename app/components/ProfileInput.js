@@ -6,37 +6,31 @@ import AppButton from "./AppButton";
 import AppText from "./AppText";
 import AppTextInput from "./AppTextInput";
 
-function ProfileInput() {
-  const [textInputValue, setTextInputValue] = useState("");
-  const [value, setValue] = useState("");
-  const saveValue = () => {
-    if (textInputValue) {
-      AsyncStorage.setItem("key", textInputValue);
-      setTextInputValue("");
-      alert("Data Saved");
-    } else {
-      alert("Please fill data");
+function ProfileInput({ navigation }) {
+  const [name, setName] = useState("");
+  const save = async () => {
+    try {
+      await AsyncStorage.setItem("key", JSON.stringify(userData));
+      const value = await AsyncStorage.getItem("key");
+      const person = JSON.parse(value);
+    } catch (error) {
+      console.log(error);
     }
   };
-  const getValue = () => {
-    AsyncStorage.getItem("key").then((value) => {
-      setValue(value);
-    });
-  };
 
-  useEffect(() => {
-    getValue();
-  }, []);
+  useEffect(() => {}, []);
+
   return (
     <View>
       <AppTextInput
-        value={textInputValue}
+        name="name"
         style={styles.input}
-        onChangeText={(text) => setTextInputValue(text)}
+        onChangeText={(text) => setName(text)}
       />
-      <AppButton title="Save name" onPress={() => saveValue()} />
-      <AppButton title="Load name" onPress={() => getValue()} />
-      <AppText>Name: {value}</AppText>
+
+      <AppButton title="Save name" onPress={() => setName()} />
+      <AppButton title="Home" onPress={() => navigation.navigate("Welcome")} />
+      <AppText>Name:{name}</AppText>
     </View>
   );
 }

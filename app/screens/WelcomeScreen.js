@@ -36,6 +36,10 @@ function WelcomeScreen({ navigation }) {
             title="Calories"
             onPress={() => navigation.navigate("Calories")}
           />
+          <AppButton
+            title="Profile"
+            onPress={() => navigation.navigate("Profile")}
+          />
         </View>
       </ImageBackground>
     </>
@@ -71,7 +75,7 @@ const styles = StyleSheet.create({
   tagline: {
     fontSize: 20,
     fontWeight: "200",
-    paddingBottom: 450,
+    paddingBottom: 400,
     color: colors.white,
   },
 });

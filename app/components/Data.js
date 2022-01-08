@@ -1,7 +1,4 @@
-import React from "react";
-
-function Data(props) {
-  const gender = [
+export default { 
     {
       label: "مرد",
       name: "مرد",
@@ -12,8 +9,6 @@ function Data(props) {
       name: "زن",
       value: 2,
     },
-  ];
-  return <div></div>;
-}
+  
+}:
 
-export default Data;

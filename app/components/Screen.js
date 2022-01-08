@@ -5,9 +5,7 @@ import { StyleSheet, View, SafeAreaView, ScrollView } from "react-native";
 function Screen({ children, style }) {
   return (
     <SafeAreaView style={[styles.screen, style]}>
-      <ScrollView>
-        <View style={style}>{children}</View>
-      </ScrollView>
+      <View style={style}>{children}</View>
     </SafeAreaView>
   );
 }
