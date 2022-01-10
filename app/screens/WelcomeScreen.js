@@ -14,9 +14,9 @@ function WelcomeScreen({ navigation }) {
   return (
     <>
       <ImageBackground
-        blurRadius={10}
+        blurRadius={3}
         style={styles.background}
-        source={require("../assets/bg.png")}
+        source={require("../assets/welcome-bg.jpeg")}
       >
         <View style={styles.logoContainer}>
           <Image
@@ -40,6 +40,7 @@ function WelcomeScreen({ navigation }) {
             title="Profile"
             onPress={() => navigation.navigate("Profile")}
           />
+          <AppButton title="Step" onPress={() => navigation.navigate("Step")} />
         </View>
       </ImageBackground>
     </>
@@ -69,13 +70,13 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     position: "absolute",
-    top: 90,
+    top: 300,
     alignItems: "center",
   },
   tagline: {
     fontSize: 20,
     fontWeight: "200",
-    paddingBottom: 400,
+    paddingBottom: 180,
     color: colors.white,
   },
 });

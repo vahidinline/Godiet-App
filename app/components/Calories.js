@@ -94,62 +94,8 @@ function Calories({ navigation }) {
     return (diff = weightSelect);
   };
   return (
-    <Screen>
-      <ScrollView>
-        <AppText>
-          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-            <MaterialCommunityIcons name="email" />
-            <Text>Profile</Text>
-          </TouchableOpacity>
-        </AppText>
-        <RadioButtonRN
-          style={{ flexDirection: "column" }}
-          data={gender}
-          selectedBtn={(e) => setGenderSelect(e.value)}
-          icon={<Icon name="check-circle" size={25} color="#2c9dd1" />}
-          animationTypes={["pulse", "rotate"]}
-        />
-        <View style={{}}>
-          <AppTextInput
-            style={{
-              flex: 0.5,
-              width: "50%",
-              flexDirection: "row",
-            }}
-            name="weight"
-            autoCapitalize="none"
-            placeholder="Weight"
-            onChangeText={(item) => setWeightSelect(item)}
-          />
-          <AppTextInput
-            style={{
-              flex: 0.5,
-              width: "50%",
-            }}
-            name="height"
-            autoCapitalize="none"
-            placeholder="Height"
-            onChangeText={(item) => setHeightSelect(item)}
-          />
-        </View>
-
-        <AppTextInput
-          name="age"
-          autoCapitalize="none"
-          placeholder="Age"
-          onChangeText={(item) => setAgeSelect(item)}
-        />
-
-        <AppPicker
-          selectedItem={activitySelect}
-          onSelectItem={(item) => setActivitySelect(item.value)}
-          items={activity}
-          placeholder={"Activity"}
-        />
-        <Text style={styles.text}>{HandleCalories()}</Text>
-        <Text style={styles.text}>{parseInt(result)}</Text>
-        <Text>{diff}</Text>
-
+    <>
+      <Screen style={{ flex: 1 }}>
         <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
           <Text>
             <MaterialCommunityIcons
@@ -162,9 +108,66 @@ function Calories({ navigation }) {
               }}
             />
           </Text>
+          <AppText>
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <MaterialCommunityIcons name="email" />
+              <Text>Profile</Text>
+            </TouchableOpacity>
+          </AppText>
         </TouchableOpacity>
-      </ScrollView>
-    </Screen>
+      </Screen>
+      <Screen style={{ flex: 2 }}>
+        <ScrollView>
+          <RadioButtonRN
+            style={{ flexDirection: "column" }}
+            data={gender}
+            selectedBtn={(e) => setGenderSelect(e.value)}
+            icon={<Icon name="check-circle" size={25} color="#2c9dd1" />}
+            animationTypes={["pulse", "rotate"]}
+          />
+          <View style={{}}>
+            <AppTextInput
+              style={{
+                flex: 0.5,
+                width: "50%",
+                flexDirection: "row",
+              }}
+              name="weight"
+              autoCapitalize="none"
+              placeholder="Weight"
+              onChangeText={(item) => setWeightSelect(item)}
+            />
+            <AppTextInput
+              style={{
+                flex: 0.5,
+                width: "50%",
+              }}
+              name="height"
+              autoCapitalize="none"
+              placeholder="Height"
+              onChangeText={(item) => setHeightSelect(item)}
+            />
+          </View>
+
+          <AppTextInput
+            name="age"
+            autoCapitalize="none"
+            placeholder="Age"
+            onChangeText={(item) => setAgeSelect(item)}
+          />
+
+          <AppPicker
+            selectedItem={activitySelect}
+            onSelectItem={(item) => setActivitySelect(item.value)}
+            items={activity}
+            placeholder={"Activity"}
+          />
+          <Text style={styles.text}>کاری تثبیت شما: {HandleCalories()}</Text>
+          <Text style={styles.text}>{parseInt(result)}</Text>
+          <Text>{diff}</Text>
+        </ScrollView>
+      </Screen>
+    </>
   );
 }
 
@@ -186,7 +189,7 @@ const styles = StyleSheet.create({
     color: colors.dark,
     alignItems: "center",
     justifyContent: "center",
-    fontSize: 60,
+    fontSize: 18,
     flex: 1,
     textAlign: "center",
     fontWeight: "800",

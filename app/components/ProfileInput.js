@@ -5,8 +5,12 @@ import colors from "../config/colors";
 import AppButton from "./AppButton";
 import AppText from "./AppText";
 import AppTextInput from "./AppTextInput";
+import { auth } from "../firebase";
 
 function ProfileInput({ navigation }) {
+  const handleLogOut = () => {
+    auth.signOut();
+  };
   const [name, setName] = useState("");
   const save = async () => {
     try {
@@ -31,6 +35,7 @@ function ProfileInput({ navigation }) {
       <AppButton title="Save name" onPress={() => setName()} />
       <AppButton title="Home" onPress={() => navigation.navigate("Welcome")} />
       <AppText>Name:{name}</AppText>
+      <AppButton onPress={handleLogOut} />
     </View>
   );
 }

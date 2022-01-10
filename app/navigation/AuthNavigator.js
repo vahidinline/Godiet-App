@@ -5,6 +5,7 @@ import WelcomeScreen from "../screens/WelcomeScreen";
 import Calories from "../components/Calories";
 import MealPlan from "../components/MealPlan";
 import ProfileInput from "../components/ProfileInput";
+import Stepcounter from "../components/Stepcounter";
 
 const Stack = createStackNavigator();
 const AuthNavigator = () => (
@@ -28,6 +29,11 @@ const AuthNavigator = () => (
       options={{ headerShown: false }}
       name="Profile"
       component={ProfileInput}
+    />
+    <Stack.Screen
+      options={{ headerShown: false }}
+      name="Step"
+      component={Stepcounter}
     />
   </Stack.Navigator>
 );
