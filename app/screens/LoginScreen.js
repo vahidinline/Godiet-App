@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Text,
   View,
+  ImageBackground,
 } from "react-native";
 import AppButton from "../components/AppButton";
 import Screen from "../components/Screen";
@@ -14,6 +15,7 @@ import * as Yup from "yup";
 import AppTextInput from "../components/AppTextInput";
 import { auth } from "../firebase";
 import { useEffect } from "react/cjs/react.development";
+import colors from "../config/colors";
 
 // const validationSchema = Yup.object().shape({
 //   email: Yup.string().required().email().label("Email"),
@@ -52,21 +54,12 @@ function LoginScreen({ navigation }) {
       .catch((error) => alert("Please fill the form", error.message));
   };
   return (
-    <>
-      <Screen style={{ flex: 2 }}>
-        <AppButton
-          title="Welcome"
-          onPress={() => navigation.navigate("Welcome")}
-        />
-      </Screen>
+    <ImageBackground
+      blurRadius={3}
+      style={styles.background}
+      source={require("../assets/welcome-bg.jpeg")}
+    >
       <Screen style={styles.container}>
-        {/* <Formik
-        initialValues={{ email: "", password: "" }}
-        onSubmit={(values) => console.log(values)}
-        validationSchema={validationSchema}
-      >
-        {() => (
-          <> */}
         <AppTextInput
           name="email"
           value={email}
@@ -95,15 +88,17 @@ function LoginScreen({ navigation }) {
         <TouchableOpacity onPress={handleLogin}>
           <Text style={styles.txt}>LogIn</Text>
         </TouchableOpacity>
-        {/* </>
-        )}
-      </Formik> */}
       </Screen>
-    </>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
   container: {
     padding: 10,
     flex: 1,
@@ -119,6 +114,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     margin: 15,
+    color: colors.light,
   },
 });
 export default LoginScreen;

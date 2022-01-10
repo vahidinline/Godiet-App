@@ -3,7 +3,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "../screens/LoginScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import Calories from "../components/Calories";
-import MealPlan from "../components/MealPlan";
 import ProfileInput from "../components/ProfileInput";
 import Stepcounter from "../components/Stepcounter";
 

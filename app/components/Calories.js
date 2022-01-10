@@ -16,6 +16,7 @@ import RadioButtonRN from "radio-buttons-react-native";
 import { auth } from "../firebase";
 import AppText from "./AppText";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AppButton from "./AppButton";
 
 function Calories({ navigation }) {
   const activity = [
@@ -63,6 +64,7 @@ function Calories({ navigation }) {
   const [ageSelect, setAgeSelect] = useState(39);
   const [weightSelect, setWeightSelect] = useState(79);
   const [heightSelect, setHeightSelect] = useState(183);
+  const [faveWeight, setFaveWeight] = useState();
   let result = 0;
   const menCalc =
     66.5 +
@@ -89,33 +91,32 @@ function Calories({ navigation }) {
     else if (genderSelect == 2 && activitySelect == 4) result = 1.725 * wemon;
     else if (genderSelect == 2 && activitySelect == 5) result = 1.9 * wemon;
   };
-  let diff = 0;
-  const Deficit = (result, weightSelect) => {
-    return (diff = weightSelect);
+  let CalcDeficitResult = "";
+  let goal = "";
+  const weekToFit = 8;
+  const optimumLoseWeightPerWeekMele = 1;
+  const optimumLoseWeightPerWeekFemale = 0.7;
+
+  const CalcDeficit = () => {
+    if (!faveWeight) return (CalcDeficitResult = "Cant be empty");
+    else if (faveWeight === weightSelect)
+      return (CalcDeficitResult = "Cant Be the Same");
+    else if (faveWeight < weightSelect) return LoseWeight();
+    else if (faveWeight > weightSelect) return GainWeight();
+  };
+  const LoseWeight = () => {
+    let diff = weightSelect - faveWeight;
+    if (genderSelect == 1)
+      return (CalcDeficitResult = parseInt(result) - 200), (goal = "lose ");
+    else return (CalcDeficitResult = parseInt(result) - 150), (goal = "lose ");
+  };
+  const GainWeight = () => {
+    if (genderSelect == 1)
+      return (CalcDeficitResult = parseInt(result) + 200), (goal = "gain ");
+    else return (CalcDeficitResult = parseInt(result) + 150), (goal = "gain ");
   };
   return (
     <>
-      <Screen style={{ flex: 1 }}>
-        <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
-          <Text>
-            <MaterialCommunityIcons
-              name="home"
-              size={50}
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                textAlign: "center",
-              }}
-            />
-          </Text>
-          <AppText>
-            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-              <MaterialCommunityIcons name="email" />
-              <Text>Profile</Text>
-            </TouchableOpacity>
-          </AppText>
-        </TouchableOpacity>
-      </Screen>
       <Screen style={{ flex: 2 }}>
         <ScrollView>
           <RadioButtonRN
@@ -157,14 +158,26 @@ function Calories({ navigation }) {
           />
 
           <AppPicker
-            selectedItem={activitySelect}
+            selectedItem={activity}
             onSelectItem={(item) => setActivitySelect(item.value)}
             items={activity}
             placeholder={"Activity"}
           />
-          <Text style={styles.text}>کاری تثبیت شما: {HandleCalories()}</Text>
+          <AppTextInput
+            name="favWeight"
+            autoCapitalize="none"
+            placeholder="وزن دلخواه"
+            onChangeText={(item) => setFaveWeight(item)}
+          />
+          <Text style={{ color: "#fff" }}>
+            {(HandleCalories(), CalcDeficit())}
+          </Text>
           <Text style={styles.text}>{parseInt(result)}</Text>
-          <Text>{diff}</Text>
+          <Text>
+            by Using {CalcDeficitResult} calories per day, after{" "}
+            {Math.abs(weightSelect - faveWeight)} weeks, you can {goal}
+            weight from {weightSelect} to {faveWeight}
+          </Text>
         </ScrollView>
       </Screen>
     </>

@@ -10,6 +10,7 @@ import {
   VictoryTheme,
   VictoryAxis,
 } from "victory-native";
+import colors from "../config/colors";
 
 export default function App({ navigation }) {
   const [isPedometerAvailable, setIsPedometerAvailable] = useState("checking");
@@ -60,14 +61,11 @@ export default function App({ navigation }) {
     return () => _unsubscribe();
   }, []);
 
-  const [dailyGoal, setDailyGoal] = useState(0);
-  const AchieveGoal = (dailyGoal, pastStepCount) => {
-    if (dailyGoal <= pastStepCount) {
-      return false;
-    } else {
-      true;
-    }
-  };
+  const [dailyGoal, setDailyGoal] = useState(10000);
+  // const AchieveGoal = () => {
+  //   if (dailyGoal <= pastStepCount) return <Text>Goal Not Achieved yet</Text>;
+  //   else <Text>Goal Achieved</Text>;
+  // };
   return (
     <Screen style={styles.container}>
       <VictoryChart width={350} theme={VictoryTheme.material}>
@@ -84,27 +82,19 @@ export default function App({ navigation }) {
         <VictoryBar data={data} x="quarter" y="earnings" />
       </VictoryChart>
 
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, color: colors.light }}>
         <Text>Daily Goal: {dailyGoal}</Text>
-        <Text style={styles.text}>{pastStepCount}</Text>
-        <Text style={styles.text}>Step(s)</Text>
-        <Text>{AchieveGoal()}</Text>
+        <Text style={styles.text}>{pastStepCount} Step(s) </Text>
+        {/* <AchieveGoal /> */}
 
         {/* <AppText>Walk! And watch this go up: {currentStepCount}</AppText> */}
-      </View>
-      <View>
-        <AppTextInput
+        {/* <AppTextInput
           placeholder="Set Daily Goal"
           onChangeText={(text) => setDailyGoal(text)}
-        />
+        /> */}
         <Text></Text>
       </View>
-      <View style={{ flex: 1 }}>
-        <AppButton
-          title="Home"
-          onPress={() => navigation.navigate("Welcome")}
-        />
-      </View>
+      <View style={{ flex: 0.2 }}></View>
     </Screen>
   );
 }
@@ -114,8 +104,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: colors.dark,
   },
   text: {
     fontSize: 30,
+    fontWeight: "600",
+    color: colors.light,
   },
 });

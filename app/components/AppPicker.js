@@ -33,7 +33,7 @@ function AppPicker({ icon, placeholder, items, onSelectItem, selectedItem }) {
           </AppText>
           <MaterialCommunityIcons
             name={"chevron-down"}
-            size={20}
+            size={30}
             color={defaultStyles.colors.medium}
             style={styles.icon}
           />
@@ -48,7 +48,7 @@ function AppPicker({ icon, placeholder, items, onSelectItem, selectedItem }) {
             keyExtractor={(item) => item.value.toString()}
             renderItem={({ item }) => (
               <PickerItem
-                label={item.name}
+                label={item.label}
                 onPress={() => {
                   setModalVisible(false);
                   onSelectItem(item);
@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   icon: {
-    marginRight: 10,
+    marginRight: 300,
+    direction: "rtl",
   },
   text: {
     flex: 1,

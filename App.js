@@ -2,6 +2,7 @@ import * as React from "react";
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthNavigator from "./app/navigation/AuthNavigator";
+import TabNavigation from "./app/navigation/TabNavigation";
 
 function HomeScreen() {
   return (
@@ -13,9 +14,11 @@ function HomeScreen() {
 
 function App() {
   return (
-    <NavigationContainer>
-      <AuthNavigator />
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <TabNavigation />
+      </NavigationContainer>
+    </>
   );
 }
 
