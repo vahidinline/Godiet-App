@@ -6,25 +6,23 @@ import colors from "../config/colors";
 
 function AppButton({ title, onPress, color = "primary" }) {
   return (
-    <TouchableOpacity
-      style={[styles.button, { backgroundColor: colors[color] }]}
-      onPress={onPress}
-    >
+    <TouchableOpacity style={styles.button} onPress={onPress}>
       <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
   );
 }
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.primary,
-    borderRadius: 35,
-    justifyContent: "center",
     alignItems: "center",
-    padding: 15,
-    width: "100%",
-    marginVertical: 5,
-    textAlign: "center",
-    opacity: 1.0,
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    margin: 5,
+    borderColor: colors.light,
+    borderWidth: 1,
+    color: colors.dark,
   },
   text: {
     color: colors.white,

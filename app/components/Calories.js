@@ -17,6 +17,7 @@ import { auth } from "../firebase";
 import AppText from "./AppText";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AppButton from "./AppButton";
+import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
 function Calories({ navigation }) {
   const activity = [
@@ -117,7 +118,7 @@ function Calories({ navigation }) {
   };
   return (
     <>
-      <Screen style={{ flex: 2 }}>
+      <Screen style={styles.container}>
         <ScrollView>
           <RadioButtonRN
             style={{ flexDirection: "column" }}
@@ -169,11 +170,9 @@ function Calories({ navigation }) {
             placeholder="وزن دلخواه"
             onChangeText={(item) => setFaveWeight(item)}
           />
-          <Text style={{ color: "#fff" }}>
-            {(HandleCalories(), CalcDeficit())}
-          </Text>
+          <Text>{(HandleCalories(), CalcDeficit())}</Text>
           <Text style={styles.text}>{parseInt(result)}</Text>
-          <Text>
+          <Text style={styles.text}>
             by Using {CalcDeficitResult} calories per day, after{" "}
             {Math.abs(weightSelect - faveWeight)} weeks, you can {goal}
             weight from {weightSelect} to {faveWeight}
@@ -186,10 +185,10 @@ function Calories({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.light,
+    backgroundColor: colors.dark,
     borderRadius: 5,
     flexDirection: "row",
-    width: 10,
+    width: "100%",
     padding: 15,
     marginVertical: 5,
     alignItems: "center",
@@ -199,7 +198,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   text: {
-    color: colors.dark,
+    color: colors.light,
     alignItems: "center",
     justifyContent: "center",
     fontSize: 18,
