@@ -13,6 +13,7 @@ import AppText from "./AppText";
 import Screen from "./Screen";
 import { useState } from "react/cjs/react.development";
 import PickerItem from "./PickerItem";
+import colors from "../config/colors";
 
 function AppPicker({ icon, placeholder, items, onSelectItem, selectedItem }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -40,7 +41,11 @@ function AppPicker({ icon, placeholder, items, onSelectItem, selectedItem }) {
         </View>
       </TouchableWithoutFeedback>
 
-      <Modal visible={modalVisible} animationType="slide">
+      <Modal
+        style={{ backgroundColor: colors.secondary }}
+        visible={modalVisible}
+        animationType="slide"
+      >
         <Screen>
           <Button title="close" onPress={() => setModalVisible(false)} />
           <FlatList
@@ -69,6 +74,8 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 15,
     marginVertical: 10,
+    borderColor: colors.secondary,
+    borderWidth: 0.5,
   },
   icon: {
     marginRight: 300,

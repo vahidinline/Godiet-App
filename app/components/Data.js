@@ -1,12 +1,1 @@
-export default [
-  {
-    label: "مرد",
-    name: "مرد",
-    value: 1,
-  },
-  {
-    label: "زن",
-    name: "زن",
-    value: 2,
-  },
-];
+"http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4";

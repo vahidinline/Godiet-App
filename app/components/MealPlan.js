@@ -1,38 +1,52 @@
-import React, { useState } from "react";
-import Screen from "./Screen";
-import AppTextInput from "./AppTextInput";
-import { View, TouchableOpacity, Text } from "react-native";
+import React from "react";
+import { SafeAreaView, View, FlatList, StyleSheet, Text } from "react-native";
 
-function MealPlan({ navigation }) {
-  const [mealPlan, setMealPlan] = useState(null);
-  const [calories, setCalories] = useState(2000);
+const Videos = [
+  {
+    Videourl: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+  },
+  {
+    Videourl: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+  },
+  {
+    Videourl: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+  },
+];
 
-  function handleChange(e) {
-    setCalories(e.target.value);
-  }
-  function GetMealData() {
-    fetch(
-      `https://api.spoonacular.com/mealplanner/generate?apiKey=4774d5b2cbf340e7acfb28f056e70714&timeFrame=day&targetCalories=2000`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setMealPlan(data);
-        alert("done");
-      })
-      .catch(() => {
-        console.log("Errorr");
-      });
-  }
+export default function App() {
   return (
-    <Screen>
-      <AppTextInput onChange={() => handleChange}></AppTextInput>
-      <View>
-        <TouchableOpacity onPress={() => GetMealData}>
-          <Text>Get Data</Text>
-        </TouchableOpacity>
-      </View>
-    </Screen>
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={Videos}
+        renderItem={({ item }) => (
+          <Video
+            source={item.Videourl}
+            ref={(ref) => {
+              this.player = ref;
+            }}
+            onBuffer={this.onBuffer}
+            onError={this.videoError}
+            style={styles.backgroundVideo}
+          />
+        )}
+        keyExtractor={(item) => item.id}
+      />
+    </SafeAreaView>
   );
 }
 
-export default MealPlan;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 10,
+  },
+  item: {
+    backgroundColor: "#f9c2ff",
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
+  },
+});

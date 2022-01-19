@@ -8,6 +8,7 @@ import Calories from "../components/Calories";
 import ProfileInput from "../components/ProfileInput";
 import LoginScreen from "../screens/LoginScreen";
 import Stepcounter from "../components/Stepcounter";
+import MealPlan from "../components/MealPlan";
 
 const Tab = createBottomTabNavigator();
 
@@ -58,6 +59,16 @@ const BottomTabNavigator = () => {
         }}
         name="Step"
         component={Stepcounter}
+      />
+      <Tab.Screen
+        options={{
+          headerShown: false,
+          tabBarIcon: () => (
+            <MaterialCommunityIcons name="counter" color={"#000"} size={30} />
+          ),
+        }}
+        name="MealPlan"
+        component={MealPlan}
       />
     </Tab.Navigator>
   );

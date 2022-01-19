@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from "react";
-import AppTextInput from "./AppTextInput";
 import Screen from "./Screen";
 import {
   View,
   StyleSheet,
   Text,
-  Button,
   ScrollView,
-  TouchableOpacity,
+  TextInput,
+  Image,
+  ImageBackground,
 } from "react-native";
 import colors from "../config/colors";
 import AppPicker from "./AppPicker";
 import Icon from "react-native-vector-icons/FontAwesome";
 import RadioButtonRN from "radio-buttons-react-native";
-import { auth } from "../firebase";
-import AppText from "./AppText";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import AppButton from "./AppButton";
-import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+import * as Yup from "yup";
+import ListItemSeprator from "./ListItemSeprator";
+import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+
+const validationSchema = Yup.object().shape({
+  weight: Yup.number().required().positive().min(30).max(220),
+  age: Yup.number().required().positive().min(10).max(90),
+  height: Yup.number().required().positive().min(140).max(220),
+  favWeight: Yup.number().required().positive().min(30).max(220),
+});
 
 function Calories({ navigation }) {
   const activity = [
@@ -59,12 +64,19 @@ function Calories({ navigation }) {
       value: 2,
     },
   ];
+  const userData = {
+    userWeight: weightSelect,
+    userHeight: heightSelect,
+    userage: ageSelect,
+  };
 
-  const [genderSelect, setGenderSelect] = useState(1);
-  const [activitySelect, setActivitySelect] = useState(1);
-  const [ageSelect, setAgeSelect] = useState(39);
-  const [weightSelect, setWeightSelect] = useState(79);
-  const [heightSelect, setHeightSelect] = useState(183);
+  const [name, setName] = useState();
+  const [nameValue, setNameValue] = useState();
+  const [genderSelect, setGenderSelect] = useState();
+  const [activitySelect, setActivitySelect] = useState();
+  const [ageSelect, setAgeSelect] = useState();
+  const [weightSelect, setWeightSelect] = useState();
+  const [heightSelect, setHeightSelect] = useState();
   const [faveWeight, setFaveWeight] = useState();
   let result = 0;
   const menCalc =
@@ -79,8 +91,7 @@ function Calories({ navigation }) {
     4.676 * parseFloat(ageSelect);
 
   const HandleCalories = () => {
-    if (!genderSelect || !activitySelect) return (result = 1);
-    else if (genderSelect == 1 && activitySelect == 1) result = 1.2 * menCalc;
+    if (genderSelect == 1 && activitySelect == 1) result = 1.2 * menCalc;
     else if (genderSelect == 1 && activitySelect == 2) result = 1.375 * menCalc;
     else if (genderSelect == 1 && activitySelect == 3) result = 1.55 * menCalc;
     else if (genderSelect == 1 && activitySelect == 4) result = 1.725 * menCalc;
@@ -99,7 +110,7 @@ function Calories({ navigation }) {
   const optimumLoseWeightPerWeekFemale = 0.7;
 
   const CalcDeficit = () => {
-    if (!faveWeight) return (CalcDeficitResult = "Cant be empty");
+    if (!faveWeight) return "";
     else if (faveWeight === weightSelect)
       return (CalcDeficitResult = "Cant Be the Same");
     else if (faveWeight < weightSelect) return LoseWeight();
@@ -116,86 +127,199 @@ function Calories({ navigation }) {
       return (CalcDeficitResult = parseInt(result) + 200), (goal = "gain ");
     else return (CalcDeficitResult = parseInt(result) + 150), (goal = "gain ");
   };
+
   return (
-    <>
-      <Screen style={styles.container}>
-        <ScrollView>
-          <RadioButtonRN
-            style={{ flexDirection: "column" }}
-            data={gender}
-            selectedBtn={(e) => setGenderSelect(e.value)}
-            icon={<Icon name="check-circle" size={25} color="#2c9dd1" />}
-            animationTypes={["pulse", "rotate"]}
-          />
-          <View style={{}}>
-            <AppTextInput
-              style={{
-                flex: 0.5,
-                width: "50%",
-                flexDirection: "row",
-              }}
-              name="weight"
-              autoCapitalize="none"
-              placeholder="Weight"
-              onChangeText={(item) => setWeightSelect(item)}
-            />
-            <AppTextInput
-              style={{
-                flex: 0.5,
-                width: "50%",
-              }}
-              name="height"
-              autoCapitalize="none"
-              placeholder="Height"
-              onChangeText={(item) => setHeightSelect(item)}
-            />
-          </View>
-
-          <AppTextInput
-            name="age"
-            autoCapitalize="none"
-            placeholder="Age"
-            onChangeText={(item) => setAgeSelect(item)}
-          />
-
-          <AppPicker
-            selectedItem={activity}
-            onSelectItem={(item) => setActivitySelect(item.value)}
-            items={activity}
-            placeholder={"Activity"}
-          />
-          <AppTextInput
-            name="favWeight"
-            autoCapitalize="none"
-            placeholder="وزن دلخواه"
-            onChangeText={(item) => setFaveWeight(item)}
-          />
-          <Text>{(HandleCalories(), CalcDeficit())}</Text>
-          <Text style={styles.text}>{parseInt(result)}</Text>
-          <Text style={styles.text}>
-            by Using {CalcDeficitResult} calories per day, after{" "}
-            {Math.abs(weightSelect - faveWeight)} weeks, you can {goal}
-            weight from {weightSelect} to {faveWeight}
+    <Screen>
+      {/* <Formik
+        initialValues={{ weight: "", height: "", age: "", faveWeight: "" }}
+        onSubmit={(values) => console.log(values)}
+      >
+        {({ handleChange, handleSubmit }) => (
+          <> */}
+      <ScrollView>
+        <ImageBackground
+          blurRadius={3}
+          style={{ width: "100%" }}
+          source={require("../assets/welcome-bg.jpeg")}
+        >
+          <Text
+            style={{
+              color: colors.secondary,
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 48,
+              flex: 1,
+              textAlign: "center",
+              fontWeight: "800",
+              textShadowOffset: { width: 10, height: 20 },
+            }}
+          >
+            {name}
           </Text>
-        </ScrollView>
-      </Screen>
-    </>
+          <View style={styles.mainContainer}>
+            <View style={styles.header}></View>
+            <View style={{ flexDirection: "column" }}>
+              <View
+                style={{
+                  flex: 1,
+                }}
+              >
+                <RadioButtonRN
+                  boxStyle={styles.radio}
+                  textStyle={{
+                    color: colors.light,
+                    fontSize: 20,
+                    marginLeft: 240,
+                  }}
+                  data={gender}
+                  selectedBtn={(e) => setGenderSelect(e.value)}
+                  icon={<Icon name="check-circle" size={25} color="#2c9dd1" />}
+                  animationTypes={["pulse", "rotate"]}
+                />
+              </View>
+            </View>
+
+            <View style={{ flexDirection: "row" }}>
+              <View
+                style={{
+                  flex: 1,
+                }}
+              >
+                <Text style={styles.label}>وزن فعلی</Text>
+                <TextInput
+                  style={styles.input}
+                  name=""
+                  autoCapitalize="none"
+                  keyboardType="phone-pad"
+                  returnKeyType="done"
+                  onChangeText={(item) => setWeightSelect(item)}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.label}>وزن دلخواه</Text>
+                <TextInput
+                  style={styles.input}
+                  name="favWeight"
+                  autoCapitalize="none"
+                  keyboardType="phone-pad"
+                  returnKeyType="done"
+                  onChangeText={(item) => setFaveWeight(item)}
+                />
+              </View>
+            </View>
+
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.label}>قد</Text>
+                <TextInput
+                  style={styles.input}
+                  name="height"
+                  autoCapitalize="none"
+                  keyboardType="phone-pad"
+                  returnKeyType="done"
+                  onChangeText={(item) => setHeightSelect(item)}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.label}>سن</Text>
+                <TextInput
+                  style={styles.input}
+                  name="age"
+                  autoCapitalize="none"
+                  keyboardType="phone-pad"
+                  returnKeyType="done"
+                  onChangeText={(item) => setAgeSelect(item)}
+                />
+              </View>
+            </View>
+
+            <Text style={styles.label}>میزان فعالیت</Text>
+            <AppPicker
+              selectedItem={activity}
+              onSelectItem={(item) => setActivitySelect(item.value)}
+              items={activity}
+              placeholder={"Activity"}
+            />
+            <ListItemSeprator />
+
+            {/* </>
+        )}
+      </Formik> */}
+
+            <View style={{ flexDirection: "row" }}>
+              <View style={styles.leftContainer}>
+                <Text style={{ color: colors.secondary }}>
+                  {(HandleCalories(), CalcDeficit())}
+                </Text>
+
+                <Text style={styles.text}>{parseInt(result)}</Text>
+              </View>
+
+              <View style={styles.rightContainer}>
+                {result != 0 && (
+                  <Text>
+                    by Using {CalcDeficitResult} calories per day, after
+                    {Math.abs(weightSelect - faveWeight)} weeks, you can {goal}
+                    weight from {weightSelect} to {faveWeight}
+                  </Text>
+                )}
+              </View>
+            </View>
+            <Text>{userData["userage"]}</Text>
+          </View>
+        </ImageBackground>
+      </ScrollView>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.dark,
-    borderRadius: 5,
-    flexDirection: "row",
+  mainContainer: {
+    margin: 10,
+    backgroundColor: colors.secondary,
+    borderRadius: 10,
+    padding: 10,
+    marginTop: 10,
+    color: colors.light,
+  },
+  leftContainer: {
     width: "100%",
     padding: 15,
     marginVertical: 5,
     alignItems: "center",
     alignSelf: "center",
+    flex: 0.5,
+    height: "100%",
+    color: colors.light,
+  },
+  rightContainer: {
+    backgroundColor: colors.secondary,
+    width: "100%",
+    height: "100%",
+    padding: 15,
+    marginVertical: 5,
+    alignItems: "center",
+    alignSelf: "center",
+    flex: 0.5,
+    color: colors.light,
+  },
+  tinyLogo: {
+    width: 140,
+    height: 140,
+    marginRight: 10,
   },
   icon: {
     marginRight: 10,
+  },
+  headerText: {
+    flexDirection: "row",
+    flex: 1,
+    textAlign: "center",
+    fontSize: 30,
+    fontWeight: "500",
+    textShadowColor: colors.secondary,
+    alignItems: "center",
+    flexWrap: "wrap",
   },
   text: {
     color: colors.light,
@@ -205,6 +329,39 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "center",
     fontWeight: "800",
+    textShadowOffset: { width: 10, height: 20 },
+  },
+  label: {
+    direction: "rtl",
+    fontSize: 20,
+    textAlign: "center",
+    marginTop: 15,
+    borderRightColor: colors.dark,
+    borderRightWidth: 2,
+    color: colors.light,
+    fontWeight: "800",
+  },
+  input: {
+    backgroundColor: colors.secondary,
+    flexDirection: "row",
+    width: "100%",
+    padding: 15,
+    marginVertical: 10,
+    borderColor: colors.light,
+    margin: 3,
+    borderWidth: 0.5,
+    color: colors.light,
+    fontSize: 20,
+    fontWeight: "800",
+    textAlign: "center",
+  },
+
+  radio: {
+    backgroundColor: colors.secondary,
+
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 export default Calories;

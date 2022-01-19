@@ -29,10 +29,6 @@ function WelcomeScreen({ navigation }) {
         <Text style={styles.tagline}>Your way to be fit</Text>
         <View style={styles.buttonContainer}>
           <AppButton
-            title="Login or Register"
-            onPress={() => navigation.navigate("Login")}
-          />
-          <AppButton
             title="قدم شمار"
             onPress={() => navigation.navigate("Step")}
           />
