@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  TextInput,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from "../config/colors";
 import AppButton from "./AppButton";
@@ -7,77 +13,102 @@ import AppText from "./AppText";
 import AppTextInput from "./AppTextInput";
 import { auth } from "../firebase";
 import Screen from "./Screen";
+import { ScrollView } from "react-native-gesture-handler";
 
 function ProfileInput({ navigation }) {
   const [name, setName] = useState();
   const [nameValue, setNameValue] = useState();
   const [ageValue, setAgeValue] = useState();
-  // const handleLogOut = () => {
-  //   auth.signOut();
-  // };
-  const storeData = () => {
-    if (nameValue) {
-      AsyncStorage.setItem("name", nameValue);
-      setName("");
-      alert("Data Saved");
-    } else {
-      alert("Please fill data");
-    }
+  const [genderSelect, setGenderSelect] = useState();
+  const [activitySelect, setActivitySelect] = useState();
+  const [weightSelect, setWeightSelect] = useState();
+  const [heightSelect, setHeightSelect] = useState();
+
+  //Store Object to AsyncStorage
+  const storeData = async () => {
+    try {
+      const newperson = JSON.stringify(person);
+      await AsyncStorage.setItem("@Key", newperson);
+      alert(newperson);
+    } catch (e) {}
   };
 
-  const getData = () => {
-    AsyncStorage.getItem("name").then((name) => {
-      setName(name);
-    });
-  };
-  const load = async () => {
+  //Read Object from AsyncStorage
+  const getData = async () => {
     try {
-      let name = await AsyncStorage.getItem("name");
-      if (name !== null) {
-        setName(name);
+      let data = await AsyncStorage.getItem("@Key");
+      if (data !== null) {
+        data = JSON.parse(data);
+        setNameValue(data.name);
+        setAgeValue(data.age);
+        setHeightSelect(data.height);
+        setWeightSelect(data.weight);
+        setGenderSelect(data.gender);
       }
     } catch (error) {
       alert(error);
     }
   };
-
   useEffect(() => {
-    load();
+    getData();
   }, []);
 
   const person = {
     name: nameValue,
     age: ageValue,
+    weight: weightSelect,
+    gender: genderSelect,
+    height: heightSelect,
   };
 
   return (
     <Screen>
-      <View style={styles.mainContainer}>
-        <AppTextInput
-          name="name"
-          style={styles.input}
-          onChangeText={(nameValue) => setNameValue(nameValue)}
-        />
-        <AppTextInput
-          name="age"
-          style={styles.input}
-          onChangeText={(ageValue) => setAgeValue(ageValue)}
-        />
-        <View>
-          <TouchableOpacity onPress={storeData}>
-            <Text>Save Daily goal</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={getData}>
-            <Text>Show Daily goal</Text>
-          </TouchableOpacity>
-          <Text>{name}</Text>
-          <Text>
-            {person.age}
-            {person.name}
-          </Text>
+      <ScrollView>
+        <View style={styles.mainContainer}>
+          <TextInput
+            placeholder="Name"
+            name="name"
+            style={styles.input}
+            onChangeText={(nameValue) => setNameValue(nameValue)}
+          />
+          <TextInput
+            placeholder="Age"
+            name="age"
+            style={styles.input}
+            onChangeText={(ageValue) => setAgeValue(ageValue)}
+          />
+          <TextInput
+            placeholder="Gender"
+            name="gender"
+            style={styles.input}
+            onChangeText={(genderSelect) => setGenderSelect(genderSelect)}
+          />
+          <TextInput
+            placeholder="Weight"
+            name="Weight"
+            style={styles.input}
+            onChangeText={(weightSelect) => setWeightSelect(weightSelect)}
+          />
+          <TextInput
+            placeholder="Height"
+            name="Height"
+            style={styles.input}
+            onChangeText={(heightSelect) => setHeightSelect(heightSelect)}
+          />
+          <View>
+            <TouchableOpacity onPress={storeData}>
+              <Text>Save</Text>
+            </TouchableOpacity>
+
+            <Text>Name: {nameValue}</Text>
+            <Text> Age: {ageValue}</Text>
+            <Text> Gender: {genderSelect}</Text>
+            <Text> Weight: {weightSelect}</Text>
+            <Text> Height: {heightSelect}</Text>
+          </View>
+          {/* <AppButton title="Log out" onPress={handleLogOut} /> */}
         </View>
-        {/* <AppButton title="Log out" onPress={handleLogOut} /> */}
-      </View>
+      </ScrollView>
     </Screen>
   );
 }
