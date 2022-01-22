@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  ImageBackground,
+} from "react-native";
 import { Pedometer } from "expo-sensors";
 import AppTextInput from "./AppTextInput";
 import Screen from "./Screen";
@@ -14,16 +20,14 @@ import {
 } from "victory-native";
 import colors from "../config/colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import RadioButtonRN from "radio-buttons-react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import ListItemSeprator from "./ListItemSeprator";
+
 export default function App({ navigation }) {
   const [isPedometerAvailable, setIsPedometerAvailable] = useState("checking");
   const [pastStepCount, setPastStepCount] = useState(0);
   const [currentStepCount, setCurrentStepCount] = useState(0);
   const data = [{ quarter: 7, earnings: pastStepCount }];
-
-  const [name, setName] = useState();
   const [nameValue, setNameValue] = useState();
   const end = new Date();
   const start = new Date();
@@ -72,26 +76,24 @@ export default function App({ navigation }) {
     else return <Text>Goal Achieved</Text>;
   };
 
-  const getData = () => {
-    AsyncStorage.getItem("name").then((name) => {
-      setName(name);
-    });
-  };
-  const load = async () => {
+  const getData = async () => {
     try {
-      let name = await AsyncStorage.getItem("name");
-      if (name !== null) {
-        setName(name);
+      let data = await AsyncStorage.getItem("@Key");
+      if (data !== null) {
+        data = JSON.parse(data);
+        setNameValue(data.name);
+        // setAgeValue(data.age);
+        // setHeightSelect(data.height);
+        // setWeightSelect(data.weight);
+        // setGenderSelect(data.gender);
       }
     } catch (error) {
       alert(error);
     }
   };
-
   useEffect(() => {
-    load();
+    getData();
   }, []);
-
   const dailySteps = [
     {
       label: "5000",
@@ -114,13 +116,14 @@ export default function App({ navigation }) {
       value: 15000,
     },
   ];
-
+  //run save data
+  setInterval(function () {}, 3000);
   return (
     <ScrollView>
       <Screen style={styles.container}>
         <View style={styles.mainContainer}>
           <View>
-            <Text>Hello: {name}</Text>
+            <Text>Hello: {nameValue}</Text>
           </View>
           <VictoryChart
             animate={{
@@ -154,51 +157,14 @@ export default function App({ navigation }) {
           </VictoryChart>
 
           <View style={{ flex: 1, color: colors.light }}>
-            {/* <Text>Daily Goal: {dailyGoal}</Text> */}
             <ListItemSeprator />
             <Text style={styles.text}>{pastStepCount} Step(s) </Text>
             <ListItemSeprator />
-            {/* <AchieveGoal /> */}
+
             <ListItemSeprator />
             <Text style={styles.text}>
               Calories burned: ±{Math.round(pastStepCount * 0.063)}
             </Text>
-            {/* <ListItemSeprator />
-            <Text style={styles.text}>Select Your Daily Goal</Text>
-            <View style={{ flexDirection: "row" }}>
-              <View style={{ flex: 1, margin: 4 }}> */}
-            {/* <RadioButtonRN
-                  boxStyle={styles.radio}
-                  textStyle={{
-                    color: colors.light,
-                    fontSize: 15,
-                    marginLeft: 25,
-                  }}
-                  data={dailySteps}
-                  selectedBtn={(e) => setDailyGoal(e.value)}
-                  icon={<Icon name="check-circle" size={25} color="#2c9dd1" />}
-                  animationTypes={["pulse", "rotate"]}
-                /> */}
-            {/* <TextInput
-                  style={styles.input}
-                  value={dailyGoalValue}
-                  onChangeText={setDailyGoalValue}
-                />
-              </View>
-              <View>
-                <TouchableOpacity onPress={storeData}>
-                  <Text>Save Daily goal</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={getData}>
-                  <Text>Show Daily goal</Text>
-                </TouchableOpacity>
-              </View>
-            </View> */}
-            {/* <AppText>Walk! And watch this go up: {currentStepCount}</AppText> */}
-            {/* <AppTextInput
-          placeholder="Set Daily Goal"
-          onChangeText={(text) => setDailyGoal(text)}
-        /> */}
           </View>
         </View>
       </Screen>
@@ -209,24 +175,24 @@ export default function App({ navigation }) {
 const styles = StyleSheet.create({
   mainContainer: {
     margin: 10,
-    backgroundColor: colors.secondary,
     borderRadius: 10,
     padding: 10,
-
-    color: colors.light,
   },
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: colors.light,
   },
   text: {
     fontSize: 30,
     fontWeight: "600",
-    color: colors.light,
+    color: colors.dark,
     textAlign: "center",
     margin: 20,
+    shadowColor: colors.dark,
+    textShadowOffset: { width: 0, height: -10 },
+    shadowOpacity: 0.2,
+    elevation: 20,
   },
   input: {
     backgroundColor: colors.light,
@@ -234,7 +200,7 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 15,
     marginVertical: 10,
-    borderColor: colors.light,
+    borderColor: colors.dark,
     margin: 3,
     borderWidth: 0.5,
     color: colors.light,

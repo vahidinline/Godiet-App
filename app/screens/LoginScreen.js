@@ -55,7 +55,7 @@ function LoginScreen({ navigation }) {
   };
   return (
     <ImageBackground
-      blurRadius={3}
+      blurRadius={1}
       style={styles.background}
       source={require("../assets/welcome-bg.jpeg")}
     >

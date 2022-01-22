@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../screens/LoginScreen";
 
-export default function VideoPage({ children }) {
+export default function VideoPage({}) {
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
   const Stack = createNativeStackNavigator();
@@ -21,7 +21,7 @@ export default function VideoPage({ children }) {
           ref={video}
           style={styles.video}
           source={{
-            uri: children,
+            uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
           }}
           useNativeControls
           resizeMode="contain"
@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
   },
   video: {
     alignSelf: "center",
-    width: 320,
-    height: 200,
+    width: "100%",
+    height: "100%",
   },
   buttons: {
     flexDirection: "row",

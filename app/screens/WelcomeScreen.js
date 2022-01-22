@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Image,
   ImageBackground,
@@ -9,8 +9,30 @@ import {
 } from "react-native";
 import AppButton from "../components/AppButton";
 import colors from "../config/colors";
+import LoginScreen from "./LoginScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function WelcomeScreen({ navigation }) {
+  const [nameValue, setNameValue] = useState();
+  const getData = async () => {
+    try {
+      let data = await AsyncStorage.getItem("@Key");
+      if (data !== null) {
+        data = JSON.parse(data);
+        setNameValue(data.name);
+        // setAgeValue(data.age);
+        // setHeightSelect(data.height);
+        // setWeightSelect(data.weight);
+        // setGenderSelect(data.gender);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <>
       <ImageBackground
@@ -28,10 +50,25 @@ function WelcomeScreen({ navigation }) {
         </View>
         <Text style={styles.tagline}>Your way to be fit</Text>
         <View style={styles.buttonContainer}>
-          <AppButton
-            title="قدم شمار"
-            onPress={() => navigation.navigate("Step")}
-          />
+          {nameValue != null && (
+            <View>
+              <Text style={styles.text}>Welcome {nameValue}</Text>
+            </View>
+          )}
+          {/* <AppButton
+            title="SignUp or Log In"
+            onPress={() => navigation.navigate("Primium")}
+          /> */}
+          {nameValue == null && (
+            <View>
+              <Text style={styles.text}>New member?</Text>
+
+              <AppButton
+                title="Start"
+                onPress={() => navigation.navigate("Profile")}
+              />
+            </View>
+          )}
         </View>
       </ImageBackground>
     </>
@@ -68,6 +105,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "200",
     paddingBottom: 180,
+    color: colors.white,
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: "200",
     color: colors.white,
   },
 });

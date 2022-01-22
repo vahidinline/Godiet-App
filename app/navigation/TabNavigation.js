@@ -9,6 +9,7 @@ import ProfileInput from "../components/ProfileInput";
 import LoginScreen from "../screens/LoginScreen";
 import Stepcounter from "../components/Stepcounter";
 import MealPlan from "../components/MealPlan";
+import ListingScreen from "../screens/ListingScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -45,11 +46,7 @@ const BottomTabNavigator = () => {
         name="Profile"
         component={ProfileInput}
       />
-      {/* <Tab.Screen
-        options={{ headerShown: false }}
-        name="Login"
-        component={LoginScreen}
-      /> */}
+
       <Tab.Screen
         options={{
           headerShown: false,
@@ -64,11 +61,15 @@ const BottomTabNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: () => (
-            <MaterialCommunityIcons name="counter" color={"#000"} size={30} />
+            <MaterialCommunityIcons
+              name="badge-account-outline"
+              color={"#000"}
+              size={30}
+            />
           ),
         }}
-        name="MealPlan"
-        component={MealPlan}
+        name="List"
+        component={ListingScreen}
       />
     </Tab.Navigator>
   );

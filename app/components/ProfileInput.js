@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
-  TouchableOpacity,
+  Button,
   Text,
   TextInput,
+  ImageBackground,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from "../config/colors";
@@ -13,23 +14,24 @@ import AppText from "./AppText";
 import AppTextInput from "./AppTextInput";
 import { auth } from "../firebase";
 import Screen from "./Screen";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
 function ProfileInput({ navigation }) {
   const [name, setName] = useState();
   const [nameValue, setNameValue] = useState();
   const [ageValue, setAgeValue] = useState();
   const [genderSelect, setGenderSelect] = useState();
-  const [activitySelect, setActivitySelect] = useState();
   const [weightSelect, setWeightSelect] = useState();
   const [heightSelect, setHeightSelect] = useState();
+  const [waist, setWaist] = useState();
 
   //Store Object to AsyncStorage
   const storeData = async () => {
     try {
       const newperson = JSON.stringify(person);
       await AsyncStorage.setItem("@Key", newperson);
-      alert(newperson);
+      // alert(newperson);
     } catch (e) {}
   };
 
@@ -41,9 +43,11 @@ function ProfileInput({ navigation }) {
         data = JSON.parse(data);
         setNameValue(data.name);
         setAgeValue(data.age);
+        // alert("getData");
         setHeightSelect(data.height);
         setWeightSelect(data.weight);
         setGenderSelect(data.gender);
+        setWaist(data.waist);
       }
     } catch (error) {
       alert(error);
@@ -59,76 +63,124 @@ function ProfileInput({ navigation }) {
     weight: weightSelect,
     gender: genderSelect,
     height: heightSelect,
+    waist: waist,
   };
 
   return (
-    <Screen>
-      <ScrollView>
-        <View style={styles.mainContainer}>
-          <TextInput
-            placeholder="Name"
-            name="name"
-            style={styles.input}
-            onChangeText={(nameValue) => setNameValue(nameValue)}
-          />
-          <TextInput
-            placeholder="Age"
-            name="age"
-            style={styles.input}
-            onChangeText={(ageValue) => setAgeValue(ageValue)}
-          />
-          <TextInput
-            placeholder="Gender"
-            name="gender"
-            style={styles.input}
-            onChangeText={(genderSelect) => setGenderSelect(genderSelect)}
-          />
-          <TextInput
-            placeholder="Weight"
-            name="Weight"
-            style={styles.input}
-            onChangeText={(weightSelect) => setWeightSelect(weightSelect)}
-          />
-          <TextInput
-            placeholder="Height"
-            name="Height"
-            style={styles.input}
-            onChangeText={(heightSelect) => setHeightSelect(heightSelect)}
-          />
-          <View>
-            <TouchableOpacity onPress={storeData}>
-              <Text>Save</Text>
-            </TouchableOpacity>
-
-            <Text>Name: {nameValue}</Text>
-            <Text> Age: {ageValue}</Text>
-            <Text> Gender: {genderSelect}</Text>
-            <Text> Weight: {weightSelect}</Text>
-            <Text> Height: {heightSelect}</Text>
+    <>
+      <Screen>
+        <ScrollView>
+          {/* <ImageBackground
+            blurRadius={3}
+            style={{ width: "100%" }}
+            source={require("../assets/welcome-bg.jpeg")}
+          > */}
+          {/* <View style={{ flexDirection: "row" }}>
+            <View style={{ flex: 0.5 }}>
+              <Text style={styles.text}>Name: {nameValue}</Text>
+              <Text style={styles.text}> Age: {ageValue}</Text>
+              <Text style={styles.text}> Gender: {genderSelect}</Text>
+            </View>
+            <View style={{ flex: 0.5 }}>
+              <Text style={styles.text}> Weight: {weightSelect}</Text>
+              <Text style={styles.text}> Height: {heightSelect}</Text>
+              <Text style={styles.text}> Waist: {waist}</Text>
+            </View>
+          </View> */}
+          <View style={styles.mainContainer}>
+            <TextInput
+              placeholder="Name"
+              name="name"
+              returnKeyType="done"
+              style={styles.input}
+              onChangeText={(nameValue) => setNameValue(nameValue)}
+            />
+            <TextInput
+              placeholder="Age"
+              name="age"
+              autoCapitalize="none"
+              keyboardType="phone-pad"
+              returnKeyType="done"
+              style={styles.input}
+              onChangeText={(ageValue) => setAgeValue(ageValue)}
+            />
+            <TextInput
+              placeholder="Gender"
+              name="gender"
+              style={styles.input}
+              onChangeText={(genderSelect) => setGenderSelect(genderSelect)}
+            />
+            <TextInput
+              placeholder="Weight"
+              name="Weight"
+              keyboardType="phone-pad"
+              returnKeyType="done"
+              style={styles.input}
+              onChangeText={(weightSelect) => setWeightSelect(weightSelect)}
+            />
+            <TextInput
+              placeholder="Height"
+              name="Height"
+              keyboardType="phone-pad"
+              returnKeyType="done"
+              style={styles.input}
+              onChangeText={(heightSelect) => setHeightSelect(heightSelect)}
+            />
+            <TextInput
+              placeholder="Waist"
+              name="Waist"
+              returnKeyType="done"
+              keyboardType="phone-pad"
+              style={styles.input}
+              onChangeText={(waist) => setWaist(waist)}
+            />
+            <View>
+              <TouchableOpacity style={styles.button} onPress={storeData}>
+                <Text style={styles.text}>Save Data</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          {/* <AppButton title="Log out" onPress={handleLogOut} /> */}
-        </View>
-      </ScrollView>
-    </Screen>
+          {/* </ImageBackground> */}
+        </ScrollView>
+      </Screen>
+    </>
   );
 }
 const styles = StyleSheet.create({
   mainContainer: {
     margin: 10,
-    backgroundColor: colors.secondary,
     borderRadius: 10,
     padding: 10,
     marginTop: 150,
     color: colors.light,
   },
   input: {
-    borderWidth: 1,
-    margin: 32,
-    height: 64,
+    borderWidth: 0.2,
+    margin: 2,
+    height: 40,
+    width: "100%",
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 5,
-    width: 200,
-    fontSize: 30,
-    borderColor: colors.medium,
+    fontSize: 15,
+    borderColor: colors.light,
+  },
+  text: {
+    color: colors.dark,
+    fontSize: 20,
+    fontWeight: "600",
+    textAlign: "center",
+    alignItems: "center",
+    padding: 10,
+  },
+  button: {
+    borderColor: colors.light,
+    borderWidth: 1,
+    margin: 5,
+    color: colors.white,
+    height: 50,
+    borderRadius: 5,
   },
 });
 export default ProfileInput;

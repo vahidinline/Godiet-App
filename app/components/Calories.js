@@ -8,6 +8,7 @@ import {
   TextInput,
   Image,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import colors from "../config/colors";
 import AppPicker from "./AppPicker";
@@ -16,6 +17,18 @@ import RadioButtonRN from "radio-buttons-react-native";
 import * as Yup from "yup";
 import ListItemSeprator from "./ListItemSeprator";
 import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+import {
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
+import {
+  VictoryBar,
+  VictoryChart,
+  VictoryTheme,
+  VictoryAxis,
+  VictoryLine,
+  VictoryPie,
+} from "victory-native";
 
 const validationSchema = Yup.object().shape({
   weight: Yup.number().required().positive().min(30).max(220),
@@ -105,7 +118,7 @@ function Calories({ navigation }) {
   };
   let CalcDeficitResult = "";
   let goal = "";
-  const weekToFit = 8;
+  const weekToFit = Math.abs(weightSelect - faveWeight);
   const optimumLoseWeightPerWeekMele = 1;
   const optimumLoseWeightPerWeekFemale = 0.7;
 
@@ -137,115 +150,125 @@ function Calories({ navigation }) {
         {({ handleChange, handleSubmit }) => (
           <> */}
       <ScrollView>
-        <ImageBackground
-          blurRadius={3}
-          style={{ width: "100%" }}
-          source={require("../assets/welcome-bg.jpeg")}
+        <Text
+          style={{
+            color: colors.secondary,
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 48,
+            flex: 1,
+            textAlign: "center",
+            fontWeight: "800",
+            textShadowOffset: { width: 10, height: 20 },
+          }}
         >
-          <Text
+          {name}
+        </Text>
+        <View style={styles.mainContainer}>
+          <View style={styles.header}></View>
+          <View
             style={{
-              color: colors.secondary,
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 48,
-              flex: 1,
-              textAlign: "center",
-              fontWeight: "800",
-              textShadowOffset: { width: 10, height: 20 },
+              flexDirection: "row",
             }}
           >
-            {name}
-          </Text>
-          <View style={styles.mainContainer}>
-            <View style={styles.header}></View>
-            <View style={{ flexDirection: "column" }}>
-              <View
-                style={{
-                  flex: 1,
-                }}
-              >
-                <RadioButtonRN
-                  boxStyle={styles.radio}
-                  textStyle={{
-                    color: colors.light,
-                    fontSize: 20,
-                    marginLeft: 240,
-                  }}
-                  data={gender}
-                  selectedBtn={(e) => setGenderSelect(e.value)}
-                  icon={<Icon name="check-circle" size={25} color="#2c9dd1" />}
-                  animationTypes={["pulse", "rotate"]}
-                />
-              </View>
+            <View
+              style={{
+                flex: 1,
+              }}
+            >
+              <TouchableOpacity onPress={() => setGenderSelect(2)}>
+                <View>
+                  <Image
+                    style={styles.image}
+                    source={require("../assets/female.png")}
+                  />
+                </View>
+              </TouchableOpacity>
             </View>
-
-            <View style={{ flexDirection: "row" }}>
-              <View
-                style={{
-                  flex: 1,
-                }}
-              >
-                <Text style={styles.label}>وزن فعلی</Text>
-                <TextInput
-                  style={styles.input}
-                  name=""
-                  autoCapitalize="none"
-                  keyboardType="phone-pad"
-                  returnKeyType="done"
-                  onChangeText={(item) => setWeightSelect(item)}
-                />
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.label}>وزن دلخواه</Text>
-                <TextInput
-                  style={styles.input}
-                  name="favWeight"
-                  autoCapitalize="none"
-                  keyboardType="phone-pad"
-                  returnKeyType="done"
-                  onChangeText={(item) => setFaveWeight(item)}
-                />
-              </View>
+            <View
+              style={{
+                flex: 1,
+              }}
+            >
+              <TouchableOpacity onPress={() => setGenderSelect(1)}>
+                <View>
+                  <Image
+                    style={styles.image}
+                    source={require("../assets/male.png")}
+                  />
+                </View>
+              </TouchableOpacity>
             </View>
-
-            <View style={{ flexDirection: "row" }}>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.label}>قد</Text>
-                <TextInput
-                  style={styles.input}
-                  name="height"
-                  autoCapitalize="none"
-                  keyboardType="phone-pad"
-                  returnKeyType="done"
-                  onChangeText={(item) => setHeightSelect(item)}
-                />
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.label}>سن</Text>
-                <TextInput
-                  style={styles.input}
-                  name="age"
-                  autoCapitalize="none"
-                  keyboardType="phone-pad"
-                  returnKeyType="done"
-                  onChangeText={(item) => setAgeSelect(item)}
-                />
-              </View>
+          </View>
+          <ListItemSeprator />
+          <View style={{ flexDirection: "row" }}>
+            <View
+              style={{
+                flex: 1,
+              }}
+            >
+              <Text style={styles.label}>وزن فعلی</Text>
+              <TextInput
+                style={styles.input}
+                name=""
+                autoCapitalize="none"
+                keyboardType="phone-pad"
+                returnKeyType="done"
+                onChangeText={(item) => setWeightSelect(item)}
+              />
             </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.label}>وزن دلخواه</Text>
+              <TextInput
+                style={styles.input}
+                name="favWeight"
+                autoCapitalize="none"
+                keyboardType="phone-pad"
+                returnKeyType="done"
+                onChangeText={(item) => setFaveWeight(item)}
+              />
+            </View>
+          </View>
 
-            <Text style={styles.label}>میزان فعالیت</Text>
-            <AppPicker
-              selectedItem={activity}
-              onSelectItem={(item) => setActivitySelect(item.value)}
-              items={activity}
-              placeholder={"Activity"}
-            />
-            <ListItemSeprator />
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.label}>قد</Text>
+              <TextInput
+                style={styles.input}
+                name="height"
+                autoCapitalize="none"
+                keyboardType="phone-pad"
+                returnKeyType="done"
+                onChangeText={(item) => setHeightSelect(item)}
+              />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.label}>سن</Text>
+              <TextInput
+                style={styles.input}
+                name="age"
+                autoCapitalize="none"
+                keyboardType="phone-pad"
+                returnKeyType="done"
+                onChangeText={(item) => setAgeSelect(item)}
+              />
+            </View>
+          </View>
 
-            {/* </>
+          <Text style={styles.label}>میزان فعالیت</Text>
+          <AppPicker
+            selectedItem={activity}
+            onSelectItem={(item) => setActivitySelect(item.value)}
+            items={activity}
+            placeholder={"Activity"}
+          />
+          <ListItemSeprator />
+
+          {/* </>
         )}
       </Formik> */}
 
+          <View>
             <View style={{ flexDirection: "row" }}>
               <View style={styles.leftContainer}>
                 <Text style={{ color: colors.secondary }}>
@@ -257,17 +280,44 @@ function Calories({ navigation }) {
 
               <View style={styles.rightContainer}>
                 {result != 0 && (
-                  <Text>
+                  <Text style={styles.text}>
                     by Using {CalcDeficitResult} calories per day, after
-                    {Math.abs(weightSelect - faveWeight)} weeks, you can {goal}
+                    {weekToFit} weeks, you can {goal}
                     weight from {weightSelect} to {faveWeight}
                   </Text>
                 )}
               </View>
             </View>
             <Text>{userData["userage"]}</Text>
+            {faveWeight != null && (
+              <VictoryChart theme={VictoryTheme.material}>
+                <VictoryLine
+                  style={{
+                    data: { stroke: "#c43a31" },
+                    parent: { border: "1px solid #ccc" },
+                  }}
+                  data={[
+                    { x: 1, y: weightSelect },
+                    { x: weekToFit, y: faveWeight },
+                  ]}
+                />
+              </VictoryChart>
+            )}
+            <VictoryPie
+              colorScale={["tomato", "cyan", "navy"]}
+              padAngle={({ datum }) => datum.y}
+              innerRadius={100}
+              style={{
+                labels: { fill: "white", fontSize: 20, fontWeight: "bold" },
+              }}
+              data={[
+                { x: "Carb", y: 4 },
+                { x: "Fat", y: 2 },
+                { x: "Protein", y: 8 },
+              ]}
+            />
           </View>
-        </ImageBackground>
+        </View>
       </ScrollView>
     </Screen>
   );
@@ -276,11 +326,11 @@ function Calories({ navigation }) {
 const styles = StyleSheet.create({
   mainContainer: {
     margin: 10,
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.white,
     borderRadius: 10,
     padding: 10,
     marginTop: 10,
-    color: colors.light,
+    color: colors.dark,
   },
   leftContainer: {
     width: "100%",
@@ -290,10 +340,15 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     flex: 0.5,
     height: "100%",
-    color: colors.light,
+    color: colors.dark,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    textAlign: "center",
   },
   rightContainer: {
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.white,
     width: "100%",
     height: "100%",
     padding: 15,
@@ -301,7 +356,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     flex: 0.5,
-    color: colors.light,
+    color: colors.dark,
   },
   tinyLogo: {
     width: 140,
@@ -320,16 +375,21 @@ const styles = StyleSheet.create({
     textShadowColor: colors.secondary,
     alignItems: "center",
     flexWrap: "wrap",
+    shadowColor: colors.light,
+    textShadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.1,
   },
   text: {
-    color: colors.light,
+    color: colors.secondary,
     alignItems: "center",
     justifyContent: "center",
     fontSize: 18,
     flex: 1,
     textAlign: "center",
     fontWeight: "800",
-    textShadowOffset: { width: 10, height: 20 },
+    shadowColor: colors.light,
+    textShadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.5,
   },
   label: {
     direction: "rtl",
@@ -338,8 +398,11 @@ const styles = StyleSheet.create({
     marginTop: 15,
     borderRightColor: colors.dark,
     borderRightWidth: 2,
-    color: colors.light,
+    color: colors.secondary,
     fontWeight: "800",
+    shadowColor: colors.light,
+    textShadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.5,
   },
   input: {
     backgroundColor: colors.secondary,
@@ -354,6 +417,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "800",
     textAlign: "center",
+    shadowColor: colors.light,
+    textShadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.5,
   },
 
   radio: {
@@ -362,6 +428,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignItems: "center",
     justifyContent: "center",
+    shadowColor: colors.dark,
+    textShadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.5,
   },
 });
 export default Calories;
