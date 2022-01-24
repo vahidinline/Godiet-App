@@ -9,8 +9,6 @@ import {
 import { Pedometer } from "expo-sensors";
 import AppTextInput from "./AppTextInput";
 import Screen from "./Screen";
-import AppButton from "./AppButton";
-import Icon from "react-native-vector-icons/FontAwesome";
 
 import {
   VictoryBar,

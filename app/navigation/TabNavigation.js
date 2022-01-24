@@ -8,7 +8,7 @@ import Calories from "../components/Calories";
 import ProfileInput from "../components/ProfileInput";
 import LoginScreen from "../screens/LoginScreen";
 import Stepcounter from "../components/Stepcounter";
-import MealPlan from "../components/MealPlan";
+import New from "../components/new";
 import ListingScreen from "../screens/ListingScreen";
 
 const Tab = createBottomTabNavigator();

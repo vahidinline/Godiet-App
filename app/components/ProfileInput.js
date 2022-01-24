@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  Button,
-  Text,
-  TextInput,
-  ImageBackground,
-} from "react-native";
+import { View, StyleSheet, Text, TextInput } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from "../config/colors";
-import AppButton from "./AppButton";
-import AppText from "./AppText";
-import AppTextInput from "./AppTextInput";
-import { auth } from "../firebase";
 import Screen from "./Screen";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
 function ProfileInput({ navigation }) {
   const [name, setName] = useState();
@@ -66,27 +54,36 @@ function ProfileInput({ navigation }) {
     waist: waist,
   };
 
+  //Weight Tracking
+  const getWeightData = async () => {
+    try {
+      let data = await AsyncStorage.getItem("@Key");
+      if (data !== null) {
+        data = JSON.parse(data);
+        setNameValue(data.name);
+        setAgeValue(data.age);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+  const TrackingWeight = async () => {
+    try {
+      const tw = JSON.stringify(weightTrackData);
+      await AsyncStorage.setItem("@weight", tw);
+      alert(tw);
+    } catch (e) {}
+  };
+  let weightTrackData = [
+    {
+      weight: weightSelect,
+      time: Date.now(),
+    },
+  ];
   return (
     <>
       <Screen>
         <ScrollView>
-          {/* <ImageBackground
-            blurRadius={3}
-            style={{ width: "100%" }}
-            source={require("../assets/welcome-bg.jpeg")}
-          > */}
-          {/* <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 0.5 }}>
-              <Text style={styles.text}>Name: {nameValue}</Text>
-              <Text style={styles.text}> Age: {ageValue}</Text>
-              <Text style={styles.text}> Gender: {genderSelect}</Text>
-            </View>
-            <View style={{ flex: 0.5 }}>
-              <Text style={styles.text}> Weight: {weightSelect}</Text>
-              <Text style={styles.text}> Height: {heightSelect}</Text>
-              <Text style={styles.text}> Waist: {waist}</Text>
-            </View>
-          </View> */}
           <View style={styles.mainContainer}>
             <TextInput
               placeholder="Name"
@@ -139,8 +136,12 @@ function ProfileInput({ navigation }) {
                 <Text style={styles.text}>Save Data</Text>
               </TouchableOpacity>
             </View>
+            <View>
+              <TouchableOpacity style={styles.button} onPress={TrackingWeight}>
+                <Text style={styles.text}>Weight Data</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          {/* </ImageBackground> */}
         </ScrollView>
       </Screen>
     </>

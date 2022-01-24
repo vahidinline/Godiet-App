@@ -12,15 +12,9 @@ import {
 } from "react-native";
 import colors from "../config/colors";
 import AppPicker from "./AppPicker";
-import Icon from "react-native-vector-icons/FontAwesome";
-import RadioButtonRN from "radio-buttons-react-native";
 import * as Yup from "yup";
 import ListItemSeprator from "./ListItemSeprator";
-import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
-import {
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+
 import {
   VictoryBar,
   VictoryChart,
@@ -143,12 +137,6 @@ function Calories({ navigation }) {
 
   return (
     <Screen>
-      {/* <Formik
-        initialValues={{ weight: "", height: "", age: "", faveWeight: "" }}
-        onSubmit={(values) => console.log(values)}
-      >
-        {({ handleChange, handleSubmit }) => (
-          <> */}
       <ScrollView>
         <Text
           style={{
@@ -303,19 +291,6 @@ function Calories({ navigation }) {
                 />
               </VictoryChart>
             )}
-            <VictoryPie
-              colorScale={["tomato", "cyan", "navy"]}
-              padAngle={({ datum }) => datum.y}
-              innerRadius={100}
-              style={{
-                labels: { fill: "white", fontSize: 20, fontWeight: "bold" },
-              }}
-              data={[
-                { x: "Carb", y: 4 },
-                { x: "Fat", y: 2 },
-                { x: "Protein", y: 8 },
-              ]}
-            />
           </View>
         </View>
       </ScrollView>
@@ -345,7 +320,6 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    textAlign: "center",
   },
   rightContainer: {
     backgroundColor: colors.white,

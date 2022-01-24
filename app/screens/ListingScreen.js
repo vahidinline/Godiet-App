@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -14,20 +14,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import VideoPage from "../components/VideoPage";
 import WelcomeScreen from "./WelcomeScreen";
 const Stack = createStackNavigator();
-const listing = [
-  {
-    id: 1,
-    title: "Warm Up excersice",
-    duration: "10 minutes",
-    image: require("../assets/warmup.jpeg"),
-  },
-  {
-    id: 2,
-    title: "Cool Down",
-    duration: "5 minutes",
-    image: require("../assets/cooldown.jpeg"),
-  },
-];
+
 function ListingScreen(props) {
   return (
     <>
@@ -42,12 +29,26 @@ function ListingScreen(props) {
 }
 
 const Video = ({ navigation }) => {
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState([]);
+  getVideos = () => {
+    fetch("https://jsonkeeper.com/b/5609")
+      .then((response) => response.json())
+      .then((json) => setVideos(json))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  };
+  useEffect(() => {
+    setLoading(true);
+    getVideos();
+  }, []);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.navigate("videoPage")}>
         <FlatList
-          data={listing}
-          keyExtractor={(listing) => listing.id.toString}
+          data={videos}
+          keyExtractor={(id) => id.toString}
           renderItem={({ item }) => (
             <Card
               title={item.title}
