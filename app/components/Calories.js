@@ -138,20 +138,6 @@ function Calories({ navigation }) {
   return (
     <Screen>
       <ScrollView>
-        <Text
-          style={{
-            color: colors.secondary,
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 48,
-            flex: 1,
-            textAlign: "center",
-            fontWeight: "800",
-            textShadowOffset: { width: 10, height: 20 },
-          }}
-        >
-          {name}
-        </Text>
         <View style={styles.mainContainer}>
           <View style={styles.header}></View>
           <View
@@ -159,11 +145,7 @@ function Calories({ navigation }) {
               flexDirection: "row",
             }}
           >
-            <View
-              style={{
-                flex: 1,
-              }}
-            >
+            <View style={styles.row}>
               <TouchableOpacity onPress={() => setGenderSelect(2)}>
                 <View>
                   <Image
@@ -173,11 +155,7 @@ function Calories({ navigation }) {
                 </View>
               </TouchableOpacity>
             </View>
-            <View
-              style={{
-                flex: 1,
-              }}
-            >
+            <View style={styles.row}>
               <TouchableOpacity onPress={() => setGenderSelect(1)}>
                 <View>
                   <Image
@@ -190,11 +168,7 @@ function Calories({ navigation }) {
           </View>
           <ListItemSeprator />
           <View style={{ flexDirection: "row" }}>
-            <View
-              style={{
-                flex: 1,
-              }}
-            >
+            <View style={styles.row}>
               <Text style={styles.label}>وزن فعلی</Text>
               <TextInput
                 style={styles.input}
@@ -205,7 +179,7 @@ function Calories({ navigation }) {
                 onChangeText={(item) => setWeightSelect(item)}
               />
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={styles.row}>
               <Text style={styles.label}>وزن دلخواه</Text>
               <TextInput
                 style={styles.input}
@@ -219,7 +193,7 @@ function Calories({ navigation }) {
           </View>
 
           <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 1 }}>
+            <View style={styles.row}>
               <Text style={styles.label}>قد</Text>
               <TextInput
                 style={styles.input}
@@ -230,7 +204,7 @@ function Calories({ navigation }) {
                 onChangeText={(item) => setHeightSelect(item)}
               />
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={styles.row}>
               <Text style={styles.label}>سن</Text>
               <TextInput
                 style={styles.input}
@@ -299,6 +273,7 @@ function Calories({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  row: { flex: 1 },
   mainContainer: {
     margin: 10,
     backgroundColor: colors.white,
@@ -318,8 +293,8 @@ const styles = StyleSheet.create({
     color: colors.dark,
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 170,
+    height: 170,
   },
   rightContainer: {
     backgroundColor: colors.white,

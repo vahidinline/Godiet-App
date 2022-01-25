@@ -11,6 +11,7 @@ import AppButton from "../components/AppButton";
 import colors from "../config/colors";
 import LoginScreen from "./LoginScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ListingScreen from "./ListingScreen";
 
 function WelcomeScreen({ navigation }) {
   const [nameValue, setNameValue] = useState();

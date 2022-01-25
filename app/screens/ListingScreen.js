@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   Text,
+  Button,
 } from "react-native";
 import Screen from "../components/Screen";
 import Card from "../components/Card";
@@ -13,9 +14,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import VideoPage from "../components/VideoPage";
 import WelcomeScreen from "./WelcomeScreen";
-const Stack = createStackNavigator();
+import { INTERRUPTION_MODE_IOS_MIX_WITH_OTHERS } from "expo-av/build/Audio";
 
-function ListingScreen(props) {
+function ListingScreen({ navigation }) {
+  const Stack = createStackNavigator();
   return (
     <>
       <NavigationContainer independent={true}>
@@ -31,8 +33,8 @@ function ListingScreen(props) {
 const Video = ({ navigation }) => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState([]);
-  getVideos = () => {
-    fetch("https://jsonkeeper.com/b/5609")
+  const getVideos = () => {
+    fetch("https://vahidafshari.com/users.json")
       .then((response) => response.json())
       .then((json) => setVideos(json))
       .catch((error) => console.error(error))
@@ -42,27 +44,37 @@ const Video = ({ navigation }) => {
     setLoading(true);
     getVideos();
   }, []);
+  const [id, setId] = useState();
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate("videoPage")}>
+      <View>
         <FlatList
           data={videos}
-          keyExtractor={(id) => id.toString}
-          renderItem={({ item }) => (
-            <Card
-              title={item.title}
-              subTitle={item.duration}
-              image={item.image}
-            />
-          )}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => {
+            //console.log(item.image);
+            return (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("videoPage", {
+                    title: item.title,
+                    image: item.image,
+                    duration: item.duration,
+                    video: item.video,
+                  })
+                }
+              >
+                <Card
+                  key={item}
+                  title={item.title}
+                  image={{ uri: item.image }}
+                />
+              </TouchableOpacity>
+            );
+          }}
         />
-      </TouchableOpacity>
-      {/* <TouchableOpacity onPress={() => navigation.navigate("welcome")}>
-        <Card style={styles.list}>
-          <Text>Privacy Policy</Text>
-        </Card>
-      </TouchableOpacity> */}
+      </View>
     </View>
   );
 };

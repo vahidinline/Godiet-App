@@ -1,11 +1,15 @@
 import * as React from "react";
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
 import { Video, AVPlaybackStatus } from "expo-av";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as ListingScreen from "../screens/ListingScreen";
 import LoginScreen from "../screens/LoginScreen";
+import ListItemSeprator from "./ListItemSeprator";
+import Screen from "../components/Screen";
+import Card from "./Card";
 
-export default function VideoPage({}) {
+export default function VideoPage({ route }) {
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
   const Stack = createNativeStackNavigator();
@@ -17,18 +21,21 @@ export default function VideoPage({}) {
   return (
     <>
       <View style={styles.container}>
+        <Text>{route.params.title}</Text>
+        <Text>{route.params.duration}</Text>
         <Video
           ref={video}
           style={styles.video}
           source={{
-            uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+            uri: route.params.video,
           }}
           useNativeControls
           resizeMode="contain"
           isLooping
           onPlaybackStatusUpdate={(status) => setStatus(() => status)}
         />
-        <View style={styles.buttons}>
+
+        {/* <View style={styles.buttons}>
           <Button
             title={status.isPlaying ? "Pause" : "Play"}
             onPress={() =>
@@ -37,7 +44,7 @@ export default function VideoPage({}) {
                 : video.current.playAsync()
             }
           />
-        </View>
+        </View> */}
       </View>
     </>
   );
@@ -51,8 +58,8 @@ const styles = StyleSheet.create({
   },
   video: {
     alignSelf: "center",
-    width: "100%",
-    height: "100%",
+    width: 400,
+    height: 300,
   },
   buttons: {
     flexDirection: "row",

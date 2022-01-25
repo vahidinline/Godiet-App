@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  ImageBackground,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Pedometer } from "expo-sensors";
 import AppTextInput from "./AppTextInput";
 import Screen from "./Screen";
-
 import {
   VictoryBar,
   VictoryChart,
@@ -134,7 +127,7 @@ export default function App({ navigation }) {
             <VictoryAxis
               // tickValues specifies both the number of ticks and where
               // they are placed on the axis
-              tickValues={[7]}
+              tickValues={[0]}
               tickFormat={["Today"]}
             />
             <VictoryAxis
