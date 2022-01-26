@@ -1,7 +1,9 @@
 import * as React from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
+import { View, StyleSheet, Text, Image, Button } from "react-native";
 import { Video, AVPlaybackStatus } from "expo-av";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import colors from "../config/colors";
+import ListItemSeprator from "./ListItemSeprator";
 
 export default function VideoPage({ route }) {
   const video = React.useRef(null);
@@ -15,11 +17,20 @@ export default function VideoPage({ route }) {
   return (
     <>
       <View style={styles.container}>
-        <Text>{route.params.title}</Text>
-        <Text>{route.params.duration}</Text>
+        <View>
+          <Text style={styles.title}>{route.params.title}</Text>
+        </View>
+        <View>
+          <Text style={styles.duration}>{route.params.duration}</Text>
+        </View>
+
         <Video
           ref={video}
           style={styles.video}
+          shouldPlay={false}
+          useNativeControls={true}
+          rate={1.0}
+          volume={1.0}
           source={{
             uri: route.params.video,
           }}
@@ -29,7 +40,7 @@ export default function VideoPage({ route }) {
           onPlaybackStatusUpdate={(status) => setStatus(() => status)}
         />
 
-        {/* <View style={styles.buttons}>
+        <View style={styles.buttons}>
           <Button
             title={status.isPlaying ? "Pause" : "Play"}
             onPress={() =>
@@ -38,7 +49,11 @@ export default function VideoPage({ route }) {
                 : video.current.playAsync()
             }
           />
-        </View> */}
+        </View>
+        <ListItemSeprator />
+        <View>
+          <Text style={styles.description}>{route.params.description}</Text>
+        </View>
       </View>
     </>
   );
@@ -59,5 +74,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+  },
+  title: {
+    textAlign: "center",
+    fontSize: 50,
+    fontWeight: "600",
+    color: colors.secondary,
+  },
+  duration: {
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "600",
+    color: colors.secondary,
+  },
+  description: {
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "600",
+    color: colors.secondary,
   },
 });

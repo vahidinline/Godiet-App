@@ -60,6 +60,8 @@ const Video = ({ navigation }) => {
                     image: item.image,
                     duration: item.duration,
                     video: item.video,
+                    description: item.description,
+                    by: item.by,
                   })
                 }
               >

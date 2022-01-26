@@ -116,7 +116,7 @@ export default function App({ navigation }) {
           <View>
             <Text>Hello: {nameValue}</Text>
           </View>
-          {/* <VictoryChart
+          <VictoryChart
             animate={{
               duration: 2000,
               onLoad: { duration: 1000 },
@@ -145,7 +145,7 @@ export default function App({ navigation }) {
               x="quarter"
               y="earnings"
             />
-          </VictoryChart> */}
+          </VictoryChart>
 
           <View style={{ flex: 1, color: colors.light }}>
             <ListItemSeprator />
