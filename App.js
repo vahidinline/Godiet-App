@@ -4,6 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import TabNavigation from "./app/navigation/TabNavigation";
 import { LogBox } from "react-native";
+import Screen from "./app/components/Screen";
+import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
 LogBox.ignoreLogs([
   "Warning: Async Storage has been extracted from react-native core",
 ]);
@@ -17,6 +19,18 @@ function HomeScreen() {
 }
 
 function App() {
+  // const netInfo = useNetInfo();
+  // return netInfo.isInternetReachable ? (
+  //   <View></View>
+  // ) : (
+  //   <Screen>
+  //     <Text>Offline</Text>
+  //   </Screen>
+  // );
+  // const unsubscribe = NetInfo.addEventListener((netInfo) =>
+  //   console.log(netInfo)
+  // );
+  // unsubscribe();
   return (
     <>
       <NavigationContainer>

@@ -13,6 +13,8 @@ function ProfileInput({ navigation }) {
   const [weightSelect, setWeightSelect] = useState();
   const [heightSelect, setHeightSelect] = useState();
   const [waist, setWaist] = useState();
+  const today = new Date().toJSON().slice(0, 10).replace(/-/g, "/");
+  console.log(today);
 
   //Store Object to AsyncStorage
   const storeData = async () => {
@@ -45,41 +47,23 @@ function ProfileInput({ navigation }) {
     getData();
   }, []);
 
-  const person = {
-    name: nameValue,
-    age: ageValue,
-    weight: weightSelect,
-    gender: genderSelect,
-    height: heightSelect,
-    waist: waist,
-  };
+  // const person = {
+  //   name: nameValue,
+  //   age: ageValue,
+  //   weight: weightSelect,
+  //   gender: genderSelect,
+  //   height: heightSelect,
+  //   waist: waist,
+  // };
 
-  //Weight Tracking
-  const getWeightData = async () => {
-    try {
-      let data = await AsyncStorage.getItem("@Key");
-      if (data !== null) {
-        data = JSON.parse(data);
-        setNameValue(data.name);
-        setAgeValue(data.age);
-      }
-    } catch (error) {
-      alert(error);
-    }
-  };
-  const TrackingWeight = async () => {
-    try {
-      const tw = JSON.stringify(weightTrackData);
-      await AsyncStorage.setItem("@weight", tw);
-      alert(tw);
-    } catch (e) {}
-  };
-  let weightTrackData = [
-    {
-      weight: weightSelect,
-      time: Date.now(),
-    },
-  ];
+  const [weightOverTime, setWeightOverTime] = useState([]);
+  const [timeOverWeight, setTimeOverWeight] = useState([]);
+
+  var WeightTracking = timeOverWeight.map((v, i) => ({
+    weightOverTime: weightOverTime[v],
+    timeOverWeight: timeOverWeight[i],
+  }));
+  console.log(WeightTracking);
   return (
     <>
       <Screen>
@@ -137,9 +121,9 @@ function ProfileInput({ navigation }) {
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity style={styles.button} onPress={TrackingWeight}>
+              {/* <TouchableOpacity style={styles.button} onPress={}>
                 <Text style={styles.text}>Weight Data</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
         </ScrollView>

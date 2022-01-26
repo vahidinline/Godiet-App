@@ -13,10 +13,8 @@ import colors from "../config/colors";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import VideoPage from "../components/VideoPage";
-import WelcomeScreen from "./WelcomeScreen";
-import { INTERRUPTION_MODE_IOS_MIX_WITH_OTHERS } from "expo-av/build/Audio";
 
-function ListingScreen({ navigation }) {
+function ListingScreen({}) {
   const Stack = createStackNavigator();
   return (
     <>

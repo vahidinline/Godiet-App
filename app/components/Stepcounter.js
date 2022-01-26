@@ -18,7 +18,7 @@ export default function App({ navigation }) {
   const [isPedometerAvailable, setIsPedometerAvailable] = useState("checking");
   const [pastStepCount, setPastStepCount] = useState(0);
   const [currentStepCount, setCurrentStepCount] = useState(0);
-  const data = [{ quarter: 7, earnings: pastStepCount }];
+  const data = [{ quarter: 1, earnings: pastStepCount }];
   const [nameValue, setNameValue] = useState();
   const end = new Date();
   const start = new Date();
@@ -116,7 +116,7 @@ export default function App({ navigation }) {
           <View>
             <Text>Hello: {nameValue}</Text>
           </View>
-          <VictoryChart
+          {/* <VictoryChart
             animate={{
               duration: 2000,
               onLoad: { duration: 1000 },
@@ -127,7 +127,7 @@ export default function App({ navigation }) {
             <VictoryAxis
               // tickValues specifies both the number of ticks and where
               // they are placed on the axis
-              tickValues={[0]}
+              tickValues={[1]}
               tickFormat={["Today"]}
             />
             <VictoryAxis
@@ -145,7 +145,7 @@ export default function App({ navigation }) {
               x="quarter"
               y="earnings"
             />
-          </VictoryChart>
+          </VictoryChart> */}
 
           <View style={{ flex: 1, color: colors.light }}>
             <ListItemSeprator />

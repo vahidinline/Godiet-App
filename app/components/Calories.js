@@ -134,7 +134,7 @@ function Calories({ navigation }) {
       return (CalcDeficitResult = parseInt(result) + 200), (goal = "gain ");
     else return (CalcDeficitResult = parseInt(result) + 150), (goal = "gain ");
   };
-
+  //console.log(result);
   return (
     <Screen>
       <ScrollView>
@@ -233,11 +233,16 @@ function Calories({ navigation }) {
           <View>
             <View style={{ flexDirection: "row" }}>
               <View style={styles.leftContainer}>
-                <Text style={{ color: colors.secondary }}>
+                <Text style={{ color: colors.white }}>
                   {(HandleCalories(), CalcDeficit())}
                 </Text>
+                {/* <TouchableOpacity onPress={HandleCalories}>
+                  <Text>Run</Text>
+                </TouchableOpacity> */}
 
-                <Text style={styles.text}>{parseInt(result)}</Text>
+                {result != 0 && (
+                  <Text style={styles.text}>{parseInt(result)}</Text>
+                )}
               </View>
 
               <View style={styles.rightContainer}>
@@ -251,7 +256,7 @@ function Calories({ navigation }) {
               </View>
             </View>
             <Text>{userData["userage"]}</Text>
-            {faveWeight != null && (
+            {/* {faveWeight != null && (
               <VictoryChart theme={VictoryTheme.material}>
                 <VictoryLine
                   style={{
@@ -264,7 +269,7 @@ function Calories({ navigation }) {
                   ]}
                 />
               </VictoryChart>
-            )}
+            )} */}
           </View>
         </View>
       </ScrollView>

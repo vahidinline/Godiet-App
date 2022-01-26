@@ -1,23 +1,17 @@
 import * as React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import { Video, AVPlaybackStatus } from "expo-av";
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import * as ListingScreen from "../screens/ListingScreen";
-import LoginScreen from "../screens/LoginScreen";
-import ListItemSeprator from "./ListItemSeprator";
-import Screen from "../components/Screen";
-import Card from "./Card";
 
 export default function VideoPage({ route }) {
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
   const Stack = createNativeStackNavigator();
-  <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen name="LoginScreen" component={LoginScreen} />
-    </Stack.Navigator>
-  </NavigationContainer>;
+  // <NavigationContainer>
+  //   <Stack.Navigator>
+  //     <Stack.Screen name="LoginScreen" component={LoginScreen} />
+  //   </Stack.Navigator>
+  // </NavigationContainer>;
   return (
     <>
       <View style={styles.container}>
