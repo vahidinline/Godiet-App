@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-} from "react-native";
+import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import AppButton from "../components/AppButton";
 import colors from "../config/colors";
-import LoginScreen from "./LoginScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import ListingScreen from "./ListingScreen";
-
 function WelcomeScreen({ navigation }) {
+  useEffect(() => {
+    getData();
+  }, []);
   const [nameValue, setNameValue] = useState();
   const getData = async () => {
     try {
@@ -21,18 +14,12 @@ function WelcomeScreen({ navigation }) {
       if (data !== null) {
         data = JSON.parse(data);
         setNameValue(data.name);
-        // setAgeValue(data.age);
-        // setHeightSelect(data.height);
-        // setWeightSelect(data.weight);
-        // setGenderSelect(data.gender);
+        //alert(data.name);
       }
     } catch (error) {
       alert(error);
     }
   };
-  useEffect(() => {
-    getData();
-  }, []);
 
   return (
     <>

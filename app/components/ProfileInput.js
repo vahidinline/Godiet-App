@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text, TextInput } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from "../config/colors";
 import Screen from "./Screen";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 
 function ProfileInput({ navigation }) {
   const [name, setName] = useState();
@@ -14,7 +20,6 @@ function ProfileInput({ navigation }) {
   const [heightSelect, setHeightSelect] = useState();
   const [waist, setWaist] = useState();
   const today = new Date().toJSON().slice(0, 10).replace(/-/g, "/");
-  console.log(today);
 
   //Store Object to AsyncStorage
   const storeData = async () => {
@@ -63,7 +68,7 @@ function ProfileInput({ navigation }) {
     weightOverTime: weightOverTime[v],
     timeOverWeight: timeOverWeight[i],
   }));
-  console.log(WeightTracking);
+  //console.log(WeightTracking);
   return (
     <>
       <Screen>
@@ -72,6 +77,7 @@ function ProfileInput({ navigation }) {
             <TextInput
               placeholder="Name"
               name="name"
+              autoCorrect={false}
               returnKeyType="done"
               style={styles.input}
               onChangeText={(nameValue) => setNameValue(nameValue)}

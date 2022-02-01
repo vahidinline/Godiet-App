@@ -6,7 +6,6 @@ import { MainStackNavigator, ContactStackNavigator } from "./AuthNavigator";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import Calories from "../components/Calories";
 import ProfileInput from "../components/ProfileInput";
-import LoginScreen from "../screens/LoginScreen";
 import Stepcounter from "../components/Stepcounter";
 import New from "../components/new";
 import ListingScreen from "../screens/ListingScreen";
@@ -47,16 +46,6 @@ const BottomTabNavigator = () => {
         component={ProfileInput}
       />
 
-      <Tab.Screen
-        options={{
-          headerShown: false,
-          tabBarIcon: () => (
-            <MaterialCommunityIcons name="counter" color={"#000"} size={30} />
-          ),
-        }}
-        name="Step"
-        component={Stepcounter}
-      />
       <Tab.Screen
         options={{
           headerShown: false,

@@ -6,71 +6,14 @@ import {
   Text,
   ScrollView,
   TextInput,
-  Image,
-  ImageBackground,
+  Picker,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import colors from "../config/colors";
-import AppPicker from "./AppPicker";
-import * as Yup from "yup";
 import ListItemSeprator from "./ListItemSeprator";
 
-import {
-  VictoryBar,
-  VictoryChart,
-  VictoryTheme,
-  VictoryAxis,
-  VictoryLine,
-  VictoryPie,
-} from "victory-native";
-
-const validationSchema = Yup.object().shape({
-  weight: Yup.number().required().positive().min(30).max(220),
-  age: Yup.number().required().positive().min(10).max(90),
-  height: Yup.number().required().positive().min(140).max(220),
-  favWeight: Yup.number().required().positive().min(30).max(220),
-});
-
 function Calories({ navigation }) {
-  const activity = [
-    {
-      label: "بدون تحرک یا کم تحرک",
-      name: "عدم تحرک",
-      value: 1,
-    },
-    {
-      label: "یک تا سه روز ورزش در هفته",
-      name: "فعالیت کم",
-      value: 2,
-    },
-    {
-      label: "سه تا پنح روز ورزش در هفته",
-      name: "نسبتا فعال",
-      value: 3,
-    },
-    {
-      label: "شش تا هفت روز ورزش در هفته",
-      name: "فعال",
-      value: 4,
-    },
-    {
-      label: "ورزشکار حرفه ای",
-      name: "خیلی فعال",
-      value: 5,
-    },
-  ];
-  const gender = [
-    {
-      label: "مرد",
-      name: "مرد",
-      value: 1,
-    },
-    {
-      label: "زن",
-      name: "زن",
-      value: 2,
-    },
-  ];
   const userData = {
     userWeight: weightSelect,
     userHeight: heightSelect,
@@ -85,7 +28,8 @@ function Calories({ navigation }) {
   const [weightSelect, setWeightSelect] = useState();
   const [heightSelect, setHeightSelect] = useState();
   const [faveWeight, setFaveWeight] = useState();
-  let result = 0;
+  let [result, setResult] = useState();
+  console.log(result);
   const menCalc =
     66.5 +
     13.75 * parseFloat(weightSelect) +
@@ -109,6 +53,9 @@ function Calories({ navigation }) {
     else if (genderSelect == 2 && activitySelect == 3) result = 1.55 * wemon;
     else if (genderSelect == 2 && activitySelect == 4) result = 1.725 * wemon;
     else if (genderSelect == 2 && activitySelect == 5) result = 1.9 * wemon;
+  };
+  const Result = () => {
+    HandleCalories();
   };
   let CalcDeficitResult = "";
   let goal = "";
@@ -136,42 +83,25 @@ function Calories({ navigation }) {
   };
   //console.log(result);
   return (
-    <Screen>
-      <ScrollView>
+    <ScrollView>
+      <Screen>
         <View style={styles.mainContainer}>
-          <View style={styles.header}></View>
-          <View
-            style={{
-              flexDirection: "row",
-            }}
-          >
-            <View style={styles.row}>
-              <TouchableOpacity onPress={() => setGenderSelect(2)}>
-                <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../assets/female.png")}
-                  />
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.row}>
-              <TouchableOpacity onPress={() => setGenderSelect(1)}>
-                <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../assets/male.png")}
-                  />
-                </View>
-              </TouchableOpacity>
-            </View>
+          <View>
+            <Text style={styles.header}>محاسبه کالری تثبیت و کالری مازاد</Text>
           </View>
+          <Picker
+            selectedValue={genderSelect}
+            onValueChange={(genderSelect) => setGenderSelect(genderSelect)}
+          >
+            <Picker.Item label="زن" value="2" />
+            <Picker.Item label="مرد" value="1" />
+          </Picker>
           <ListItemSeprator />
           <View style={{ flexDirection: "row" }}>
             <View style={styles.row}>
-              <Text style={styles.label}>وزن فعلی</Text>
               <TextInput
                 style={styles.input}
+                placeholder="وزن فعلی"
                 name=""
                 autoCapitalize="none"
                 keyboardType="phone-pad"
@@ -180,8 +110,8 @@ function Calories({ navigation }) {
               />
             </View>
             <View style={styles.row}>
-              <Text style={styles.label}>وزن دلخواه</Text>
               <TextInput
+                placeholder="وزن دلخواه"
                 style={styles.input}
                 name="favWeight"
                 autoCapitalize="none"
@@ -194,10 +124,10 @@ function Calories({ navigation }) {
 
           <View style={{ flexDirection: "row" }}>
             <View style={styles.row}>
-              <Text style={styles.label}>قد</Text>
               <TextInput
                 style={styles.input}
                 name="height"
+                placeholder="قد"
                 autoCapitalize="none"
                 keyboardType="phone-pad"
                 returnKeyType="done"
@@ -205,10 +135,10 @@ function Calories({ navigation }) {
               />
             </View>
             <View style={styles.row}>
-              <Text style={styles.label}>سن</Text>
               <TextInput
                 style={styles.input}
                 name="age"
+                placeholder="سن"
                 autoCapitalize="none"
                 keyboardType="phone-pad"
                 returnKeyType="done"
@@ -218,74 +148,68 @@ function Calories({ navigation }) {
           </View>
 
           <Text style={styles.label}>میزان فعالیت</Text>
-          <AppPicker
-            selectedItem={activity}
-            onSelectItem={(item) => setActivitySelect(item.value)}
-            items={activity}
-            placeholder={"Activity"}
-          />
-          <ListItemSeprator />
 
-          {/* </>
-        )}
-      </Formik> */}
+          <Picker
+            selectedValue={activitySelect}
+            onValueChange={(activitySelect) =>
+              setActivitySelect(activitySelect)
+            }
+          >
+            <Picker.Item label="بدون تحرک یا کم تحرک" value="1" />
+            <Picker.Item label="یک تا سه روز ورزش در هفته" value="2" />
+            <Picker.Item label="سه تا پنح روز ورزش در هفته" value="3" />
+            <Picker.Item label="شش تا هفت روز ورزش در هفته" value="4" />
+            <Picker.Item label="ورزشکار حرفه ای" value="5" />
+          </Picker>
 
           <View>
-            <View style={{ flexDirection: "row" }}>
-              <View style={styles.leftContainer}>
-                <Text style={{ color: colors.white }}>
-                  {(HandleCalories(), CalcDeficit())}
-                </Text>
-                {/* <TouchableOpacity onPress={HandleCalories}>
-                  <Text>Run</Text>
-                </TouchableOpacity> */}
-
-                {result != 0 && (
-                  <Text style={styles.text}>{parseInt(result)}</Text>
-                )}
-              </View>
-
-              <View style={styles.rightContainer}>
-                {result != 0 && (
-                  <Text style={styles.text}>
-                    by Using {CalcDeficitResult} calories per day, after
-                    {weekToFit} weeks, you can {goal}
-                    weight from {weightSelect} to {faveWeight}
-                  </Text>
-                )}
-              </View>
+            <View style={styles.leftContainer}>
+              <Text style={{ color: colors.white }}>
+                {(HandleCalories(), CalcDeficit())}
+              </Text>
+              {result != NaN && (
+                <View>
+                  {result > 0 && (
+                    <Text style={styles.result}>
+                      {parseInt(result)} کالری در روز
+                    </Text>
+                  )}
+                </View>
+              )}
             </View>
+
+            <View style={styles.rightContainer}>
+              {CalcDeficitResult > 0 && (
+                <Text style={styles.text}>
+                  با مصرف{CalcDeficitResult} کالری در روز, بعد از
+                  {weekToFit} هفته, شما از وزن {weightSelect}
+                  به {faveWeight} میرسید
+                </Text>
+              )}
+            </View>
+
             <Text>{userData["userage"]}</Text>
-            {/* {faveWeight != null && (
-              <VictoryChart theme={VictoryTheme.material}>
-                <VictoryLine
-                  style={{
-                    data: { stroke: "#c43a31" },
-                    parent: { border: "1px solid #ccc" },
-                  }}
-                  data={[
-                    { x: 1, y: weightSelect },
-                    { x: weekToFit, y: faveWeight },
-                  ]}
-                />
-              </VictoryChart>
-            )} */}
           </View>
         </View>
-      </ScrollView>
-    </Screen>
+      </Screen>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   row: { flex: 1 },
   mainContainer: {
-    margin: 10,
-    backgroundColor: colors.white,
     borderRadius: 10,
-    padding: 10,
-    marginTop: 10,
     color: colors.dark,
+    backgroundColor: colors.white,
+  },
+  header: {
+    fontSize: 25,
+    fontWeight: "700",
+    textAlign: "center",
+    textAlignVertical: "center",
+    marginBottom: Platform.OS === "android" ? 40 : 0,
+    marginTop: Platform.OS === "android" ? 40 : 15,
   },
   leftContainer: {
     width: "100%",
@@ -297,12 +221,7 @@ const styles = StyleSheet.create({
     height: "100%",
     color: colors.dark,
   },
-  image: {
-    width: 170,
-    height: 170,
-  },
   rightContainer: {
-    backgroundColor: colors.white,
     width: "100%",
     height: "100%",
     padding: 15,
@@ -312,54 +231,33 @@ const styles = StyleSheet.create({
     flex: 0.5,
     color: colors.dark,
   },
-  tinyLogo: {
-    width: 140,
-    height: 140,
-    marginRight: 10,
-  },
-  icon: {
-    marginRight: 10,
-  },
-  headerText: {
-    flexDirection: "row",
-    flex: 1,
-    textAlign: "center",
-    fontSize: 30,
-    fontWeight: "500",
-    textShadowColor: colors.secondary,
-    alignItems: "center",
-    flexWrap: "wrap",
-    shadowColor: colors.light,
-    textShadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.1,
-  },
   text: {
-    color: colors.secondary,
+    color: colors.dark,
     alignItems: "center",
     justifyContent: "center",
     fontSize: 18,
     flex: 1,
     textAlign: "center",
     fontWeight: "800",
-    shadowColor: colors.light,
-    textShadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.5,
+    // shadowColor: colors.light,
+    // textShadowOffset: { width: 1, height: 1 },
+    // shadowOpacity: 0.5,
   },
   label: {
     direction: "rtl",
-    fontSize: 20,
+    fontSize: 15,
     textAlign: "center",
-    marginTop: 15,
+    marginTop: 5,
     borderRightColor: colors.dark,
-    borderRightWidth: 2,
-    color: colors.secondary,
-    fontWeight: "800",
-    shadowColor: colors.light,
-    textShadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.5,
+    borderRightWidth: 0.5,
+    borderEndWidth: 0,
+    color: colors.dark,
+    fontWeight: "400",
+    // shadowColor: colors.light,
+    // textShadowOffset: { width: 1, height: 1 },
+    // shadowOpacity: 0.5,
   },
   input: {
-    backgroundColor: colors.secondary,
     flexDirection: "row",
     width: "100%",
     padding: 15,
@@ -367,24 +265,19 @@ const styles = StyleSheet.create({
     borderColor: colors.light,
     margin: 3,
     borderWidth: 0.5,
-    color: colors.light,
+    // borderEndWidth: 0,
+    color: colors.dark,
     fontSize: 20,
     fontWeight: "800",
     textAlign: "center",
-    shadowColor: colors.light,
-    textShadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.5,
+
+    // shadowColor: colors.medium,
+    // textShadowOffset: { width: 0.5, height: 0.5 },
+    // shadowOpacity: 1,
   },
-
-  radio: {
-    backgroundColor: colors.secondary,
-
+  result: {
     textAlign: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: colors.dark,
-    textShadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.5,
+    fontSize: 30,
   },
 });
 export default Calories;

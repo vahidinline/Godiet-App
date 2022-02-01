@@ -1,6 +1,5 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import LoginScreen from "../screens/LoginScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import Calories from "../components/Calories";
 import ProfileInput from "../components/ProfileInput";
@@ -39,11 +38,6 @@ const AuthNavigator = () => (
       name="WorkOut"
       component={MessagesScreen}
     /> */}
-    <Stack.Screen
-      options={{ headerShown: false }}
-      name="Login"
-      component={LoginScreen}
-    />
   </Stack.Navigator>
 );
 
