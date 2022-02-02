@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
+
 import colors from "../config/colors";
 import ListItemSeprator from "./ListItemSeprator";
 
@@ -54,9 +55,7 @@ function Calories({ navigation }) {
     else if (genderSelect == 2 && activitySelect == 4) result = 1.725 * wemon;
     else if (genderSelect == 2 && activitySelect == 5) result = 1.9 * wemon;
   };
-  const Result = () => {
-    HandleCalories();
-  };
+
   let CalcDeficitResult = "";
   let goal = "";
   const weekToFit = Math.abs(weightSelect - faveWeight);
@@ -81,6 +80,7 @@ function Calories({ navigation }) {
       return (CalcDeficitResult = parseInt(result) + 200), (goal = "gain ");
     else return (CalcDeficitResult = parseInt(result) + 150), (goal = "gain ");
   };
+
   //console.log(result);
   return (
     <ScrollView>
@@ -187,8 +187,6 @@ function Calories({ navigation }) {
                 </Text>
               )}
             </View>
-
-            <Text>{userData["userage"]}</Text>
           </View>
         </View>
       </Screen>
