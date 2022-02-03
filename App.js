@@ -5,7 +5,9 @@ import AuthNavigator from "./app/navigation/AuthNavigator";
 import TabNavigation from "./app/navigation/TabNavigation";
 import { LogBox } from "react-native";
 import Screen from "./app/components/Screen";
-import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
+// import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
+// import registerNNPushToken from "native-notify";
+
 LogBox.ignoreLogs([
   "Warning: Async Storage has been extracted from react-native core",
 ]);
@@ -19,6 +21,8 @@ function HomeScreen() {
 }
 
 function App() {
+  // registerNNPushToken(2005, "PcPLgorwPWyNM5NGdBplPs");
+
   // const netInfo = useNetInfo();
   // return netInfo.isInternetReachable ? (
   //   <View></View>

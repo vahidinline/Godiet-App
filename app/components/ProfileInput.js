@@ -6,6 +6,7 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  Picker,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from "../config/colors";
@@ -13,8 +14,14 @@ import Screen from "./Screen";
 import { firebase } from "../db/firebase";
 import * as Device from "expo-device";
 import PhoneInput from "react-native-phone-input";
+import ProfilePic from "./ProfilePic";
+import * as Application from "expo-application";
 
 function ProfileInput({ navigation }) {
+  let uuidAndroid = Application.androidId;
+  if (uuidAndroid === null) {
+    uuidAndroid = phoneNumber;
+  }
   const [phoneNumber, setPhoneNumber] = useState(false);
   const phoneRef = useRef(undefined);
   const [nameValue, setNameValue] = useState();
@@ -24,6 +31,7 @@ function ProfileInput({ navigation }) {
   const [heightSelect, setHeightSelect] = useState();
   const [waist, setWaist] = useState();
   const today = new Date().toJSON().slice(0, 10).replace(/-/g, "/");
+
   useEffect(() => {
     getData();
   }, []);
@@ -51,17 +59,6 @@ function ProfileInput({ navigation }) {
         setWeightSelect(data.weight);
         setGenderSelect(data.gender);
         setWaist(data.waist);
-        // const usersRef = firebase.firestore().collection("users");
-        // usersRef
-        //   .doc()
-        //   .set(data)
-        //   .then(() => {
-        //     alert("sent");
-        //   })
-        //   .catch((error) => {
-        //     setSpinner(false);
-        //     alert("error");
-        //   });
       }
     } catch (error) {
       alert(error);
@@ -71,7 +68,7 @@ function ProfileInput({ navigation }) {
   const signUp = async () => {
     try {
       const db = await firebase.firestore();
-      db.collection("users").doc(phoneNumber).set({
+      db.collection("users").doc(uuidAndroid).set({
         Name: nameValue,
         Weight: weightSelect,
         Gender: genderSelect,
@@ -86,12 +83,79 @@ function ProfileInput({ navigation }) {
       alert(err);
     }
   };
+  const handelSave = () => {
+    signUp();
+    storeData();
+  };
+  const user = firebase
+    .firestore()
+    .collection("users")
+    .doc(uuidAndroid)
+    .get()
+    .then((documentSnapshot) => {
+      console.log("User exists: ", documentSnapshot.exists);
+
+      if (documentSnapshot.exists) {
+        console.log("User data: ", documentSnapshot.data());
+      }
+    });
+  // const db = firebase.firestore();
+  // db.onSnapshot(
+  //   (querySnapshot) => {
+  //     const myUser = [];
+  //     // loop through the saved users
+  //     querySnapshot.forEach((doc) => {
+  //       const user = doc.data();
+  //       user.id = doc.id;
+  //       myUser.push(user);
+  //     });
+  //     // set the todos to the state
+  //     console.log(myUser);
+  //   },
+  //   (error) => {
+  //     // log any error
+  //     console.error(error);
+  //   }
+  // );
+
+  // const getUserInfo = db.collection("users").doc();
+  // const doc = getUserInfo.get();
+  // if (!doc.exists) {
+  //   console.log("No such document!");
+  // } else {
+  //   console.log("Document data:", doc.data());
+  // }
+
+  // async function getUserInfo() {
+  //   try {
+  //     let doc = await firebase.firestore();
+  //     doc.collection("users").doc().get();
+
+  //     if (!doc.exists) {
+  //       alert("No user data found!");
+  //     } else {
+  //       let dataObj = doc.data();
+  //       alert(doc.name);
+  //     }
+  //   } catch (err) {
+  //     alert(err);
+  //   }
+  // }
 
   return (
     <>
       <Screen>
         <ScrollView>
+          {/* <ProfilePic /> */}
           <View style={styles.mainContainer}>
+            <PhoneInput
+              placeholder="Phone number"
+              style={styles.Input}
+              ref={phoneRef}
+              value={phoneNumber}
+              onChangePhoneNumber={setPhoneNumber}
+              returnKeyType="done"
+            />
             <TextInput
               placeholder="Name"
               name="name"
@@ -109,12 +173,12 @@ function ProfileInput({ navigation }) {
               style={styles.Input}
               onChangeText={(ageValue) => setAgeValue(ageValue)}
             />
-            <TextInput
+            {/* <TextInput
               placeholder="Gender"
               name="gender"
               style={styles.Input}
               onChangeText={(genderSelect) => setGenderSelect(genderSelect)}
-            />
+            /> */}
             <TextInput
               placeholder="Weight"
               name="Weight"
@@ -139,31 +203,31 @@ function ProfileInput({ navigation }) {
               keyboardType="phone-pad"
               onChangeText={(waist) => setWaist(waist)}
             />
-            <PhoneInput
-              style={styles.Input}
-              ref={phoneRef}
-              value={phoneNumber}
-              onChangePhoneNumber={setPhoneNumber}
-            />
-
-            {/* <TextInput
-              placeholder="Phone Number"
-              name="number"
-              autoCorrect={false}
-
-              returnKeyType="done"
-              style={styles.input}
-              onChangeText={(nameValue) => setNameValue(nameValue)}
-            /> */}
+            <Picker
+              selectedValue={genderSelect}
+              onValueChange={(genderSelect) => setGenderSelect(genderSelect)}
+            >
+              <Picker.Item label="زن" value="female" />
+              <Picker.Item label="مرد" value="male" />
+            </Picker>
             <View>
-              <TouchableOpacity style={styles.button} onPress={storeData}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={storeData}
+                onPressOut={signUp}
+              >
                 <Text style={styles.text}>Save Data</Text>
               </TouchableOpacity>
             </View>
-            <View>
+            {/* <View>
               <TouchableOpacity style={styles.button} onPress={signUp}>
                 <Text style={styles.text}>Weight Data</Text>
               </TouchableOpacity>
+            </View> */}
+            <View>
+              {/* <TouchableOpacity style={styles.button} onPress={}>
+                <Text style={styles.text}>Get Data</Text>
+              </TouchableOpacity> */}
             </View>
           </View>
         </ScrollView>
