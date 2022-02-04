@@ -9,7 +9,7 @@ import ProfileInput from "../components/ProfileInput";
 import Stepcounter from "../components/Stepcounter";
 import New from "../components/new";
 import ListingScreen from "../screens/ListingScreen";
-
+import LoginScreen from "../screens/LoginScreen";
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
@@ -23,7 +23,7 @@ const BottomTabNavigator = () => {
           ),
         }}
         name="Home"
-        component={WelcomeScreen}
+        component={LoginScreen}
       />
       <Tab.Screen
         options={{

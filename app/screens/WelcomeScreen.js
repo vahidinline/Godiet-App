@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
-import AppButton from "../components/AppButton";
+import LoginScreen from "../screens/LoginScreen";
 import colors from "../config/colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 function WelcomeScreen({ navigation }) {
@@ -23,42 +23,7 @@ function WelcomeScreen({ navigation }) {
 
   return (
     <>
-      <ImageBackground
-        blurRadius={3}
-        style={styles.background}
-        source={require("../assets/welcome-bg.jpeg")}
-      >
-        <View style={styles.logoContainer}>
-          <Image
-            style={styles.logo}
-            source={{
-              uri: "https://godiet.eu/_nuxt/img/143c88b.png",
-            }}
-          />
-        </View>
-        <Text style={styles.tagline}>Your way to be fit</Text>
-        <View style={styles.buttonContainer}>
-          {nameValue != null && (
-            <View>
-              <Text style={styles.text}>Welcome {nameValue}</Text>
-            </View>
-          )}
-          {/* <AppButton
-            title="SignUp or Log In"
-            onPress={() => navigation.navigate("Primium")}
-          /> */}
-          {nameValue == null && (
-            <View>
-              <Text style={styles.text}>New member?</Text>
-
-              <AppButton
-                title="Start"
-                onPress={() => navigation.navigate("Profile")}
-              />
-            </View>
-          )}
-        </View>
-      </ImageBackground>
+      <LoginScreen />
     </>
   );
 }

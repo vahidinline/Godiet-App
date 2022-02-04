@@ -12,6 +12,12 @@ import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 import firebase from "firebase/compat/app";
 //import { firebase } from "../db/firebase";
 import "firebase/compat/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  FacebookAuthProvider,
+  signInWithCredential,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAm5d4V7-WJp1XKzPigBIzGkMtyrun0Wbc",
@@ -22,14 +28,21 @@ const firebaseConfig = {
   appId: "1:667014060367:web:ad25cd71ba90d50776cd3a",
 };
 
-export default function App() {
+export default function App({ navigation }) {
   const recaptchaVerifier = React.useRef(null);
   const [phoneNumber, setPhoneNumber] = React.useState();
   const [verificationId, setVerificationId] = React.useState();
   const [verificationCode, setVerificationCode] = React.useState();
 
   const [message, showMessage] = React.useState();
+  const auth = getAuth();
 
+  // // Listen for authentication state to change.
+  // onAuthStateChanged(auth, (user) => {
+  //   console.log(user);
+
+  //   // Do other things
+  // });
   return (
     <View style={{ padding: 20, marginTop: 50 }}>
       <FirebaseRecaptchaVerifierModal
@@ -73,6 +86,7 @@ export default function App() {
         style={{ marginVertical: 10, fontSize: 17 }}
         editable={!!verificationId}
         placeholder="123456"
+        keyboardType="phone-pad"
         onChangeText={setVerificationCode}
       />
       <Button
@@ -90,7 +104,15 @@ export default function App() {
             showMessage({ text: `Error: ${err.message}`, color: "red" });
           }
         }}
+        // onPress={() => navigation.navigate("Profile")}
       />
+
+      <Button
+        disabled={!verificationId}
+        title="Start"
+        onPress={() => navigation.navigate("Profile")}
+      />
+      <Button title="Skip" onPress={() => navigation.navigate("Profile")} />
       {message ? (
         <TouchableOpacity
           style={[

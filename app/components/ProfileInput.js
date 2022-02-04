@@ -14,14 +14,46 @@ import Screen from "./Screen";
 import { firebase } from "../db/firebase";
 import * as Device from "expo-device";
 import PhoneInput from "react-native-phone-input";
-import ProfilePic from "./ProfilePic";
 import * as Application from "expo-application";
+
+import { initializeApp } from "firebase/app";
+import {
+  getAuth,
+  onAuthStateChanged,
+  FacebookAuthProvider,
+  signInWithCredential,
+} from "firebase/auth";
 
 function ProfileInput({ navigation }) {
   let uuidAndroid = Application.androidId;
   if (uuidAndroid === null) {
     uuidAndroid = phoneNumber;
   }
+
+  initializeApp({
+    apiKey: "AIzaSyAm5d4V7-WJp1XKzPigBIzGkMtyrun0Wbc",
+    authDomain: "godietapp-7b949.firebaseapp.com",
+    projectId: "godietapp-7b949",
+    storageBucket: "godietapp-7b949.appspot.com",
+    messagingSenderId: "667014060367",
+    appId: "1:667014060367:web:ad25cd71ba90d50776cd3a",
+  });
+
+  const auth = getAuth();
+
+  // Listen for authentication state to change.
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      console.log(user.uid);
+    } else {
+      console.log("signed out");
+    }
+    // Do other things
+  });
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
   const [phoneNumber, setPhoneNumber] = useState(false);
   const phoneRef = useRef(undefined);
   const [nameValue, setNameValue] = useState();
@@ -35,8 +67,6 @@ function ProfileInput({ navigation }) {
   useEffect(() => {
     getData();
   }, []);
-  const uid = nameValue + Device.osName + Device.osBuildId + ageValue;
-  //alert(person.name);
 
   //Store Object to AsyncStorage
   const storeData = async () => {
@@ -68,7 +98,7 @@ function ProfileInput({ navigation }) {
   const signUp = async () => {
     try {
       const db = await firebase.firestore();
-      db.collection("users").doc(uuidAndroid).set({
+      db.collection("users").doc(firebase.auth().currentUser.uid).set({
         Name: nameValue,
         Weight: weightSelect,
         Gender: genderSelect,
@@ -87,7 +117,7 @@ function ProfileInput({ navigation }) {
     signUp();
     storeData();
   };
-  const user = firebase
+  const users = firebase
     .firestore()
     .collection("users")
     .doc(uuidAndroid)
@@ -99,54 +129,11 @@ function ProfileInput({ navigation }) {
         console.log("User data: ", documentSnapshot.data());
       }
     });
-  // const db = firebase.firestore();
-  // db.onSnapshot(
-  //   (querySnapshot) => {
-  //     const myUser = [];
-  //     // loop through the saved users
-  //     querySnapshot.forEach((doc) => {
-  //       const user = doc.data();
-  //       user.id = doc.id;
-  //       myUser.push(user);
-  //     });
-  //     // set the todos to the state
-  //     console.log(myUser);
-  //   },
-  //   (error) => {
-  //     // log any error
-  //     console.error(error);
-  //   }
-  // );
-
-  // const getUserInfo = db.collection("users").doc();
-  // const doc = getUserInfo.get();
-  // if (!doc.exists) {
-  //   console.log("No such document!");
-  // } else {
-  //   console.log("Document data:", doc.data());
-  // }
-
-  // async function getUserInfo() {
-  //   try {
-  //     let doc = await firebase.firestore();
-  //     doc.collection("users").doc().get();
-
-  //     if (!doc.exists) {
-  //       alert("No user data found!");
-  //     } else {
-  //       let dataObj = doc.data();
-  //       alert(doc.name);
-  //     }
-  //   } catch (err) {
-  //     alert(err);
-  //   }
-  // }
 
   return (
     <>
       <Screen>
         <ScrollView>
-          {/* <ProfilePic /> */}
           <View style={styles.mainContainer}>
             <PhoneInput
               placeholder="Phone number"
@@ -157,7 +144,7 @@ function ProfileInput({ navigation }) {
               returnKeyType="done"
             />
             <TextInput
-              placeholder="Name"
+              placeholder="نام"
               name="name"
               autoCorrect={false}
               returnKeyType="done"
@@ -165,7 +152,7 @@ function ProfileInput({ navigation }) {
               onChangeText={(nameValue) => setNameValue(nameValue)}
             />
             <TextInput
-              placeholder="Age"
+              placeholder="سن"
               name="age"
               autoCapitalize="none"
               keyboardType="phone-pad"
@@ -173,14 +160,8 @@ function ProfileInput({ navigation }) {
               style={styles.Input}
               onChangeText={(ageValue) => setAgeValue(ageValue)}
             />
-            {/* <TextInput
-              placeholder="Gender"
-              name="gender"
-              style={styles.Input}
-              onChangeText={(genderSelect) => setGenderSelect(genderSelect)}
-            /> */}
             <TextInput
-              placeholder="Weight"
+              placeholder="وزن"
               name="Weight"
               keyboardType="phone-pad"
               returnKeyType="done"
@@ -188,7 +169,7 @@ function ProfileInput({ navigation }) {
               onChangeText={(weightSelect) => setWeightSelect(weightSelect)}
             />
             <TextInput
-              placeholder="Height"
+              placeholder="قد"
               name="Height"
               keyboardType="phone-pad"
               returnKeyType="done"
@@ -197,7 +178,7 @@ function ProfileInput({ navigation }) {
             />
             <TextInput
               style={styles.Input}
-              placeholder="Waist"
+              placeholder="دور کمر"
               name="Waist"
               returnKeyType="done"
               keyboardType="phone-pad"
@@ -207,6 +188,8 @@ function ProfileInput({ navigation }) {
               selectedValue={genderSelect}
               onValueChange={(genderSelect) => setGenderSelect(genderSelect)}
             >
+              <Picker.Item label="انتخاب جنسیت" value="" />
+
               <Picker.Item label="زن" value="female" />
               <Picker.Item label="مرد" value="male" />
             </Picker>
@@ -216,19 +199,10 @@ function ProfileInput({ navigation }) {
                 onPress={storeData}
                 onPressOut={signUp}
               >
-                <Text style={styles.text}>Save Data</Text>
+                <Text style={styles.text}>ذخیره اطلاعات</Text>
               </TouchableOpacity>
             </View>
-            {/* <View>
-              <TouchableOpacity style={styles.button} onPress={signUp}>
-                <Text style={styles.text}>Weight Data</Text>
-              </TouchableOpacity>
-            </View> */}
-            <View>
-              {/* <TouchableOpacity style={styles.button} onPress={}>
-                <Text style={styles.text}>Get Data</Text>
-              </TouchableOpacity> */}
-            </View>
+            <View></View>
           </View>
         </ScrollView>
       </Screen>
@@ -245,7 +219,9 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    color: colors.dark,
+    color: colors.white,
+    backgroundColor: colors.secondary,
+    borderRadius: 5,
     fontSize: 20,
     fontWeight: "600",
     textAlign: "center",
@@ -262,22 +238,13 @@ const styles = StyleSheet.create({
   },
   Input: {
     borderColor: colors.light,
+    backgroundColor: colors.white,
+
     borderWidth: 0.5,
-    borderRadius: 2,
+    borderRadius: 5,
     padding: 16,
     fontSize: 20,
     marginBottom: 5,
-  },
-  input: {
-    borderWidth: 0.2,
-    margin: 2,
-    height: 40,
-    width: "100%",
-    textAlign: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 5,
-    borderColor: colors.light,
   },
 });
 export default ProfileInput;
