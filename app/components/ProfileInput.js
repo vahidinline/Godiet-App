@@ -25,11 +25,6 @@ import {
 } from "firebase/auth";
 
 function ProfileInput({ navigation }) {
-  let uuidAndroid = Application.androidId;
-  if (uuidAndroid === null) {
-    uuidAndroid = phoneNumber;
-  }
-
   initializeApp({
     apiKey: "AIzaSyAm5d4V7-WJp1XKzPigBIzGkMtyrun0Wbc",
     authDomain: "godietapp-7b949.firebaseapp.com",
@@ -44,7 +39,8 @@ function ProfileInput({ navigation }) {
   // Listen for authentication state to change.
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      console.log(user.uid);
+      //console.log(user.uid);
+      //setShouldShow(!shouldShow);
     } else {
       console.log("signed out");
     }
@@ -53,7 +49,7 @@ function ProfileInput({ navigation }) {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
-
+  const [weightTacker, setWeighTracker] = useState([]);
   const [phoneNumber, setPhoneNumber] = useState(false);
   const phoneRef = useRef(undefined);
   const [nameValue, setNameValue] = useState();
@@ -62,10 +58,10 @@ function ProfileInput({ navigation }) {
   const [weightSelect, setWeightSelect] = useState();
   const [heightSelect, setHeightSelect] = useState();
   const [waist, setWaist] = useState();
-  const today = new Date().toJSON().slice(0, 10).replace(/-/g, "/");
+  const time = new Date().getTime();
 
   useEffect(() => {
-    getData();
+    //getData();
   }, []);
 
   //Store Object to AsyncStorage
@@ -105,7 +101,7 @@ function ProfileInput({ navigation }) {
         Age: ageValue,
         Height: heightSelect,
         Waist: waist,
-        date: today,
+        date: time,
         phone: phoneNumber,
       });
     } catch (err) {
@@ -113,22 +109,33 @@ function ProfileInput({ navigation }) {
       alert(err);
     }
   };
-  const handelSave = () => {
-    signUp();
-    storeData();
-  };
-  const users = firebase
-    .firestore()
-    .collection("users")
-    .doc(uuidAndroid)
-    .get()
-    .then((documentSnapshot) => {
-      console.log("User exists: ", documentSnapshot.exists);
 
-      if (documentSnapshot.exists) {
-        console.log("User data: ", documentSnapshot.data());
-      }
-    });
+  const getweight = () =>
+    firebase
+      .firestore()
+      .collection("weights")
+      .where("id", "==", firebase.auth().currentUser.uid)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          setWeighTracker(() => [doc.data().Weight, doc.data().date]);
+        });
+      });
+  console.log(weightTacker);
+  //weight track
+  const weightTracking = async () => {
+    try {
+      const db = await firebase.firestore();
+      db.collection("weights").doc().set({
+        id: firebase.auth().currentUser.uid,
+        Weight: weightSelect,
+        date: time,
+      });
+    } catch (err) {
+      console.log(err);
+      alert(err);
+    }
+  };
 
   return (
     <>
@@ -194,12 +201,22 @@ function ProfileInput({ navigation }) {
               <Picker.Item label="مرد" value="male" />
             </Picker>
             <View>
+              <TouchableOpacity style={styles.button} onPress={getweight}>
+                <Text style={styles.text}>Get Weight</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
               <TouchableOpacity
                 style={styles.button}
-                onPress={storeData}
-                onPressOut={signUp}
+                onPressIn={storeData}
+                onPress={signUp}
               >
-                <Text style={styles.text}>ذخیره اطلاعات</Text>
+                <Text style={styles.text}>Save</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.button} onPress={weightTracking}>
+                <Text style={styles.text}>Tracking</Text>
               </TouchableOpacity>
             </View>
             <View></View>
