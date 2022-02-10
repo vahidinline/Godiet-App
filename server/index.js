@@ -3,9 +3,9 @@ import Stripe from "stripe";
 const app = express();
 const port = 3000;
 const PUBLISH_KEY =
-  "pk_live_51JSLBhAB6MVrXxqz2xIX8gMzOy42N5NXaVfe1JEXWOX2RNSWJQJtYG2BCDvduyHp9nmpGgXA3Mj1yjcjkdVs1DX700fmWJ7rzX";
+  "";
 const SECRET_KEY =
-  "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";
+  "";
 //Confirm the API version from your stripe dashboard
 const stripe = Stripe(SECRET_KEY, { apiVersion: "2020-08-27" });
 
