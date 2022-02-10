@@ -7,6 +7,7 @@ import Stepcounter from "../components/Stepcounter";
 import LoginScreen from "../screens/LoginScreen/";
 import WeightTracker from "../components/WeightTracker";
 import ListingScreen from "../screens/ListingScreen";
+import Payment from "../components/Payment";
 const Stack = createStackNavigator();
 const AuthNavigator = () => (
   <Stack.Navigator>
@@ -37,8 +38,8 @@ const AuthNavigator = () => (
     />
     <Stack.Screen
       options={{ headerShown: false }}
-      name="Step"
-      component={Stepcounter}
+      name="Payment"
+      component={Payment}
     />
     <Stack.Screen
       options={{ headerShown: true }}

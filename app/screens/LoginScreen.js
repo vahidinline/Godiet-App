@@ -176,7 +176,7 @@ export default function App({ navigation }) {
             <TouchableOpacity
               style={styles.button}
               editable={!!verificationId}
-              onPress={() => navigation.navigate("Profile")}
+              onPress={() => navigation.navigate("Payment")}
             >
               <Text style={styles.text}>شروع</Text>
             </TouchableOpacity>
