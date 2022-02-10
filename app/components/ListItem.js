@@ -5,12 +5,12 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  Button,
   TouchableHighlight,
 } from "react-native";
 
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import colors from "../config/colors";
-import { View, StyleSheet, Button } from "react-native";
 import { Video, AVPlaybackStatus } from "expo-av";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -19,7 +19,7 @@ import LoginScreen from "../screens/LoginScreen";
 import AppText from "./AppText";
 
 function ListItem({ title, subTitle, image, video }) {
-  const video = React.useRef(null);
+  //const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
   const Stack = createNativeStackNavigator();
   return (

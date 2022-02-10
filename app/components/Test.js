@@ -1,13 +1,9 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore, setDoc, doc } from 'firebase/firestore';
-import firebaseConfig from '../db/firebase';
+import React from "react";
 
-initializeApp(firebaseConfig);
+function Test(props) {
+  const array1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+  console.log(array1);
+  return;
+}
 
-const firestore = getFirestore();
-
-await setDoc(doc(firestore, "characters1", "mario"), {
-  employment: "plumber",
-  outfitColor: "red",
-  specialAttack: "fireball"
-});
+export default Test;

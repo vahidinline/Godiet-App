@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.godiet.eu",
@@ -31,6 +29,20 @@
     "web": {
       "favicon": "./app/assets/favicon.png"
     },
-    "description": ""
+    "description": "",
+    "extra": {
+      "bugsnag": {
+        "apiKey": "8590bd7ddcd07f7dc3a83f5f19d24796"
+      }
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "@bugsnag/expo/hooks/post-publish.js",
+          "config": {}
+        }
+      ]
+    },
+    "plugins": []
   }
 }

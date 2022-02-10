@@ -10,12 +10,13 @@ import Stepcounter from "../components/Stepcounter";
 import New from "../components/new";
 import ListingScreen from "../screens/ListingScreen";
 import LoginScreen from "../screens/LoginScreen";
+import WeightTracker from "../components/WeightTracker";
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen
+      {/* <Tab.Screen
         options={{
           headerShown: false,
           tabBarIcon: () => (
@@ -24,7 +25,7 @@ const BottomTabNavigator = () => {
         }}
         name="Home"
         component={LoginScreen}
-      />
+      /> */}
       <Tab.Screen
         options={{
           headerShown: false,
@@ -59,6 +60,21 @@ const BottomTabNavigator = () => {
         }}
         name="List"
         component={ListingScreen}
+      />
+
+      <Tab.Screen
+        options={{
+          headerShown: false,
+          tabBarIcon: () => (
+            <MaterialCommunityIcons
+              name="badge-account-outline"
+              color={"#000"}
+              size={30}
+            />
+          ),
+        }}
+        name="Tracker"
+        component={WeightTracker}
       />
     </Tab.Navigator>
   );

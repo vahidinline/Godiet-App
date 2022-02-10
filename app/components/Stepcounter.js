@@ -3,12 +3,12 @@ import { StyleSheet, Text, View } from "react-native";
 import { Pedometer } from "expo-sensors";
 import AppTextInput from "./AppTextInput";
 import Screen from "./Screen";
-import {
-  VictoryBar,
-  VictoryChart,
-  VictoryTheme,
-  VictoryAxis,
-} from "victory-native";
+// import {
+//   VictoryBar,
+//   VictoryChart,
+//   VictoryTheme,
+//   VictoryAxis,
+// } from "victory-native";
 import colors from "../config/colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
@@ -116,7 +116,7 @@ export default function App({ navigation }) {
           <View>
             <Text>Hello: {nameValue}</Text>
           </View>
-          <VictoryChart
+          {/* <VictoryChart
             animate={{
               duration: 2000,
               onLoad: { duration: 1000 },
@@ -145,7 +145,7 @@ export default function App({ navigation }) {
               x="quarter"
               y="earnings"
             />
-          </VictoryChart>
+          </VictoryChart> */}
 
           <View style={{ flex: 1, color: colors.light }}>
             <ListItemSeprator />

@@ -189,6 +189,14 @@ function Calories({ navigation }) {
             </View>
           </View>
         </View>
+        <View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Welcome")}
+          >
+            <Text style={styles.text}>Back to home</Text>
+          </TouchableOpacity>
+        </View>
       </Screen>
     </ScrollView>
   );

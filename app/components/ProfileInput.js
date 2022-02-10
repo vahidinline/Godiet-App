@@ -7,15 +7,15 @@ import {
   ScrollView,
   TouchableOpacity,
   Picker,
+  FlatList,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import colors from "../config/colors";
 import Screen from "./Screen";
-import { firebase } from "../db/firebase";
+import { firebase, firebaseConfig } from "../db/firebase";
 import * as Device from "expo-device";
 import PhoneInput from "react-native-phone-input";
 import * as Application from "expo-application";
-
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -23,29 +23,15 @@ import {
   FacebookAuthProvider,
   signInWithCredential,
 } from "firebase/auth";
+import ListItem from "./ListItem";
+import * as SecureStore from "expo-secure-store";
+import "react-native-get-random-values";
 
 function ProfileInput({ navigation }) {
-  initializeApp({
-    apiKey: "AIzaSyAm5d4V7-WJp1XKzPigBIzGkMtyrun0Wbc",
-    authDomain: "godietapp-7b949.firebaseapp.com",
-    projectId: "godietapp-7b949",
-    storageBucket: "godietapp-7b949.appspot.com",
-    messagingSenderId: "667014060367",
-    appId: "1:667014060367:web:ad25cd71ba90d50776cd3a",
-  });
+  firebase.initializeApp(firebaseConfig);
 
   const auth = getAuth();
 
-  // Listen for authentication state to change.
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      //console.log(user.uid);
-      //setShouldShow(!shouldShow);
-    } else {
-      console.log("signed out");
-    }
-    // Do other things
-  });
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
@@ -59,10 +45,7 @@ function ProfileInput({ navigation }) {
   const [heightSelect, setHeightSelect] = useState();
   const [waist, setWaist] = useState();
   const time = new Date().getTime();
-
-  useEffect(() => {
-    //getData();
-  }, []);
+  const uuid = Device.osBuildFingerprint;
 
   //Store Object to AsyncStorage
   const storeData = async () => {
@@ -94,41 +77,14 @@ function ProfileInput({ navigation }) {
   const signUp = async () => {
     try {
       const db = await firebase.firestore();
-      db.collection("users").doc(firebase.auth().currentUser.uid).set({
+      db.collection("users").doc().set({
+        id: uuid,
         Name: nameValue,
         Weight: weightSelect,
         Gender: genderSelect,
         Age: ageValue,
         Height: heightSelect,
-        Waist: waist,
-        date: time,
-        phone: phoneNumber,
-      });
-    } catch (err) {
-      console.log(err);
-      alert(err);
-    }
-  };
 
-  const getweight = () =>
-    firebase
-      .firestore()
-      .collection("weights")
-      .where("id", "==", firebase.auth().currentUser.uid)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          setWeighTracker(() => [doc.data().Weight, doc.data().date]);
-        });
-      });
-  console.log(weightTacker);
-  //weight track
-  const weightTracking = async () => {
-    try {
-      const db = await firebase.firestore();
-      db.collection("weights").doc().set({
-        id: firebase.auth().currentUser.uid,
-        Weight: weightSelect,
         date: time,
       });
     } catch (err) {
@@ -142,14 +98,14 @@ function ProfileInput({ navigation }) {
       <Screen>
         <ScrollView>
           <View style={styles.mainContainer}>
-            <PhoneInput
+            {/* <PhoneInput
               placeholder="Phone number"
               style={styles.Input}
               ref={phoneRef}
               value={phoneNumber}
               onChangePhoneNumber={setPhoneNumber}
               returnKeyType="done"
-            />
+            /> */}
             <TextInput
               placeholder="نام"
               name="name"
@@ -183,14 +139,14 @@ function ProfileInput({ navigation }) {
               style={styles.Input}
               onChangeText={(heightSelect) => setHeightSelect(heightSelect)}
             />
-            <TextInput
+            {/* <TextInput
               style={styles.Input}
               placeholder="دور کمر"
               name="Waist"
               returnKeyType="done"
               keyboardType="phone-pad"
               onChangeText={(waist) => setWaist(waist)}
-            />
+            /> */}
             <Picker
               selectedValue={genderSelect}
               onValueChange={(genderSelect) => setGenderSelect(genderSelect)}
@@ -200,11 +156,7 @@ function ProfileInput({ navigation }) {
               <Picker.Item label="زن" value="female" />
               <Picker.Item label="مرد" value="male" />
             </Picker>
-            <View>
-              <TouchableOpacity style={styles.button} onPress={getweight}>
-                <Text style={styles.text}>Get Weight</Text>
-              </TouchableOpacity>
-            </View>
+
             <View>
               <TouchableOpacity
                 style={styles.button}
@@ -214,12 +166,6 @@ function ProfileInput({ navigation }) {
                 <Text style={styles.text}>Save</Text>
               </TouchableOpacity>
             </View>
-            <View>
-              <TouchableOpacity style={styles.button} onPress={weightTracking}>
-                <Text style={styles.text}>Tracking</Text>
-              </TouchableOpacity>
-            </View>
-            <View></View>
           </View>
         </ScrollView>
       </Screen>

@@ -5,6 +5,9 @@ import AuthNavigator from "./app/navigation/AuthNavigator";
 import TabNavigation from "./app/navigation/TabNavigation";
 import { LogBox } from "react-native";
 import Screen from "./app/components/Screen";
+import logger from "./utility/logger";
+
+logger.start();
 // import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
 // import registerNNPushToken from "native-notify";
 
@@ -21,6 +24,7 @@ function HomeScreen() {
 }
 
 function App() {
+  // logger.log(new Error("error in app"));
   // registerNNPushToken(2005, "PcPLgorwPWyNM5NGdBplPs");
 
   // const netInfo = useNetInfo();
@@ -38,7 +42,7 @@ function App() {
   return (
     <>
       <NavigationContainer>
-        <TabNavigation />
+        <AuthNavigator />
       </NavigationContainer>
     </>
   );

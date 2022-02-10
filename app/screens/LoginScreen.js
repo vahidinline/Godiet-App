@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
@@ -6,11 +6,12 @@ import {
   Button,
   StyleSheet,
   TouchableOpacity,
-  Platform,
+  Image,
 } from "react-native";
+import Screen from "../components/Screen";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 import firebase from "firebase/compat/app";
-//import { firebase } from "../db/firebase";
+import { firebaseConfig } from "../db/firebase";
 import "firebase/compat/auth";
 import {
   getAuth,
@@ -18,15 +19,7 @@ import {
   FacebookAuthProvider,
   signInWithCredential,
 } from "firebase/auth";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAm5d4V7-WJp1XKzPigBIzGkMtyrun0Wbc",
-  authDomain: "godietapp-7b949.firebaseapp.com",
-  projectId: "godietapp-7b949",
-  storageBucket: "godietapp-7b949.appspot.com",
-  messagingSenderId: "667014060367",
-  appId: "1:667014060367:web:ad25cd71ba90d50776cd3a",
-};
+import colors from "../config/colors";
 
 export default function App({ navigation }) {
   const recaptchaVerifier = React.useRef(null);
@@ -43,96 +36,208 @@ export default function App({ navigation }) {
 
   //   // Do other things
   // });
-  return (
-    <View style={{ padding: 20, marginTop: 50 }}>
-      <FirebaseRecaptchaVerifierModal
-        ref={recaptchaVerifier}
-        firebaseConfig={firebaseConfig}
-      />
-      <Text style={{ marginTop: 20 }}>Enter phone number</Text>
-      <TextInput
-        style={{ marginVertical: 10, fontSize: 17 }}
-        placeholder="+1 999 999 9999"
-        autoFocus
-        autoCompleteType="tel"
-        keyboardType="phone-pad"
-        textContentType="telephoneNumber"
-        onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
-      />
-      <Button
-        title="Send Verification Code"
-        disabled={!phoneNumber}
-        onPress={async () => {
-          // The FirebaseRecaptchaVerifierModal ref implements the
-          // FirebaseAuthApplicationVerifier interface and can be
-          // passed directly to `verifyPhoneNumber`.
-          try {
-            const phoneProvider = new firebase.auth.PhoneAuthProvider();
-            const verificationId = await phoneProvider.verifyPhoneNumber(
-              phoneNumber,
-              recaptchaVerifier.current
-            );
-            setVerificationId(verificationId);
-            showMessage({
-              text: "Verification code has been sent to your phone.",
-            });
-          } catch (err) {
-            showMessage({ text: `Error: ${err.message}`, color: "red" });
-          }
-        }}
-      />
-      <Text style={{ marginTop: 20 }}>Enter Verification code</Text>
-      <TextInput
-        style={{ marginVertical: 10, fontSize: 17 }}
-        editable={!!verificationId}
-        placeholder="123456"
-        keyboardType="phone-pad"
-        onChangeText={setVerificationCode}
-      />
-      <Button
-        title="Confirm Verification Code"
-        disabled={!verificationId}
-        onPress={async () => {
-          try {
-            const credential = firebase.auth.PhoneAuthProvider.credential(
-              verificationId,
-              verificationCode
-            );
-            await firebase.auth().signInWithCredential(credential);
-            showMessage({ text: "Phone authentication successful 👍" });
-          } catch (err) {
-            showMessage({ text: `Error: ${err.message}`, color: "red" });
-          }
-        }}
-        // onPress={() => navigation.navigate("Profile")}
-      />
 
-      <Button
-        disabled={!verificationId}
-        title="Start"
-        onPress={() => navigation.navigate("Profile")}
-      />
-      <Button title="Skip" onPress={() => navigation.navigate("Profile")} />
-      {message ? (
-        <TouchableOpacity
-          style={[
-            StyleSheet.absoluteFill,
-            { backgroundColor: 0xffffffee, justifyContent: "center" },
-          ]}
-          onPress={() => showMessage(undefined)}
+  const [shouldShow, setShouldShow] = useState(true);
+
+  return (
+    <Screen style={{ textAlign: "center" }}>
+      <View style={{ padding: 20, marginTop: 50 }}>
+        <View
+          style={{
+            //position: "absolute",
+            alignItems: "center",
+          }}
         >
-          <Text
+          <Image
             style={{
-              color: message.color || "blue",
-              fontSize: 17,
-              textAlign: "center",
-              margin: 20,
+              //position: "absolute",
+              top: 0,
+              width: 200,
+              height: 50,
             }}
-          >
-            {message.text}
+            source={{
+              uri: "https://godiet.eu/_nuxt/img/143c88b.png",
+            }}
+          />
+        </View>
+        <FirebaseRecaptchaVerifierModal
+          ref={recaptchaVerifier}
+          firebaseConfig={firebaseConfig}
+        />
+
+        <View
+          style={{
+            alignContent: "center",
+            textAlign: "center",
+            justifyContent: "center",
+            margin: 0,
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ marginTop: 20 }}>
+            شماره تلفن خود را به همراه کد کشور وارد کنید
           </Text>
-        </TouchableOpacity>
-      ) : undefined}
-    </View>
+          <TextInput
+            style={{
+              marginVertical: 10,
+              fontSize: 17,
+              borderColor: colors.light,
+              borderWidth: 1,
+              width: "60%",
+              height: 40,
+              borderRadius: 5,
+            }}
+            placeholder="+۹۸۹۱۲۳۴۵۶۷۸۹۰"
+            autoFocus
+            autoCompleteType="tel"
+            keyboardType="phone-pad"
+            textContentType="telephoneNumber"
+            onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
+          />
+          <Button
+            style={{
+              color: colors.white,
+              backgroundColor: colors.secondary,
+              borderRadius: 5,
+              fontSize: 20,
+              fontWeight: "600",
+              textAlign: "center",
+              alignItems: "center",
+              padding: 10,
+            }}
+            title="تایید شماره همراه"
+            disabled={!phoneNumber}
+            onPress={async () => {
+              // The FirebaseRecaptchaVerifierModal ref implements the
+              // FirebaseAuthApplicationVerifier interface and can be
+              // passed directly to `verifyPhoneNumber`.
+              try {
+                const phoneProvider = new firebase.auth.PhoneAuthProvider();
+                const verificationId = await phoneProvider.verifyPhoneNumber(
+                  phoneNumber,
+                  recaptchaVerifier.current
+                );
+                setVerificationId(verificationId);
+                showMessage({
+                  text: "کد اعتبار سنجی به شماره شما ارسال شد.",
+                });
+              } catch (err) {
+                showMessage({ text: `Error: ${err.message}`, color: "red" });
+              }
+            }}
+            onPressOut={async () => setShouldShow(!shouldShow)}
+          />
+        </View>
+
+        <View
+          style={{
+            alignContent: "center",
+            textAlign: "center",
+            justifyContent: "center",
+            margin: 0,
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ marginTop: 20 }}>
+            کد شش رقمی اعتبار سنجی را وارد کنید
+          </Text>
+          <TextInput
+            style={{
+              marginVertical: 10,
+              fontSize: 17,
+              borderColor: colors.light,
+              borderWidth: 1,
+              width: "60%",
+              height: 40,
+              borderRadius: 5,
+            }}
+            editable={!!verificationId}
+            placeholder="123456"
+            keyboardType="phone-pad"
+            onChangeText={setVerificationCode}
+          />
+          <Button
+            title="تایید"
+            disabled={!verificationId}
+            onPress={async () => {
+              try {
+                const credential = firebase.auth.PhoneAuthProvider.credential(
+                  verificationId,
+                  verificationCode
+                );
+                await firebase.auth().signInWithCredential(credential);
+                showMessage({ text: "شماره شما تایید شد 👍" });
+              } catch (err) {
+                showMessage({ text: `Error: ${err.message}`, color: "red" });
+              }
+            }}
+          />
+          <View>
+            <TouchableOpacity
+              style={styles.button}
+              editable={!!verificationId}
+              onPress={() => navigation.navigate("Profile")}
+            >
+              <Text style={styles.text}>شروع</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity
+              style={styles.button}
+              editable={!!verificationId}
+              onPress={() => navigation.navigate("Welcome")}
+            >
+              <Text style={styles.text}>برگشت</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* <Button
+          disabled={!verificationId}
+          title="شروع"
+          onPress={() => navigation.navigate("Profile")}
+        /> */}
+        {message ? (
+          <TouchableOpacity
+            style={[
+              StyleSheet.absoluteFill,
+              { backgroundColor: 0xffffffee, justifyContent: "center" },
+            ]}
+            onPress={() => showMessage(undefined)}
+          >
+            <Text
+              style={{
+                color: message.color || "blue",
+                fontSize: 17,
+                textAlign: "center",
+                margin: 20,
+              }}
+            >
+              {message.text}
+            </Text>
+          </TouchableOpacity>
+        ) : undefined}
+      </View>
+    </Screen>
   );
 }
+const styles = StyleSheet.create({
+  button: {
+    borderColor: colors.light,
+    borderWidth: 1,
+    margin: 5,
+    color: colors.white,
+    height: 50,
+    borderRadius: 5,
+  },
+  text: {
+    color: colors.white,
+    backgroundColor: colors.secondary,
+    borderRadius: 5,
+    fontSize: 20,
+    fontWeight: "600",
+    textAlign: "center",
+    alignItems: "center",
+    padding: 10,
+  },
+});
