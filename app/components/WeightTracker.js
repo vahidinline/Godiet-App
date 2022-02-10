@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import {
   ScrollView,
   View,
@@ -17,16 +18,8 @@ import {
   signInWithCredential,
 } from "firebase/auth";
 import * as Device from "expo-device";
-
 import { firebase, firebaseConfig } from "../db/firebase";
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from "react-native-chart-kit";
+import { LineChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
 import { Button } from "react-native-paper";
 function WeightTracker({ navigation }) {
@@ -44,43 +37,50 @@ function WeightTracker({ navigation }) {
   const auth = getAuth();
 
   useEffect(() => {
-    console.log(uuid);
+    getweight();
   }, []);
-  //get weight tracker
+  // //get weight tracker
 
   const getweight = () =>
     firebase
       .firestore()
       .collection("weights")
-      .orderBy("user", "asc")
-      //.where("user", "==", "1")
+      .orderBy("time")
+      //   .where("user", "==", "1")
 
       .get()
       .then((querySnapshot) => {
         //console.log(querySnapshot.data());
         let result = [];
-        let time = [];
+        let date = [];
         querySnapshot.forEach((doc) => {
+          console.log(doc);
           result.push(+doc.data().Weight);
-          time.push(+doc.data().date);
+          date.push(+doc.data().date);
         });
         //console.log(result);
-        console.log(result);
-        console.log(time);
+        // console.log(result);
+        console.log(date);
         setWeighTracker(result);
-        setDateTracker(time);
+        setDateTracker(date);
       });
   //.log(weightTacker);
 
   //weight track -- save weight
   const weightTracking = async () => {
     try {
-      let i = 1;
+      let dateObj = new Date();
+      let month = dateObj.getUTCMonth() + 1; //months from 1-12
+      let day = dateObj.getUTCDate();
+      let year = dateObj.getUTCFullYear();
+      let newdate = year + "/" + month + "/" + day;
       const db = await firebase.firestore();
-      db.collection("weights").doc().set({
+      const increment = firebase.firestore.FieldValue.serverTimestamp();
+      const storeRef = db.collection("weights").doc().set({
+        time: increment,
         user: "1",
         Weight: weightSelect,
-        date: Date.now(),
+        date: newdate,
       });
     } catch (err) {
       console.log(err);
