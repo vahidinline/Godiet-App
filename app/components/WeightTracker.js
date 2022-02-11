@@ -1,33 +1,24 @@
 import React, { useState, useEffect } from "react";
-
-import {
-  ScrollView,
-  View,
-  TouchableOpacity,
-  TextInput,
-  Text,
-  StyleSheet,
-} from "react-native";
+import { ScrollView, View, TextInput, Text, StyleSheet } from "react-native";
+import { LineChart } from "react-native-chart-kit";
 import colors from "../config/colors";
 import Screen from "./Screen";
-import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  onAuthStateChanged,
-  FacebookAuthProvider,
-  signInWithCredential,
-} from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import * as Device from "expo-device";
 import { firebase, firebaseConfig } from "../db/firebase";
-import { LineChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
 import { Button } from "react-native-paper";
 function WeightTracker({ navigation }) {
   firebase.initializeApp(firebaseConfig);
   const screenWidth = Dimensions.get("window").width;
-  const [weightTacker, setWeighTracker] = useState([]);
-  const [dateTracker, setDateTracker] = useState([]);
+  const [weightTracker, setWeighTracker] = useState([0]);
   const [weightSelect, setWeightSelect] = useState();
+  if (weightTracker.length) {
+    console.log("First Log", weightTracker);
+  }
+  const [dataTracker, setDataTracker] = useState([]);
+  const [dateTracker, setDateTracker] = useState([]);
+
   const uuid = Device.osBuildFingerprint;
   var time = new Date();
   var dd = String(time.getDate()).padStart(2, "0");
@@ -46,25 +37,25 @@ function WeightTracker({ navigation }) {
       .firestore()
       .collection("weights")
       .orderBy("time")
-      //   .where("user", "==", "1")
+      .where("user", "==", uuid)
 
       .get()
       .then((querySnapshot) => {
-        //console.log(querySnapshot.data());
-        let result = [];
+        let result = [0];
         let date = [];
+        let data = [];
         querySnapshot.forEach((doc) => {
-          console.log(doc);
           result.push(+doc.data().Weight);
-          date.push(+doc.data().date);
+
+          //date.push(doc.data().date);
+          //data.push(+doc.data().Weight, doc.data().date);
         });
-        //console.log(result);
-        // console.log(result);
-        console.log(date);
-        setWeighTracker(result);
+
         setDateTracker(date);
+        if (result.length) {
+          setWeighTracker(result);
+        }
       });
-  //.log(weightTacker);
 
   //weight track -- save weight
   const weightTracking = async () => {
@@ -76,9 +67,9 @@ function WeightTracker({ navigation }) {
       let newdate = year + "/" + month + "/" + day;
       const db = await firebase.firestore();
       const increment = firebase.firestore.FieldValue.serverTimestamp();
-      const storeRef = db.collection("weights").doc().set({
+      db.collection("weights").doc().set({
         time: increment,
-        user: "1",
+        user: uuid,
         Weight: weightSelect,
         date: newdate,
       });
@@ -93,7 +84,7 @@ function WeightTracker({ navigation }) {
       <ScrollView>
         <View>
           <TextInput
-            placeholder="وزن"
+            placeholder="Weight"
             name="Weight"
             keyboardType="phone-pad"
             returnKeyType="done"
@@ -105,7 +96,7 @@ function WeightTracker({ navigation }) {
           <Button
             style={styles.button}
             onPress={getweight}
-            disabled={!weightTacker}
+            disabled={!weightTracker}
           >
             <Text style={styles.text}>Get Weight on Chart</Text>
           </Button>
@@ -128,29 +119,30 @@ function WeightTracker({ navigation }) {
             <Text style={styles.text}>Back to home</Text>
           </Button>
         </View>
+
         <View style={styles.container}>
           <LineChart
             data={{
-              labels: dateTracker,
               datasets: [
                 {
-                  data: weightTacker,
+                  data: weightTracker,
                 },
               ],
             }}
-            width={Dimensions.get("window").width - 16} // from react-native
+            width={Dimensions.get("window").width} // from react-native
             height={220}
+            yAxisLabel=" KG "
+            //withVerticalLabels={false}
             chartConfig={{
-              backgroundColor: "#1cc910",
-              backgroundGradientFrom: "#eff3ff",
-              backgroundGradientTo: "#efefef",
+              backgroundColor: "#e26a00",
+              backgroundGradientFrom: "#fb8c00",
+              backgroundGradientTo: "#ffa726",
               decimalPlaces: 0, // optional, defaults to 2dp
-              color: (opacity = 255) => `rgba(0, 0, 0, ${opacity})`,
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
               style: {
-                borderRadius: 16,
+                borderRadius: 1,
               },
             }}
-            yAxisLabel={" Kg "}
             bezier
             style={{
               marginVertical: 8,

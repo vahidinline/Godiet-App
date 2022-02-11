@@ -75,7 +75,7 @@ export default function App({ navigation }) {
           }}
         >
           <Text style={{ marginTop: 20 }}>
-            شماره تلفن خود را به همراه کد کشور وارد کنید
+            enter your phone number with country code
           </Text>
           <TextInput
             style={{
@@ -87,7 +87,7 @@ export default function App({ navigation }) {
               height: 40,
               borderRadius: 5,
             }}
-            placeholder="+۹۸۹۱۲۳۴۵۶۷۸۹۰"
+            placeholder="+1 555-555"
             autoFocus
             autoCompleteType="tel"
             keyboardType="phone-pad"
@@ -105,7 +105,7 @@ export default function App({ navigation }) {
               alignItems: "center",
               padding: 10,
             }}
-            title="تایید شماره همراه"
+            title="Confirm your phone number"
             disabled={!phoneNumber}
             onPress={async () => {
               // The FirebaseRecaptchaVerifierModal ref implements the
@@ -119,7 +119,7 @@ export default function App({ navigation }) {
                 );
                 setVerificationId(verificationId);
                 showMessage({
-                  text: "کد اعتبار سنجی به شماره شما ارسال شد.",
+                  text: "Verification code has been sent",
                 });
               } catch (err) {
                 showMessage({ text: `Error: ${err.message}`, color: "red" });
@@ -138,9 +138,7 @@ export default function App({ navigation }) {
             alignItems: "center",
           }}
         >
-          <Text style={{ marginTop: 20 }}>
-            کد شش رقمی اعتبار سنجی را وارد کنید
-          </Text>
+          <Text style={{ marginTop: 20 }}>enter your validation code </Text>
           <TextInput
             style={{
               marginVertical: 10,
@@ -157,7 +155,7 @@ export default function App({ navigation }) {
             onChangeText={setVerificationCode}
           />
           <Button
-            title="تایید"
+            title="Confirm"
             disabled={!verificationId}
             onPress={async () => {
               try {
@@ -166,7 +164,7 @@ export default function App({ navigation }) {
                   verificationCode
                 );
                 await firebase.auth().signInWithCredential(credential);
-                showMessage({ text: "شماره شما تایید شد 👍" });
+                showMessage({ text: "Your number has been confirmed 👍" });
               } catch (err) {
                 showMessage({ text: `Error: ${err.message}`, color: "red" });
               }
@@ -178,7 +176,7 @@ export default function App({ navigation }) {
               editable={!!verificationId}
               onPress={() => navigation.navigate("Payment")}
             >
-              <Text style={styles.text}>شروع</Text>
+              <Text style={styles.text}>Buy Plan</Text>
             </TouchableOpacity>
           </View>
           <View>
@@ -187,7 +185,7 @@ export default function App({ navigation }) {
               editable={!!verificationId}
               onPress={() => navigation.navigate("Welcome")}
             >
-              <Text style={styles.text}>برگشت</Text>
+              <Text style={styles.text}>Back to home</Text>
             </TouchableOpacity>
           </View>
         </View>
