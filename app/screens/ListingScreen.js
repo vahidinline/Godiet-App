@@ -14,14 +14,22 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import VideoPage from "../components/VideoPage";
 
-function ListingScreen({}) {
+function ListingScreen({ navigation }) {
   const Stack = createStackNavigator();
   return (
     <>
       <NavigationContainer independent={true}>
         <Stack.Navigator>
-          <Stack.Screen name={"Video"} component={Video} />
-          <Stack.Screen name={"videoPage"} component={VideoPage} />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name={"Video"}
+            component={Video}
+          />
+          <Stack.Screen
+            name={"videoPage"}
+            component={VideoPage}
+            options={({ route }) => ({ title: route.params.title })}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>

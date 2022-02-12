@@ -6,7 +6,16 @@ import TabNavigation from "./app/navigation/TabNavigation";
 import { LogBox } from "react-native";
 import Screen from "./app/components/Screen";
 import logger from "./utility/logger";
+import * as Localization from "expo-localization";
+import i18n from "i18n-js";
+import { en, fa } from "./app/lang";
+i18n.fallbacks = true;
 
+// Set the key-value pairs for the different languages you want to support.
+
+i18n.translations = { en, fa };
+// Set the locale once at the beginning of your app.
+i18n.locale = Localization.locale;
 logger.start();
 // import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
 // import registerNNPushToken from "native-notify";

@@ -10,9 +10,11 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
-
+import { en, fa } from "../lang";
 import colors from "../config/colors";
 import ListItemSeprator from "./ListItemSeprator";
+import * as Localization from "expo-localization";
+import i18n from "i18n-js";
 
 function Calories({ navigation }) {
   const userData = {
@@ -87,21 +89,21 @@ function Calories({ navigation }) {
       <Screen>
         <View style={styles.mainContainer}>
           <View>
-            <Text style={styles.header}>محاسبه کالری تثبیت و کالری مازاد</Text>
+            <Text style={styles.header}>{i18n.t("title")}</Text>
           </View>
           <Picker
             selectedValue={genderSelect}
             onValueChange={(genderSelect) => setGenderSelect(genderSelect)}
           >
-            <Picker.Item label="زن" value="2" />
-            <Picker.Item label="مرد" value="1" />
+            <Picker.Item label={i18n.t("female")} value="2" />
+            <Picker.Item label={i18n.t("male")} value="1" />
           </Picker>
           <ListItemSeprator />
           <View style={{ flexDirection: "row" }}>
             <View style={styles.row}>
               <TextInput
                 style={styles.input}
-                placeholder="وزن فعلی"
+                placeholder={i18n.t("Current")}
                 name=""
                 autoCapitalize="none"
                 keyboardType="phone-pad"
@@ -111,7 +113,7 @@ function Calories({ navigation }) {
             </View>
             <View style={styles.row}>
               <TextInput
-                placeholder="وزن دلخواه"
+                placeholder={i18n.t("faveWeight")}
                 style={styles.input}
                 name="favWeight"
                 autoCapitalize="none"
@@ -127,7 +129,7 @@ function Calories({ navigation }) {
               <TextInput
                 style={styles.input}
                 name="height"
-                placeholder="قد"
+                placeholder={i18n.t("height")}
                 autoCapitalize="none"
                 keyboardType="phone-pad"
                 returnKeyType="done"
@@ -138,7 +140,7 @@ function Calories({ navigation }) {
               <TextInput
                 style={styles.input}
                 name="age"
-                placeholder="سن"
+                placeholder={i18n.t("age")}
                 autoCapitalize="none"
                 keyboardType="phone-pad"
                 returnKeyType="done"
@@ -147,7 +149,7 @@ function Calories({ navigation }) {
             </View>
           </View>
 
-          <Text style={styles.label}>میزان فعالیت</Text>
+          <Text style={styles.label}>{i18n.t("Activity")}</Text>
 
           <Picker
             selectedValue={activitySelect}
@@ -155,11 +157,11 @@ function Calories({ navigation }) {
               setActivitySelect(activitySelect)
             }
           >
-            <Picker.Item label="بدون تحرک یا کم تحرک" value="1" />
-            <Picker.Item label="یک تا سه روز ورزش در هفته" value="2" />
-            <Picker.Item label="سه تا پنح روز ورزش در هفته" value="3" />
-            <Picker.Item label="شش تا هفت روز ورزش در هفته" value="4" />
-            <Picker.Item label="ورزشکار حرفه ای" value="5" />
+            <Picker.Item label={i18n.t("act1")} value="1" />
+            <Picker.Item label={i18n.t("act2")} value="2" />
+            <Picker.Item label={i18n.t("act3")} value="3" />
+            <Picker.Item label={i18n.t("act4")} value="4" />
+            <Picker.Item label={i18n.t("act5")} value="5" />
           </Picker>
 
           <View>
@@ -171,7 +173,7 @@ function Calories({ navigation }) {
                 <View>
                   {result > 0 && (
                     <Text style={styles.result}>
-                      {parseInt(result)} کالری در روز
+                      {i18n.t("dailyCalories")}: {parseInt(result)}
                     </Text>
                   )}
                 </View>
@@ -181,21 +183,21 @@ function Calories({ navigation }) {
             <View style={styles.rightContainer}>
               {CalcDeficitResult > 0 && (
                 <Text style={styles.text}>
-                  با مصرف{CalcDeficitResult} کالری در روز, بعد از
-                  {weekToFit} هفته, شما از وزن {weightSelect}
-                  به {faveWeight} میرسید
+                  {i18n.t("weektofit")}: {weekToFit} {i18n.t("week")}
+                </Text>
+              )}
+            </View>
+            <View style={styles.rightContainer}>
+              {CalcDeficitResult > 0 && (
+                <Text style={styles.text}>
+                  {i18n.t("resultText1")}:{CalcDeficitResult}{" "}
                 </Text>
               )}
             </View>
           </View>
         </View>
         <View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("Welcome")}
-          >
-            <Text style={styles.text}>Back to home</Text>
-          </TouchableOpacity>
+          <Text></Text>
         </View>
       </Screen>
     </ScrollView>

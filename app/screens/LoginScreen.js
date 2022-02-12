@@ -169,16 +169,9 @@ export default function App({ navigation }) {
                 showMessage({ text: `Error: ${err.message}`, color: "red" });
               }
             }}
+            onPress={() => navigation.navigate("Payment")}
           />
-          <View>
-            <TouchableOpacity
-              style={styles.button}
-              editable={!!verificationId}
-              onPress={() => navigation.navigate("Payment")}
-            >
-              <Text style={styles.text}>Buy Plan</Text>
-            </TouchableOpacity>
-          </View>
+
           <View>
             <TouchableOpacity
               style={styles.button}

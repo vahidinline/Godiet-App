@@ -11,7 +11,8 @@ import colors from "../config/colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Screen from "../components/Screen";
 import LottieView from "lottie-react-native";
-import ListItemSeprator from "../components/ListItemSeprator";
+import i18n from "i18n-js";
+
 function WelcomeScreen({ navigation }) {
   useEffect(() => {
     getData();
@@ -33,7 +34,7 @@ function WelcomeScreen({ navigation }) {
   return (
     <>
       <Screen style={styles.background}>
-        <View style={{ display: "flex", direction: "row" }}>
+        <View style={{ display: "flex", direction: "inherit" }}>
           <View>
             <LottieView
               style={styles.animation}
@@ -51,32 +52,34 @@ function WelcomeScreen({ navigation }) {
               onPress={() => navigation.navigate("tracker")}
             >
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.text}>tracking</Text>
                 <Image source={require("../assets/button.png")} />
+
+                <Text style={styles.text}>{i18n.t("tracking")}</Text>
               </View>
             </TouchableOpacity>
           </View>
+
           <View>
             <TouchableOpacity
               style={styles.button}
               onPress={() => navigation.navigate("Calories")}
             >
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.text}>calories Calculator</Text>
                 <Image source={require("../assets/button.png")} />
+                <Text style={styles.text}>{i18n.t("Calculator")}</Text>
               </View>
             </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.left}>
+          {/* </View>
+        <View style={styles.left}> */}
           <View>
             <TouchableOpacity
               style={styles.button}
               onPress={() => navigation.navigate("Login")}
             >
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.text}>Register</Text>
                 <Image source={require("../assets/button.png")} />
+                <Text style={styles.text}>{i18n.t("Premium")}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -87,8 +90,8 @@ function WelcomeScreen({ navigation }) {
               onPress={() => navigation.navigate("Workout")}
             >
               <View style={{ flexDirection: "row" }}>
-                <Text style={styles.text}>WorkOut Videos</Text>
                 <Image source={require("../assets/button.png")} />
+                <Text style={styles.text}>{i18n.t("videos")}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -99,15 +102,15 @@ function WelcomeScreen({ navigation }) {
 }
 const styles = StyleSheet.create({
   right: {
-    flexDirection: "row",
+    flexDirection: "column",
     flex: 1,
-    direction: "rtl",
+    direction: "ltr",
     alignItems: "flex-start",
   },
   left: {
-    flexDirection: "row",
+    flexDirection: "column",
     flex: 1,
-    direction: "rtl",
+    direction: "ltr",
   },
   background: {
     // justifyContent: "flex-start",

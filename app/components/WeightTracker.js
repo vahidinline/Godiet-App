@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, View, TextInput, Text, StyleSheet } from "react-native";
-import { LineChart } from "react-native-chart-kit";
+import {
+  ScrollView,
+  View,
+  TextInput,
+  Text,
+  StyleSheet,
+  FlatList,
+} from "react-native";
+import { LineChart, BarChart } from "react-native-chart-kit";
 import colors from "../config/colors";
 import Screen from "./Screen";
 import { getAuth } from "firebase/auth";
@@ -8,14 +15,25 @@ import * as Device from "expo-device";
 import { firebase, firebaseConfig } from "../db/firebase";
 import { Dimensions } from "react-native";
 import { Button } from "react-native-paper";
+import ListItemSeprator from "./ListItemSeprator";
+import * as Localization from "expo-localization";
+import i18n from "i18n-js";
+i18n.defaultLocale = "en-US";
+i18n.fallbacks = false;
+
+// Set the key-value pairs for the different languages you want to support.
+i18n.translations = {
+  en: { weight: "Submit weight", get: " get weight" },
+  fa: { weight: "ثبت وزن", get: "نمودار تغییرات" },
+};
+
+// Set the locale once at the beginning of your app.
+i18n.locale = Localization.locale;
 function WeightTracker({ navigation }) {
   firebase.initializeApp(firebaseConfig);
   const screenWidth = Dimensions.get("window").width;
   const [weightTracker, setWeighTracker] = useState([0]);
   const [weightSelect, setWeightSelect] = useState();
-  if (weightTracker.length) {
-    console.log("First Log", weightTracker);
-  }
   const [dataTracker, setDataTracker] = useState([]);
   const [dateTracker, setDateTracker] = useState([]);
 
@@ -41,17 +59,19 @@ function WeightTracker({ navigation }) {
 
       .get()
       .then((querySnapshot) => {
-        let result = [0];
+        let result = [];
         let date = [];
         let data = [];
         querySnapshot.forEach((doc) => {
           result.push(+doc.data().Weight);
-
-          //date.push(doc.data().date);
-          //data.push(+doc.data().Weight, doc.data().date);
+          date.push(doc.data().date);
+          //data.push({ weight: +doc.data().Weight, date: doc.data().date });
         });
 
-        setDateTracker(date);
+        if (date.length) {
+          setDateTracker(date);
+        }
+
         if (result.length) {
           setWeighTracker(result);
         }
@@ -98,7 +118,7 @@ function WeightTracker({ navigation }) {
             onPress={getweight}
             disabled={!weightTracker}
           >
-            <Text style={styles.text}>Get Weight on Chart</Text>
+            <Text style={styles.text}>{i18n.t("get")}</Text>
           </Button>
         </View>
 
@@ -108,21 +128,14 @@ function WeightTracker({ navigation }) {
             style={styles.button}
             onPress={weightTracking}
           >
-            <Text style={styles.text}>Save Weight</Text>
-          </Button>
-        </View>
-        <View>
-          <Button
-            style={styles.button}
-            onPress={() => navigation.navigate("Welcome")}
-          >
-            <Text style={styles.text}>Back to home</Text>
+            <Text style={styles.text}>{i18n.t("weight")}</Text>
           </Button>
         </View>
 
         <View style={styles.container}>
           <LineChart
             data={{
+              labels: dateTracker,
               datasets: [
                 {
                   data: weightTracker,
@@ -130,26 +143,27 @@ function WeightTracker({ navigation }) {
               ],
             }}
             width={Dimensions.get("window").width} // from react-native
-            height={220}
+            height={500}
             yAxisLabel=" KG "
-            //withVerticalLabels={false}
             chartConfig={{
-              backgroundColor: "#e26a00",
-              backgroundGradientFrom: "#fb8c00",
-              backgroundGradientTo: "#ffa726",
+              backgroundColor: "#e16a00",
+              backgroundGradientFrom: "#eb8c00",
+              backgroundGradientTo: "#fea726",
               decimalPlaces: 0, // optional, defaults to 2dp
               color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
               style: {
-                borderRadius: 1,
+                borderRadius: 0,
               },
             }}
+            verticalLabelRotation={90}
             bezier
             style={{
               marginVertical: 8,
-              borderRadius: 16,
+              borderRadius: 1,
             }}
           />
         </View>
+        <View style={styles.container}></View>
       </ScrollView>
     </Screen>
   );

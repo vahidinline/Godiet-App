@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button, Alert } from "react-native";
 import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
+import { Card } from "react-native-shadow-cards";
 
 //ADD localhost address of your server
 const API_URL = "http://localhost:3000";
@@ -56,25 +57,38 @@ const StripeApp = (props) => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        autoCapitalize="none"
-        placeholder="E-mail"
-        keyboardType="email-address"
-        onChange={(value) => setEmail(value.nativeEvent.text)}
-        style={styles.input}
-      />
-      <CardField
-        postalCodeEnabled={true}
-        placeholder={{
-          number: "4242 4242 4242 4242",
-        }}
-        cardStyle={styles.card}
-        style={styles.cardContainer}
-        onCardChange={(cardDetails) => {
-          setCardDetails(cardDetails);
-        }}
-      />
-      <Button onPress={handlePayPress} title="Pay" disabled={loading} />
+      <Card style={{ padding: 10, margin: 10, height: 150 }}>
+        <Text>Access to Godiet Premium</Text>
+        <Text>Find Nutrition coaches</Text>
+        <Text>Meal Plan generator</Text>
+      </Card>
+      <Card style={{ padding: 10, margin: 10 }}>
+        <Text>Yearly access only 554.99 €</Text>
+      </Card>
+      <Card style={{ padding: 10, margin: 10 }}>
+        <TextInput
+          autoCapitalize="none"
+          placeholder="E-mail"
+          keyboardType="email-address"
+          onChange={(value) => setEmail(value.nativeEvent.text)}
+          style={styles.input}
+        />
+      </Card>
+      <Card style={{ padding: 10, margin: 10 }}>
+        <CardField
+          postalCodeEnabled={true}
+          placeholder={{
+            number: "4242 4242 4242 4242",
+          }}
+          cardStyle={styles.card}
+          style={styles.cardContainer}
+          onCardChange={(cardDetails) => {
+            setCardDetails(cardDetails);
+          }}
+        />
+      </Card>
+
+      <Button onPress={handlePayPress} title="Pay 554.99€" disabled={loading} />
     </View>
   );
 };
