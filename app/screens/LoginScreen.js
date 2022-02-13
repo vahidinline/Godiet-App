@@ -171,16 +171,6 @@ export default function App({ navigation }) {
             }}
             onPress={() => navigation.navigate("Payment")}
           />
-
-          <View>
-            <TouchableOpacity
-              style={styles.button}
-              editable={!!verificationId}
-              onPress={() => navigation.navigate("Welcome")}
-            >
-              <Text style={styles.text}>Back to home</Text>
-            </TouchableOpacity>
-          </View>
         </View>
 
         {/* <Button

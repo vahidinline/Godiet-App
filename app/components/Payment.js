@@ -8,13 +8,6 @@ function Payment({ navigation }) {
   return (
     <StripeProvider publishableKey="pk_live_51JSLBhAB6MVrXxqz2xIX8gMzOy42N5NXaVfe1JEXWOX2RNSWJQJtYG2BCDvduyHp9nmpGgXA3Mj1yjcjkdVs1DX700fmWJ7rzX">
       <StripeApp />
-      <View>
-        <Button
-          title="Back to home"
-          style={styles.button}
-          onPress={() => navigation.navigate("Welcome")}
-        ></Button>
-      </View>
     </StripeProvider>
   );
 }

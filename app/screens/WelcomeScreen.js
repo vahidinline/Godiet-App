@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignItems: "flex-start",
     padding: 10,
+    paddingTop: 5,
     justifyContent: "center",
   },
 });

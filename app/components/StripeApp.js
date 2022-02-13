@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, Button, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Button,
+  Alert,
+  Image,
+} from "react-native";
 import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
 import { Card } from "react-native-shadow-cards";
 
@@ -57,13 +65,33 @@ const StripeApp = (props) => {
 
   return (
     <View style={styles.container}>
-      <Card style={{ padding: 10, margin: 10, height: 150 }}>
-        <Text>Access to Godiet Premium</Text>
-        <Text>Find Nutrition coaches</Text>
-        <Text>Meal Plan generator</Text>
+      <Image
+        style={{
+          width: 200,
+          height: 100,
+          alignItems: "center",
+          justifyContent: "center",
+
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
+        source={require("../assets/godiet-logo.png")}
+      />
+      <Card
+        style={{
+          padding: 10,
+          margin: 10,
+          height: 100,
+          justifyContent: "center",
+          textAlign: "center",
+        }}
+      >
+        <Text style={styles.text}>Access to Godiet Premium</Text>
+        <Text style={styles.text}>Find Nutrition coaches</Text>
+        <Text style={styles.text}>Meal Plan generator</Text>
       </Card>
       <Card style={{ padding: 10, margin: 10 }}>
-        <Text>Yearly access only 554.99 €</Text>
+        <Text style={styles.text}>Yearly access only 554.99 €</Text>
       </Card>
       <Card style={{ padding: 10, margin: 10 }}>
         <TextInput
@@ -114,5 +142,9 @@ const styles = StyleSheet.create({
   cardContainer: {
     height: 50,
     marginVertical: 30,
+  },
+  text: {
+    textAlign: "center",
+    fontSize: 18,
   },
 });

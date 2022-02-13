@@ -9,6 +9,7 @@ import logger from "./utility/logger";
 import * as Localization from "expo-localization";
 import i18n from "i18n-js";
 import { en, fa } from "./app/lang";
+
 i18n.fallbacks = true;
 
 // Set the key-value pairs for the different languages you want to support.

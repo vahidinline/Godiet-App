@@ -38,6 +38,7 @@ function ListingScreen({ navigation }) {
 
 const Video = ({ navigation }) => {
   const [videos, setVideos] = useState([]);
+  console.log(videos);
   const [loading, setLoading] = useState([]);
   const getVideos = () => {
     fetch("https://vahidafshari.com/user.json")
